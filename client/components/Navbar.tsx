@@ -38,13 +38,13 @@ const Navbar = () => {
         </ul>
 
         <div className="flex items-center gap-6">
-          <button className="text-sm font-medium text-gray-700 hover:text-black cursor-pointer transition-colors">
+          <Link href="/sign-in"  className="text-sm font-medium text-gray-700 hover:text-black cursor-pointer transition-colors">
             Sign In
-          </button>
+          </Link>
 
-          <button className="bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium px-5 py-2.5 rounded-lg cursor-pointer transition-all">
+          <Link href="sign-up" className="bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium px-5 py-2.5 rounded-lg cursor-pointer transition-all">
             Get Started
-          </button>
+          </Link>
         </div>
       </div>
     </nav>
