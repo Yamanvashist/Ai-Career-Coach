@@ -1,12 +1,14 @@
 'use client'
 import React, { useState } from "react";
 import Link from "next/link";
-import { Mail, Lock, User, Compass } from "lucide-react";
+import { Mail, Lock, User, Compass,Eye,EyeClosed } from "lucide-react";
 
 const SignUp = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const [showPassword,setShowPassword] = useState(false)
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -86,13 +88,16 @@ const SignUp = () => {
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
-                type="password"
+                type={`${showPassword ? "text" : "password"}`}
                 placeholder="Create a strong password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full pl-10 pr-4 py-2.5 border border-gray-200 text-sm rounded-xl focus:outline-none focus:border-gray-900 transition-colors"
                 required
               />
+               <div onClick={()=>setShowPassword(!showPassword)} className="absolute top-2 right-3 text-gray-600 cursor-pointer">
+                {showPassword ? <Eye /> : <EyeClosed />}
+              </div>
             </div>
           </div>
 
