@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import "dotenv/config";
 
 const generateToken = async (userId: number): Promise<string> => {
@@ -14,11 +14,6 @@ const generateToken = async (userId: number): Promise<string> => {
 
 export default generateToken;
 
-export const verifyToken = async (token: string): Promise<boolean> => {
-    try {
-      jwt.verify(token, process.env.JWT_SECRET as string);
-      return true;
-    } catch {
-      return false;
-    }
-  };
+export const verifyToken = (token: string): JwtPayload => {
+  return jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload;
+};

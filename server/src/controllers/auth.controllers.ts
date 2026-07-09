@@ -41,9 +41,9 @@ export const register = async (req: Request, res: Response) => {
         },
       },
       select: {
-        id : true,
-        name : true,
-        email : true,
+        id: true,
+        name: true,
+        email: true,
         profile: true,
       },
     });
@@ -100,7 +100,7 @@ export const login = async (req: Request, res: Response) => {
     return res.status(201).json({
       message: "User Logged in successfully",
       user: {
-        id  : user.id,
+        id: user.id,
         name: user.name,
         email: user.email,
       },
@@ -128,9 +128,29 @@ export const signOut = (req: Request, res: Response) => {
 
 export const checkAuth = async (req: Request, res: Response) => {
   try {
+
+    const userId =(req as any).user.userId
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id : userId
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
     return res.status(200).json({
       authenticated: true,
-      user: (req as any).user,
+      user,
     });
   } catch (err) {
     return res.status(500).json({

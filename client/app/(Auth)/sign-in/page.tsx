@@ -1,17 +1,43 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
-import { Mail, Lock, Compass, Eye, EyeClosed } from "lucide-react";
+import { Mail, Lock, Compass, Eye, EyeClosed, AlertCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { signIn } from "@/api/auth";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [showPassword, setShowPassword] = useState(false);
 
+  const router = useRouter();
+
+  const signInMutation = useMutation({
+    mutationFn: signIn,
+    onSuccess: (user) => {
+      console.log(user);
+      router.push("/dashboard");
+    },
+    onError: (error) => {
+      if (axios.isAxiosError(error)) {
+        setErrorMessage(error.response?.data.message ?? "Something went wrong");
+      }
+    },
+  });
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Logging in with:", { email, password });
+
+    if (!email.trim() || !password.trim()) return;
+
+    signInMutation.mutate({
+      email,
+      password,
+    });
   };
 
   return (
@@ -75,7 +101,10 @@ const SignIn = () => {
                 type="email"
                 placeholder="you@example.com"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setErrorMessage("");
+                }}
                 className="w-full pl-10 pr-4 py-2.5 border border-gray-200 text-sm rounded-xl focus:outline-none focus:border-gray-900 transition-colors"
                 required
               />
@@ -100,21 +129,35 @@ const SignIn = () => {
                 type={`${showPassword ? "text" : "password"}`}
                 placeholder="••••••••"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setErrorMessage("");
+                }}
                 className="w-full pl-10 pr-4 py-2.5 border border-gray-200 text-sm rounded-xl focus:outline-none focus:border-gray-900 transition-colors"
                 required
               />
-              <div onClick={()=>setShowPassword(!showPassword)} className="absolute top-2 right-3 text-gray-600 cursor-pointer">
+              <div
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute top-2 right-3 text-gray-600 cursor-pointer"
+              >
                 {showPassword ? <Eye /> : <EyeClosed />}
               </div>
             </div>
           </div>
 
+          {errorMessage && (
+            <div className="flex items-center gap-3 rounded-xl border justify-center border-red-200 bg-red-50 px-4 py-3 text-red-700 shadow-sm">
+              <AlertCircle className="h-5 w-5 shrink-0" />
+              <p className="text-sm font-medium">{errorMessage}</p>
+            </div>
+          )}
+
           <button
             type="submit"
+            disabled={signInMutation.isPending}
             className="w-full mt-2 py-3 bg-gray-950 hover:bg-gray-800 text-white font-medium text-sm rounded-xl transition-colors duration-200 shadow-sm shadow-gray-950/10"
           >
-            Sign In
+            {signInMutation.isPending ? "Signing In..." : "Sign In"}
           </button>
         </form>
 
