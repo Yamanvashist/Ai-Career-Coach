@@ -33,7 +33,6 @@ const HowItWorks = () => {
     >
       <div className="max-w-7xl mx-auto px-6">
         
-        {/* Heading */}
         <div className="max-w-3xl mx-auto text-center">
           <span className="text-blue-600 text-sm font-medium uppercase tracking-wider">
             How It Works
@@ -49,7 +48,6 @@ const HowItWorks = () => {
           </p>
         </div>
 
-        {/* Steps */}
         <div className="mt-20 grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {steps.map((step) => (
             <div

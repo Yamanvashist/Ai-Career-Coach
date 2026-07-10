@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState,useMemo } from "react";
 import {
   HandCoins,
   UploadCloud,
@@ -10,13 +10,29 @@ import {
   Zap,
 } from "lucide-react";
 
+import { useMutation } from "@tanstack/react-query";
+import { resumeAnalyze } from "@/api/resume";
+
 const ResumeReview = () => {
   const [file, setFile] = useState<File | null>(null);
+  const [targetRole, setTargetRole] = useState<string>("");
+  const pdfUrl = useMemo(() => {
+    return file ? URL.createObjectURL(file) : null;
+  }, [file]);
 
-  const formData = new FormData();
-  if (file) {
-    formData.append("file", file);
-  }
+  const mutationAnalyze = useMutation({
+    mutationFn: resumeAnalyze,
+  });
+
+  const analyzeResume = () => {
+    if (!file || !targetRole.trim()) return;
+    const formData = new FormData();
+    if (file && targetRole) {
+      formData.append("resume", file);
+      formData.append("targetRole", targetRole);
+    }
+    mutationAnalyze.mutate(formData);
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-900 lg:overflow-hidden">
@@ -72,11 +88,34 @@ const ResumeReview = () => {
               <label className="text-sm font-semibold text-slate-700 ml-1">
                 Target Role
               </label>
+
               <input
                 type="text"
+                value={targetRole}
+                onChange={(e) => setTargetRole(e.target.value)}
                 placeholder="e.g. Full Stack Web Developer"
                 className="w-full bg-slate-50 border border-slate-200 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none text-sm rounded-xl px-4 py-2.5 text-slate-800 placeholder-slate-400 transition-all"
               />
+
+              <div
+                onClick={analyzeResume}
+                className="mt-4 w-full flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-indigo-700 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-500"
+              >
+                {mutationAnalyze.isPending ? (
+                  <>
+                    <button
+                      disabled={mutationAnalyze.isPending}
+                      className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"
+                    />
+                    Analyzing...
+                  </>
+                ) : (
+                  <>
+                    <Zap className="h-4 w-4" />
+                    Analyze Resume
+                  </>
+                )}
+              </div>
             </div>
           </div>
 
@@ -94,23 +133,32 @@ const ResumeReview = () => {
           </div>
         </div>
 
-        <div className="lg:col-span-6 bg-slate-200/60 rounded-2xl border-2 border-dashed border-slate-300 flex flex-col items-center justify-center p-8 min-h-125 lg:min-h-0 relative">
-          <div className="absolute top-4 left-4 flex gap-2">
-            <div className="w-3 h-3 rounded-full bg-slate-300"></div>
-            <div className="w-3 h-3 rounded-full bg-slate-300"></div>
-            <div className="w-3 h-3 rounded-full bg-slate-300"></div>
+        <div className="lg:col-span-6 bg-slate-200/60 rounded-2xl border-2 border-dashed border-slate-300 min-h-125 relative overflow-hidden">
+          <div className="absolute top-4 left-4 flex gap-2 z-10">
+            <div className="w-3 h-3 rounded-full bg-slate-300" />
+            <div className="w-3 h-3 rounded-full bg-slate-300" />
+            <div className="w-3 h-3 rounded-full bg-slate-300" />
           </div>
 
-          <div className="flex flex-col items-center text-slate-400">
-            <FileQuestion className="w-20 h-20 mb-4 opacity-50" />
-            <h2 className="text-xl font-bold text-slate-500">
-              No Resume Uploaded
-            </h2>
-            <p className="text-sm text-slate-400 mt-2 max-w-xs text-center">
-              Your document preview will appear here once you upload a valid PDF
-              file.
-            </p>
-          </div>
+          {!file ? (
+            <div className="flex h-full flex-col items-center justify-center p-8 text-slate-400">
+              <FileQuestion className="w-20 h-20 mb-4 opacity-50" />
+              <h2 className="text-xl font-bold text-slate-500">
+                No Resume Uploaded
+              </h2>
+              <p className="mt-2 max-w-xs text-center text-sm">
+                Your document preview will appear here once you upload a valid
+                PDF.
+              </p>
+            </div>
+          ) : (
+            <iframe
+              src={pdfUrl ?? undefined}
+              title="Resume Preview"
+              className="h-full w-full"
+              loading="lazy"
+            />
+          )}
         </div>
 
         <div className="lg:col-span-3 flex flex-col gap-6 lg:overflow-y-auto hide-scrollbar">
