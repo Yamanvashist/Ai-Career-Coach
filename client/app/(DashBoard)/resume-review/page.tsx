@@ -1,21 +1,31 @@
 "use client";
-import React, { useState,useMemo } from "react";
+import React, { useState, useMemo } from "react";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
+import { toast } from "sonner";
+
 import {
   HandCoins,
   UploadCloud,
   AlertCircle,
   FileQuestion,
   BarChart2,
-  Lock,
   Zap,
+  PanelsTopLeft,
+  Star,
+  ALargeSmall,
+  Sparkles,
 } from "lucide-react";
 
 import { useMutation } from "@tanstack/react-query";
 import { resumeAnalyze } from "@/api/resume";
+import { Resume } from "@/interfaces/resume";
 
 const ResumeReview = () => {
   const [file, setFile] = useState<File | null>(null);
   const [targetRole, setTargetRole] = useState<string>("");
+  const [analysis, setAnalysis] = useState<Resume | null>(null);
+
   const pdfUrl = useMemo(() => {
     return file ? URL.createObjectURL(file) : null;
   }, [file]);
@@ -24,21 +34,28 @@ const ResumeReview = () => {
     mutationFn: resumeAnalyze,
   });
 
-  const analyzeResume = () => {
+  const analyzeResume = async () => {
     if (!file || !targetRole.trim()) return;
+    if (file.size >= 5242880) return toast.error("File is too Large");
     const formData = new FormData();
-    if (file && targetRole) {
-      formData.append("resume", file);
-      formData.append("targetRole", targetRole);
+    formData.append("resume", file);
+    formData.append("targetRole", targetRole);
+
+    try {
+      const result = await mutationAnalyze.mutateAsync(formData);
+      setAnalysis(result);
+      toast.loading("Analyzing resume...");
+    } catch (err) {
+      console.log(err);
+      toast.error("Server error , Please try again later");
     }
-    mutationAnalyze.mutate(formData);
   };
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-900 lg:overflow-hidden">
       <nav className="h-20 bg-white border-b border-slate-200 flex items-center justify-between px-6 md:px-8 shrink-0">
         <h1 className="font-bold text-2xl text-slate-900 tracking-tight">
-          Resume Review
+          RefineAi Review
         </h1>
         <div className="px-3 py-1.5 border border-orange-200 rounded-full text-sm font-semibold bg-orange-50 flex items-center gap-2 text-orange-700 shadow-sm">
           <HandCoins className="w-4 h-4 text-orange-500" />
@@ -61,25 +78,22 @@ const ResumeReview = () => {
                 <UploadCloud className="w-6 h-6" />
               </div>
               <h3 className="font-semibold text-slate-700 text-sm">
-                Drag & drop your CV
+                {file?.name || "Drag & drop your CV"}
               </h3>
               <p className="text-xs text-slate-500 mt-1">
-                PDF format, up to 5MB
+                {file
+                  ? `${(file.size / 1024).toFixed(2)} KB`
+                  : "PDF format, up to 5MB"}
               </p>
 
-              {/* Hidden input linked to the label above via id */}
               <input
                 id="resume-upload"
                 type="file"
                 accept=".pdf"
                 className="hidden"
                 onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) {
-                    setFile(file);
-                  } else {
-                    return;
-                  }
+                  const selected = e.target.files?.[0];
+                  if (selected) setFile(selected);
                 }}
               />
             </label>
@@ -97,16 +111,16 @@ const ResumeReview = () => {
                 className="w-full bg-slate-50 border border-slate-200 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none text-sm rounded-xl px-4 py-2.5 text-slate-800 placeholder-slate-400 transition-all"
               />
 
-              <div
+              <button
                 onClick={analyzeResume}
+                disabled={
+                  mutationAnalyze.isPending || !file || !targetRole.trim()
+                }
                 className="mt-4 w-full flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-indigo-700 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-500"
               >
                 {mutationAnalyze.isPending ? (
                   <>
-                    <button
-                      disabled={mutationAnalyze.isPending}
-                      className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"
-                    />
+                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
                     Analyzing...
                   </>
                 ) : (
@@ -115,7 +129,7 @@ const ResumeReview = () => {
                     Analyze Resume
                   </>
                 )}
-              </div>
+              </button>
             </div>
           </div>
 
@@ -133,119 +147,181 @@ const ResumeReview = () => {
           </div>
         </div>
 
-        <div className="lg:col-span-6 bg-slate-200/60 rounded-2xl border-2 border-dashed border-slate-300 min-h-125 relative overflow-hidden">
+        <div className="lg:col-span-6 bg-slate-200/60 rounded-2xl border-2 border-dashed border-slate-300 min-h-100 relative overflow-hidden">
           <div className="absolute top-4 left-4 flex gap-2 z-10">
-            <div className="w-3 h-3 rounded-full bg-slate-300" />
-            <div className="w-3 h-3 rounded-full bg-slate-300" />
-            <div className="w-3 h-3 rounded-full bg-slate-300" />
+            {[...Array(3)].map((_, idx) => (
+              <div key={idx} className="w-3 h-3 rounded-full bg-slate-300" />
+            ))}
           </div>
 
           {!file ? (
-            <div className="flex h-full flex-col items-center justify-center p-8 text-slate-400">
-              <FileQuestion className="w-20 h-20 mb-4 opacity-50" />
-              <h2 className="text-xl font-bold text-slate-500">
-                No Resume Uploaded
+            <div className="flex h-full flex-col items-center justify-center p-8">
+              <div className="relative flex items-center justify-center mb-6">
+                <div className="absolute inset-0 bg-indigo-200 rounded-full blur-xl opacity-40"></div>
+
+                <div className="relative bg-white border border-slate-200 shadow-sm p-5 rounded-2xl flex items-center justify-center -rotate-10 hover:rotate-0 transition-all duration-300">
+                  <FileQuestion className="w-10 h-10 text-indigo-500" />
+                </div>
+              </div>
+
+              <h2 className="text-xl font-bold text-slate-700 tracking-tight">
+                Waiting for your CV
               </h2>
-              <p className="mt-2 max-w-xs text-center text-sm">
-                Your document preview will appear here once you upload a valid
-                PDF.
+              <p className="mt-2 max-w-sm text-center text-sm text-slate-500 leading-relaxed">
+                Upload a PDF on the left and the preview will instantly render
+                right here.
               </p>
             </div>
           ) : (
             <iframe
               src={pdfUrl ?? undefined}
               title="Resume Preview"
-              className="h-full w-full"
+              className="h-full w-full rounded-2xl"
               loading="lazy"
             />
           )}
         </div>
 
         <div className="lg:col-span-3 flex flex-col gap-6 lg:overflow-y-auto hide-scrollbar">
-          {/* Empty Score Card */}
           <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-lg font-bold tracking-tight">AI Analysis</h2>
+              <h2 className="text-lg font-bold z-40 tracking-tight">
+                AI Analysis
+              </h2>
               <BarChart2 className="w-5 h-5 text-slate-400" />
             </div>
 
-            <div className="absolute inset-0 bg-white/80 backdrop-blur-[2px] z-10 flex flex-col items-center justify-center text-center p-4">
-              <Lock className="w-8 h-8 text-slate-400 mb-2" />
-              <p className="text-sm font-semibold text-slate-600">
-                Awaiting document
-              </p>
-              <p className="text-xs text-slate-500 mt-1">
-                Upload a file to unlock insights
-              </p>
-            </div>
-
-            <div className="space-y-6 opacity-40 blur-[1px]">
-              <div className="flex flex-col items-center justify-center p-4">
-                <span className="text-5xl font-black text-slate-300">--</span>
-                <span className="text-xs font-bold uppercase tracking-widest text-slate-400 mt-1">
-                  Score
-                </span>
+            <div className="flex flex-col items-center justify-center text-center">
+              <div className="w-32 h-32 mx-auto">
+                <CircularProgressbar
+                  value={analysis?.atsScore ?? 0}
+                  text={`${analysis?.atsScore ?? 0}`}
+                  styles={buildStyles({
+                    pathColor: "#4F46E5",
+                    trailColor: "#e2e8f0",
+                    textColor: "#4F46E5",
+                    strokeLinecap: "round",
+                  })}
+                />
               </div>
+              <p className="mt-4 text-sm font-semibold text-slate-700">
+                ATS Score
+              </p>
+              <p className="mt-1 text-xs text-slate-500">
+                Upload a resume to generate your score
+              </p>
 
-              <div className="space-y-4 text-sm">
-                <div>
-                  <div className="flex justify-between mb-1">
-                    <span className="font-medium text-slate-600">
-                      Impact Metrics
-                    </span>
-                    <span className="text-slate-400">0%</span>
-                  </div>
-                  <div className="h-2 w-full bg-slate-100 rounded-full"></div>
-                </div>
-                <div>
-                  <div className="flex justify-between mb-1">
-                    <span className="font-medium text-slate-600">Brevity</span>
-                    <span className="text-slate-400">0%</span>
-                  </div>
-                  <div className="h-2 w-full bg-slate-100 rounded-full"></div>
-                </div>
-                <div>
-                  <div className="flex justify-between mb-1">
-                    <span className="font-medium text-slate-600">
-                      ATS Match
-                    </span>
-                    <span className="text-slate-400">0%</span>
-                  </div>
-                  <div className="h-2 w-full bg-slate-100 rounded-full"></div>
-                </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full mt-6">
+                {[
+                  {
+                    label: "Skills",
+                    icon: Zap,
+                    score: analysis?.scores?.skills ?? 0,
+                  },
+                  {
+                    label: "Projects",
+                    icon: PanelsTopLeft,
+                    score: analysis?.scores?.projects ?? 0,
+                  },
+                  {
+                    label: "Experience",
+                    icon: Star,
+                    score: analysis?.scores?.experience ?? 0,
+                  },
+                  {
+                    label: "Formatting",
+                    icon: ALargeSmall,
+                    score: analysis?.scores?.formatting ?? 0,
+                  },
+                ].map((item, idx) => {
+                  const Icon = item.icon;
+                  return (
+                    <div
+                      key={idx}
+                      className="flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-xl p-3"
+                    >
+                      <div className="bg-green-600/10 p-1.5 rounded shrink-0">
+                        <Icon className="w-5 h-5 text-green-600" />
+                      </div>
+                      <div className="flex flex-col text-left">
+                        <h1 className="text-sm font-semibold text-slate-800">
+                          {item.label}
+                        </h1>
+                        <p className="text-xs font-bold text-slate-500">
+                          {item.score}/100
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
 
-          <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm opacity-60">
-            <div className="flex items-center gap-2 mb-4">
-              <Zap className="w-5 h-5 text-slate-400" />
-              <h2 className="text-sm font-bold tracking-tight text-slate-600">
-                Key Improvements
-              </h2>
+          {mutationAnalyze.isPending ? (
+            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm opacity-60">
+              <div className="flex items-center gap-2 mb-4">
+                <Zap className="w-5 h-5 text-slate-400" />
+                <h2 className="text-sm font-bold tracking-tight text-slate-600">
+                  Key Improvements
+                </h2>
+              </div>
+              <div className="space-y-3">
+                {[...Array(3)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="h-14 w-full bg-slate-100 rounded-xl animate-pulse"
+                  />
+                ))}
+              </div>
             </div>
-            <div className="space-y-3">
-              <div className="h-10 w-full bg-slate-100 rounded-lg animate-pulse"></div>
-              <div className="h-10 w-full bg-slate-100 rounded-lg animate-pulse delay-75"></div>
-              <div className="h-10 w-full bg-slate-100 rounded-lg animate-pulse delay-150"></div>
+          ) : analysis?.improvements ? (
+            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+              <div className="flex items-center gap-2 mb-4">
+                <Zap className="w-5 h-5 text-indigo-500" />
+                <h2 className="text-sm font-bold tracking-tight text-slate-700">
+                  Key Improvements
+                </h2>
+              </div>
+              <div className="space-y-3">
+                {analysis.improvements.map((item, idx) => (
+                  <div
+                    key={idx}
+                    className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100 hover:border-indigo-200 transition-all"
+                  >
+                    <div className="w-6 h-6 rounded-full bg-indigo-100 flex items-center justify-center shrink-0">
+                      <span className="text-xs font-bold text-indigo-700">
+                        {idx + 1}
+                      </span>
+                    </div>
+                    <p className="text-sm text-slate-700 leading-relaxed">
+                      {item}
+                    </p>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="relative overflow-hidden bg-white rounded-2xl border border-slate-200 shadow-sm h-80 flex flex-col items-center justify-center text-center p-6">
+              <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full bg-indigo-100 blur-3xl opacity-60" />
+              <div className="absolute -bottom-10 -left-10 w-28 h-28 rounded-full bg-blue-100 blur-3xl opacity-60" />
+
+              <div className="relative z-10 flex flex-col items-center">
+                <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-indigo-50 border border-indigo-100 mb-4 shadow-sm">
+                  <Sparkles className="w-8 h-8 text-indigo-500" />
+                </div>
+                <h3 className="text-lg font-bold text-slate-800">
+                  Nothing to analyze yet
+                </h3>
+                <p className="mt-2 text-sm text-slate-500 max-w-xs leading-relaxed">
+                  Upload your resume and our AI will generate personalized
+                  improvement suggestions.
+                </p>
+              </div>
+            </div>
+          )}
         </div>
       </main>
-
-      <style
-        dangerouslySetInnerHTML={{
-          __html: `
-        .hide-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-        .hide-scrollbar {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-      `,
-        }}
-      />
     </div>
   );
 };

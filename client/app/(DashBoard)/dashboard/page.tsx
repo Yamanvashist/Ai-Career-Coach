@@ -12,6 +12,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import Link from "next/link";
 
 const Dashboard = () => {
 
@@ -151,9 +152,9 @@ const Dashboard = () => {
                   </li>
                 </ul>
               </div>
-              <button className="w-full mt-6 bg-white border border-slate-200 hover:bg-blue-600 hover:text-white hover:border-blue-600 text-slate-700 text-xs font-bold py-2.5 rounded-lg transition-colors flex items-center justify-center gap-1.5 shadow-sm">
+              <Link href="/resume-review" className="w-full mt-6 bg-white border border-slate-200 hover:bg-blue-600 hover:text-white hover:border-blue-600 text-slate-700 text-xs font-bold py-2.5 rounded-lg transition-colors flex items-center justify-center gap-1.5 shadow-sm">
                 Resume <span>&rarr;</span>
-              </button>
+              </Link>
             </div>
 
             {/* Code Critic Card */}

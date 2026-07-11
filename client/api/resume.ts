@@ -7,6 +7,7 @@ export const resumeAnalyze = async (formData: FormData) => {
       formData,
       { withCredentials: true },
     );
+    console.log(data)
     return data.resume;
   } catch (err) {
     throw err;
