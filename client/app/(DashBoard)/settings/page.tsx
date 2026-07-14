@@ -2,7 +2,7 @@
 
 import { useCurrentUser } from "@/hooks/auth/useCurrentUser";
 import { useUpdatePassword } from "@/hooks/auth/useUpdatePassword";
-import { Coins, Plus, Sparkles, User } from "lucide-react";
+import { Coins, Eye, Plus, Sparkles, User } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useProfile, useGetProfile } from "@/hooks/profile/useProfile";
 import { useLogout } from "@/hooks/auth/useLogOut";
@@ -16,12 +16,12 @@ export default function SettingsPage() {
   const [showSkillInput, setShowSkillInput] = useState(false);
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  
+
   const router = useRouter();
 
   const { data: user } = useCurrentUser();
   const { data: profile, isLoading } = useGetProfile();
-  const { mutateAsync, isPending } = useUpdatePassword();
+  const mutateUpdatePassword = useUpdatePassword();
 
   const [formData, setFormData] = useState({
     targetRole: "",
@@ -109,7 +109,7 @@ export default function SettingsPage() {
     }
 
     try {
-      await mutateAsync({ password, newPassword });
+      await mutateUpdatePassword.mutateAsync({ password, newPassword });
 
       toast.success("Password updated successfully!");
 
@@ -168,7 +168,7 @@ export default function SettingsPage() {
             {user?.email ?? "guest@mail.com"}
           </p>
           <span className="inline-block bg-indigo-50 text-indigo-600 text-xs font-semibold px-4 py-1.5 rounded-md mb-6">
-            Target Role Not Set
+            {profile.targetRole ?? "Target role not seleted"}
           </span>
 
           <div className="relative overflow-hidden rounded-2xl border border-blue-200/60 bg-linear-to-br from-blue-50 via-white to-indigo-50 p-6 shadow-sm mb-4">
@@ -445,7 +445,7 @@ export default function SettingsPage() {
                       className="border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-500 w-full pr-8"
                     />
                     <span className="absolute right-2.5 top-2.5 text-slate-400 cursor-pointer hover:text-slate-600">
-                      👁️
+                      <Eye />
                     </span>
                   </div>
                 </div>
@@ -453,10 +453,13 @@ export default function SettingsPage() {
               <div className="flex justify-end">
                 <button
                   type="button"
+                  disabled={mutateUpdatePassword.isPending}
                   onClick={updatePassword}
-                  className="bg-indigo-600 text-white text-xs font-semibold px-5 py-2.5 rounded-xl hover:bg-indigo-700 shadow-sm shadow-indigo-100 transition"
+                  className={`${mutateUpdatePassword.isPending ? "bg-indigo-500" : "bg-indigo-600"} text-white text-xs font-semibold px-5 py-2.5 rounded-xl shadow-sm shadow-indigo-100 transition`}
                 >
-                  Save Changes
+                  {mutateUpdatePassword.isPending
+                    ? "Saving changes"
+                    : "Save Changes"}
                 </button>
               </div>
             </div>
