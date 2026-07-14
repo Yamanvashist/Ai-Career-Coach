@@ -25,7 +25,7 @@ export default function ProtectedRoute({
           <div className="h-8 w-48 rounded-md bg-gray-200 animate-pulse" />
           <div className="h-4 w-full rounded-md bg-gray-200 animate-pulse" />
           <div className="h-4 w-3/4 rounded-md bg-gray-200 animate-pulse" />
-          <div className="h-12 w-full rounded-xl bg-gray-200 animate-pulse" />
+          <div className="h-13 w-full rounded-xl bg-gray-200 animate-pulse" />
         </div>
       </div>
     );
