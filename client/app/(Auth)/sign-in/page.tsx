@@ -155,7 +155,7 @@ const SignIn = () => {
           <button
             type="submit"
             disabled={signInMutation.isPending}
-            className="w-full mt-2 py-3 bg-gray-950 hover:bg-gray-800 text-white font-medium text-sm rounded-xl transition-colors duration-200 shadow-sm shadow-gray-950/10"
+            className={`w-full mt-2 py-3 ${signInMutation.isPending ? "bg-gray-500" : "bg-gray-950"}  text-white font-medium text-sm rounded-xl transition-colors duration-200 shadow-sm shadow-gray-950/10`}
           >
             {signInMutation.isPending ? "Signing In..." : "Sign In"}
           </button>
