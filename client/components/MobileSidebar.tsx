@@ -15,16 +15,22 @@ import {
 const MobileSidebar = () => {
   const { isOpen, close } = useSidebarStore();
 
-  if (!isOpen) return null;
-
   return (
     <>
       <div
         onClick={close}
-        className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
+        className={`fixed inset-0 z-40 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ${
+          isOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        }`}
       />
 
-      <aside className="fixed top-0 left-0 z-50 flex h-screen w-72 flex-col bg-slate-900 p-6 text-white shadow-2xl">
+      <aside
+        className={`fixed top-0 left-0 z-50 flex h-screen w-72 flex-col bg-slate-900 p-6 text-white shadow-2xl transition-all duration-300 ease-in-out ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
         <div className="mb-10 flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-extrabold tracking-tight">

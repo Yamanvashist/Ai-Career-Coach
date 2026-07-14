@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
-import { signUp } from "@/api/auth";
+import { signUp } from "@/api/auth/auth";
 import { useRouter } from "next/navigation";
 
 export const useSignUp = () => {
@@ -20,3 +20,4 @@ export const useSignUp = () => {
     },
   });
 };
+

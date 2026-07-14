@@ -16,11 +16,7 @@ export const verifyUser = (
       });
     }
 
-
-
     req.user = verifyToken(token);
-    console.log(req.user)
-
     next();
   } catch {
     return res.status(401).json({

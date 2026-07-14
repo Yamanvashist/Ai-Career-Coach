@@ -1,10 +1,11 @@
+import Link from "next/link";
+
 const Hero = () => {
   return (
     <section className="min-h-[85vh] flex items-center border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-6 w-full">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
 
-          {/* Left Side */}
           <div>
             <div className="mt-10 md:inline-flex items-center rounded-full border border-gray-200 px-4  text-sm font-medium text-gray-700 mb-6">
               AI-Powered Career Coach
@@ -23,9 +24,9 @@ const Hero = () => {
             </p>
 
             <div className="mt-10 flex gap-4">
-              <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-medium transition-colors">
+              <Link href="/dashboard" className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-medium transition-colors">
                 Get Started
-              </button>
+              </Link>
 
               <button className="border border-gray-300 hover:bg-gray-50 text-gray-900 px-6 py-3 rounded-xl font-medium transition-colors">
                 View Demo
@@ -39,7 +40,6 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* Right Side */}
           <div className="relative">
             <div className="rounded-2xl border border-gray-200 bg-white shadow-sm p-6">
 

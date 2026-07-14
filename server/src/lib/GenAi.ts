@@ -7,7 +7,7 @@ const gemini = new GoogleGenAI({
 
 export const analyze = async (prompt: string) => {
     const response = await gemini.models.generateContent({
-        model: "gemini-2.5-flash",
+        model: "gemini-3.1-flash-lite",
         contents: prompt
     })
     return response.text

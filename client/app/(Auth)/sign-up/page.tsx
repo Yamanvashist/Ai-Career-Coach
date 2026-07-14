@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { Mail, Lock, User, Compass, Eye, EyeClosed } from "lucide-react";
-import { useSignUp } from "@/hooks/useSignUp";
+import { useSignUp } from "@/hooks/auth/useSignUp";
 
 const SignUp = () => {
   const [name, setName] = useState("");

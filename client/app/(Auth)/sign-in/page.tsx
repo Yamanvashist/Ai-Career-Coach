@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Mail, Lock, Compass, Eye, EyeClosed, AlertCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { signIn } from "@/api/auth";
+import { signIn } from "@/api/auth/auth";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 

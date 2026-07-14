@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 
 import { useMutation } from "@tanstack/react-query";
-import { resumeAnalyze } from "@/api/resume";
+import { resumeAnalyze } from "@/api/resume/resume";
 import { Resume } from "@/interfaces/resume";
 
 const ResumeReview = () => {
@@ -44,7 +44,7 @@ const ResumeReview = () => {
     try {
       const result = await mutationAnalyze.mutateAsync(formData);
       setAnalysis(result);
-      toast.loading("Analyzing resume...");
+      
     } catch (err) {
       console.log(err);
       toast.error("Server error , Please try again later");

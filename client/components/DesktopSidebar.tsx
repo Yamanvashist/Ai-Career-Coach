@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Link from "next/link";
 import {
@@ -6,10 +7,52 @@ import {
   FileText,
   Users,
   Settings,
+  User,
 } from "lucide-react";
-import Image from "next/image";
+import { useCurrentUser } from "@/hooks/auth/useCurrentUser";
 
 const DesktopSidebar = () => {
+  const { data: user, isLoading } = useCurrentUser();
+
+  if (isLoading) {
+    return (
+      <aside className="hidden md:flex w-72 flex-col bg-slate-900 text-white p-6 shadow-xl">
+        {/* Logo */}
+        <div className="mb-12">
+          <div className="h-8 w-36 rounded bg-slate-800 animate-pulse" />
+          <div className="mt-2 h-4 w-28 rounded bg-slate-800 animate-pulse" />
+        </div>
+
+        {/* Navigation */}
+        <nav className="flex-1 space-y-2">
+          {[...Array(5)].map((_, index) => (
+            <div
+              key={index}
+              className="h-12 rounded-xl bg-slate-800 animate-pulse"
+            />
+          ))}
+        </nav>
+
+        {/* Settings */}
+        <div className="border-b border-slate-800 pt-4">
+          <div className="h-12 rounded-xl bg-slate-800 animate-pulse" />
+        </div>
+
+        {/* User Card */}
+        <div className="mt-5 rounded-xl border border-slate-800 bg-slate-800/70 p-3">
+          <div className="flex items-center gap-3">
+            <div className="h-8 w-8 rounded-full bg-slate-700 animate-pulse" />
+
+            <div className="flex-1 space-y-2">
+              <div className="h-4 w-24 rounded bg-slate-700 animate-pulse" />
+              <div className="h-3 w-36 rounded bg-slate-700 animate-pulse" />
+            </div>
+          </div>
+        </div>
+      </aside>
+    );
+  }
+
   return (
     <aside className="hidden md:flex w-72 flex-col bg-slate-900 text-white p-6 shadow-xl">
       <div className="mb-12">
@@ -85,18 +128,18 @@ const DesktopSidebar = () => {
       </div>
       <div className="mt-5 rounded-xl border border-slate-800 bg-slate-800/70 p-3 transition hover:bg-slate-800">
         <div className="flex items-center gap-3">
-          <Image
-            alt="Profile"
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRl_iS6ah90lEufyitkFEND2e98ccufb7spcgCLbb2gY1vw7151sSqjaXGp&s=10"
-            width={42}
-            height={42}
-            className="rounded-full object-cover border-2 border-blue-400"
-          />
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-linear-to-br from-violet-500 to-indigo-600 text-white shadow-xl ring-4 ring-violet-100">
+            <User className="h-4 w-4" />
+          </div>
 
           <div className="flex-1 overflow-hidden">
-            <h3 className="truncate text-sm font-semibold text-white">Gojo</h3>
+            <h3 className="truncate text-sm font-semibold text-white">
+              {user?.name ?? "Guest"}
+            </h3>
 
-            <p className="truncate text-xs text-slate-400">gojo@example.com</p>
+            <p className="truncate text-xs text-slate-400">
+              {user?.email ?? "guest@example.com"}
+            </p>
           </div>
 
           <div className="h-2.5 w-2.5 rounded-full bg-green-400"></div>

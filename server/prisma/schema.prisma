@@ -11,6 +11,7 @@ model User {
   name      String
   email     String   @unique
   password  String
+  credits   Int      @default(5)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -19,12 +20,13 @@ model User {
 }
 
 model Profile {
-  id         Int     @id @default(autoincrement())
-  userId     Int     @unique
-  skills     String?
+  id         Int      @id @default(autoincrement())
+  userId     Int      @unique
+  skills     String[]
   targetRole String?
   experience String?
-  user       User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  about      String?
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Resume {
@@ -36,5 +38,5 @@ model Resume {
   createdAt  DateTime @default(now())
 
   userId Int
-  user   User @relation(fields: [userId], references: [id])
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

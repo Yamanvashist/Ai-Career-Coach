@@ -31,20 +31,12 @@ export const register = async (req: Request, res: Response) => {
         name: name,
         email: email,
         password: hashedPassword,
-
-        profile: {
-          create: {
-            skills: null,
-            targetRole: null,
-            experience: null,
-          },
-        },
       },
       select: {
         id: true,
         name: true,
         email: true,
-        profile: true,
+        credits: true,
       },
     });
 
@@ -56,6 +48,7 @@ export const register = async (req: Request, res: Response) => {
       httpOnly: true,
       secure: isDev,
       sameSite: isDev ? "none" : "lax",
+      maxAge: 3 * 24 * 60 * 60 * 1000
     });
 
     return res.status(201).json({
@@ -95,6 +88,7 @@ export const login = async (req: Request, res: Response) => {
       httpOnly: true,
       secure: isDev,
       sameSite: isDev ? "none" : "lax",
+      maxAge: 3 * 24 * 60 * 60 * 1000
     });
 
     return res.status(201).json({
@@ -103,6 +97,7 @@ export const login = async (req: Request, res: Response) => {
         id: user.id,
         name: user.name,
         email: user.email,
+        credits: user.credits,
       },
     });
   } catch (err) {
@@ -128,17 +123,18 @@ export const signOut = (req: Request, res: Response) => {
 
 export const checkAuth = async (req: Request, res: Response) => {
   try {
-
-    const userId =(req as any).user.userId
+    const userId = (req as any).user.userId;
+    if (!userId) return;
 
     const user = await prisma.user.findUnique({
       where: {
-        id : userId
+        id: userId,
       },
       select: {
         id: true,
         name: true,
         email: true,
+        credits: true,
       },
     });
 
@@ -155,6 +151,76 @@ export const checkAuth = async (req: Request, res: Response) => {
   } catch (err) {
     return res.status(500).json({
       message: "Internal server error",
+    });
+  }
+};
+
+export const updatePassword = async (req: Request, res: Response) => {
+  const userId = (req as any).user.userId;
+
+  if (!userId) {
+    return res.status(401).json({
+      message: "User not logged in",
+    });
+  }
+
+  try {
+    const { password, newPassword } = req.body;
+
+    if (!password || !newPassword) {
+      return res.status(400).json({
+        message: "Current password and new password are required.",
+      });
+    }
+
+    if (password === newPassword) {
+      return res.status(400).json({
+        message: "New password must be different from the current password.",
+      });
+    }
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+      select: {
+        password: true,
+      },
+    });
+
+    if (!user?.password) {
+      return res.status(404).json({
+        message: "User not found.",
+      });
+    }
+
+    const isMatch = await comparePassword(password, user.password);
+
+    if (!isMatch) {
+      return res.status(400).json({
+        message: "Current password is incorrect.",
+      });
+    }
+
+    const hashedPassword = await hashPassword(newPassword, 10);
+
+    await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        password: hashedPassword,
+      },
+    });
+
+    return res.status(200).json({
+      message: "Password updated successfully.",
+    });
+  } catch (err) {
+    console.error(err);
+
+    return res.status(500).json({
+      message: "Something went wrong.",
     });
   }
 };
