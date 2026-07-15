@@ -52,6 +52,14 @@ const metricsData = [
     barColor: "bg-indigo-500",
   },
 ];
+
+const Details = [
+  { title: "language", result: "Javascript" },
+  { title: "Lines of code", result: "42" },
+  { title: "Complexity", result: "Medium" },
+  { title: "Submitted", result: "May 11 2026 11:30 AM" },
+];
+
 const Analysis = () => {
   return (
     <div className="min-h-screen p-4 bg-slate-50 flex flex-col font-sans text-slate-900 lg:overflow-hidden">
@@ -138,7 +146,34 @@ const Analysis = () => {
             </div>
           </section>
 
-          <section className="bg-white rounded-2xl p-6 shadow-sm min-h-50"></section>
+          <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+            <h2 className="mb-3 text-lg font-semibold text-gray-900">
+              Details
+            </h2>
+
+            <div className="divide-y divide-gray-50">
+              {Details.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="flex items-center justify-between py-4"
+                >
+                  <span className="text-sm font-medium text-gray-500">
+                    {item.title}
+                  </span>
+
+                  {item.title === "Complexity" ? (
+                    <span className="rounded-full bg-amber-100 px-3 py-1 text-sm font-semibold text-amber-700">
+                      {item.result}
+                    </span>
+                  ) : (
+                    <span className="text-sm font-semibold text-gray-900">
+                      {item.result}
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </section>
         </div>
 
         <div className="flex flex-col gap-6">
