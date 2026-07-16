@@ -1,10 +1,10 @@
 "use client";
 
-import Navbar from "@/components/analysis/Navbar";
-import OverallScore from "@/components/analysis/OverallScore";
-import Details from "@/components/analysis/Details";
-import CodeEditor from "@/components/analysis/CodeEditor";
-import AnalysisResults from "@/components/analysis/AnalysisResults";
+import Navbar from "@/components/codeAnalysis/Navbar";
+import OverallScore from "@/components/codeAnalysis/OverallScore";
+import Details from "@/components/codeAnalysis/Details";
+import CodeEditor from "@/components/codeAnalysis/CodeEditor";
+import AnalysisResults from "@/components/codeAnalysis/AnalysisResults";
 
 const Analysis = () => {
   return (

@@ -17,6 +17,8 @@ model User {
 
   profile Profile?
   resumes Resume[]
+
+  codeAnalyses CodeAnalysis[]
 }
 
 model Profile {
@@ -36,6 +38,43 @@ model Resume {
   atsScore   Int
   analysis   Json
   createdAt  DateTime @default(now())
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum Complexity {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+model CodeAnalysis {
+  id Int @id @default(autoincrement())
+
+  title    String?
+  language String
+  code     String
+
+  summary      String
+  overallScore Int
+
+  correctness     Int
+  performance     Int
+  readability     Int
+  maintainability Int
+  bestPractices   Int
+
+  linesOfCode Int
+  complexity  Complexity
+
+  issues       String[]
+  improvements String[]
+
+  optimizedCode String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   userId Int
   user   User @relation(fields: [userId], references: [id], onDelete: Cascade)

@@ -1,6 +1,6 @@
-import DesktopSidebar from "@/components/DesktopSidebar";
-import MobileHeader from "@/components/MobileHeader";
-import MobileSidebar from "@/components/MobileSidebar";
+import DesktopSidebar from "@/components/Desktop/DesktopSidebar";
+import MobileHeader from "@/components/Mobile/MobileHeader";
+import MobileSidebar from "@/components/Mobile/MobileSidebar";
 
 import ProtectedRoute from "@/components/ProtectedRoute";
 

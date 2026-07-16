@@ -4,6 +4,6 @@ import { resumeAnalyze } from "../controllers/resume.controllers"
 
 const resumeRouter = Router()
 
-resumeRouter.post("/resumeAnalyze",upload.single("resume"),resumeAnalyze)
+resumeRouter.post("/resumeAnalyze", upload.single("resume"), resumeAnalyze)
 
 export default resumeRouter

@@ -1,5 +1,4 @@
 import { HandCoins } from "lucide-react";
-import React from "react";
 
 const Navbar = () => {
   return (
