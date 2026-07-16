@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { parsePdf } from "../lib/pdfParse";
-import { buildResumePrompt } from "../AiPrompt/prompt";
+import { buildResumePrompt } from "../AiPrompt/ResumePrompt";
 import { analyze } from "../lib/GenAi";
 
 export const resumeAnalyze = async (req: Request, res: Response) => {
