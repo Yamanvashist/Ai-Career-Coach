@@ -17,13 +17,11 @@ const DesktopSidebar = () => {
   if (isLoading) {
     return (
       <aside className="hidden md:flex w-72 flex-col bg-slate-900 text-white p-6 shadow-xl">
-        {/* Logo */}
         <div className="mb-12">
           <div className="h-8 w-36 rounded bg-slate-800 animate-pulse" />
           <div className="mt-2 h-4 w-28 rounded bg-slate-800 animate-pulse" />
         </div>
 
-        {/* Navigation */}
         <nav className="flex-1 space-y-2">
           {[...Array(5)].map((_, index) => (
             <div
@@ -33,12 +31,10 @@ const DesktopSidebar = () => {
           ))}
         </nav>
 
-        {/* Settings */}
         <div className="border-b border-slate-800 pt-4">
           <div className="h-12 rounded-xl bg-slate-800 animate-pulse" />
         </div>
 
-        {/* User Card */}
         <div className="mt-5 rounded-xl border border-slate-800 bg-slate-800/70 p-3">
           <div className="flex items-center gap-3">
             <div className="h-8 w-8 rounded-full bg-slate-700 animate-pulse" />

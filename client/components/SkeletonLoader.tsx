@@ -4,7 +4,6 @@ export default function SkeletonLoader() {
   return (
     <div className="flex min-h-screen w-full items-center justify-center bg-gray-50 p-4">
       <div className="w-full max-w-md animate-pulse rounded-2xl bg-white p-6 shadow-md border border-gray-100">
-        {/* Profile / Avatar Group */}
         <div className="flex items-center space-x-4">
           <div className="h-12 w-12 rounded-full bg-gray-200"></div>
           <div className="flex-1 space-y-2">
