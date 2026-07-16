@@ -44,7 +44,6 @@ const ResumeReview = () => {
     try {
       const result = await mutationAnalyze.mutateAsync(formData);
       setAnalysis(result);
-      
     } catch (err) {
       console.log(err);
       toast.error("Server error , Please try again later");
