@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import userRouter from "./routes/user.routes.js";
 import resumeRouter from "./routes/resume.routes.js"
 import profileRouter from "./routes/profile.routes.js";
+import codeRouter from "./routes/codeAnalysis.routes.js";
 
 
 const app = express();
@@ -25,6 +26,8 @@ app.get("/", (req, res) => {
 app.use("/api/user", userRouter);
 app.use("/api/resume", resumeRouter)
 app.use("/api/profile", profileRouter)
+app.use("/api/codeAnalysis", codeRouter)
+
 
 
 const port = process.env.PORT || 4000;

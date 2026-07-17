@@ -2,11 +2,12 @@ import prisma from "../lib/prisma";
 import { Request, Response } from "express";
 import CodeAnalysisPrompt from "../AiPrompt/CodeAnalysisPrompt";
 import { analyze } from "../lib/GenAi";
+import { CodeAnalysisResponse, userInput } from "../../Interfaces/codeInterface";
 
 export const analyzeCode = async (req: Request, res: Response) => {
     try {
         const userId = (req as any).user.userId;
-        const { code, language } = req.body;
+        const { code, language } = req.body as userInput;
 
         if (!code?.trim()) {
             return res.status(400).json({
@@ -22,7 +23,11 @@ export const analyzeCode = async (req: Request, res: Response) => {
 
         const prompt = CodeAnalysisPrompt(code, language);
 
+        const startTime = Date.now()
+
         const response = await analyze(prompt);
+
+        const analysisDuration = Date.now() - startTime
 
         if (!response) {
             return res.status(500).json({
@@ -30,10 +35,10 @@ export const analyzeCode = async (req: Request, res: Response) => {
             });
         }
 
-        let result;
+        let result: CodeAnalysisResponse;
 
         try {
-            result = JSON.parse(response);
+            result = JSON.parse(response) as CodeAnalysisResponse;
         } catch {
             return res.status(500).json({
                 message: "AI returned invalid JSON",
@@ -67,7 +72,11 @@ export const analyzeCode = async (req: Request, res: Response) => {
             },
         });
 
-        return res.status(201).json(codeAnalysis);
+        return res.status(201).json({
+            message: "Analysis completed",
+            analysis: codeAnalysis, 
+            analysisDuration,
+        });
     } catch (err) {
         console.error(err);
 
