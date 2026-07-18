@@ -53,6 +53,7 @@ const Analysis = () => {
             analyzeCode={analyzeCode}
             isLoading={isPending}
             analysis={analysis}
+            setAnalysis={setAnalysis}
           />
           <AnalysisResults analysis={analysis} analysisDuration={analysisDuration} />
         </div>
