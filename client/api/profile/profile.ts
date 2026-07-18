@@ -24,6 +24,7 @@ export const upsertProfile = async (formData: Form) => {
 export const getProfile = async () => {
     try {
         const { data } = await axios.get("http://localhost:4000/api/profile", { withCredentials: true })
+        console.log(data)
         return data
     } catch (err) {
         throw err

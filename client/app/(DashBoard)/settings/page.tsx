@@ -2,7 +2,7 @@
 
 import { useCurrentUser } from "@/hooks/auth/useCurrentUser";
 import { useUpdatePassword } from "@/hooks/auth/useUpdatePassword";
-import { Coins, Eye, Plus, Sparkles, User } from "lucide-react";
+import { Coins, Eye, EyeOff, Plus, Sparkles, User } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useProfile, useGetProfile } from "@/hooks/profile/useProfile";
 import { useLogout } from "@/hooks/auth/useLogOut";
@@ -16,6 +16,8 @@ export default function SettingsPage() {
   const [showSkillInput, setShowSkillInput] = useState(false);
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const router = useRouter();
 
@@ -74,12 +76,11 @@ export default function SettingsPage() {
       mutationProfile.mutate(formData);
       toast.success("Applied changes");
     } catch {
-      toast.error("failed to apply changes");
+      toast.error("Failed to apply changes");
     }
   };
 
   const logoutMutation = useLogout();
-
   const queryClient = useQueryClient();
 
   const handleLogout = () => {
@@ -87,7 +88,7 @@ export default function SettingsPage() {
       onSuccess: () => {
         queryClient.clear();
         router.push("/sign-in");
-        toast.success("user Logged out");
+        toast.success("User logged out");
       },
       onError: () => {
         toast.error("Failed to logout");
@@ -96,12 +97,16 @@ export default function SettingsPage() {
   };
 
   const updatePassword = async () => {
-    if (!password.trim() || !newPassword.trim()) {
-      return toast.error("Please fill in both fields.");
+    if (!password.trim() || !newPassword.trim() || !confirmPassword.trim()) {
+      return toast.error("Please fill in all password fields.");
     }
 
     if (password === newPassword) {
       return toast.error("New password can't be the same as the old password.");
+    }
+
+    if (newPassword !== confirmPassword) {
+      return toast.error("New passwords do not match.");
     }
 
     if (newPassword.length < 8) {
@@ -115,6 +120,7 @@ export default function SettingsPage() {
 
       setPassword("");
       setNewPassword("");
+      setConfirmPassword("");
     } catch {
       toast.error("Error updating password");
     }
@@ -123,22 +129,17 @@ export default function SettingsPage() {
   if (isLoading) return <SkeletonLoader />;
 
   return (
-    <div className="min-h-screen bg-slate-50/50  font-sans antialiased text-slate-800">
-      <header className="flex min-h-20 items-center bg-white justify-between border-b border-slate-200  pl-6 mb-4 ">
+    <div className="min-h-screen bg-slate-50/50 font-sans antialiased text-slate-800">
+      <header className="flex min-h-20 items-center bg-white justify-between border-b border-slate-200 pl-6 mb-4">
         <h1 className="text-2xl font-bold text-slate-900">Settings</h1>
-        <div className="flex items-center gap-4">
-          <span className="flex items-center gap-1.5 bg-amber-50 text-amber-600 px-3 py-1.5 rounded-full text-xs font-semibold border border-amber-200">
-            <span className="h-2 w-2 rounded-full bg-amber-500"></span>
-            12 Credits Left
-          </span>
-        </div>
+       
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 p-5 items-start">
         <section className="lg:col-span-1 bg-white border border-slate-200/80 rounded-2xl p-6 text-center shadow-sm">
-          <div className="relative w-28 h-28 mx-auto ">
+          <div className="relative w-28 h-28 mx-auto">
             <div className="relative">
-              <div className="flex h-24 w-24 items-center justify-center rounded-full bg-linear-to-br from-violet-500 to-indigo-600 text-white shadow-xl ring-4 ring-violet-100">
+              <div className="flex h-24 w-24 items-center justify-center rounded-full bg-linear-to-br from-violet-500 to-indigo-600 text-white shadow-xl ring-4 ring-violet-100 mx-auto">
                 <User className="h-10 w-10" />
               </div>
             </div>
@@ -160,18 +161,17 @@ export default function SettingsPage() {
             </button>
           </div>
 
-          <h2 className="text-xl font-bold text-slate-900 mb-0.5">
+          <h2 className="text-xl font-bold text-slate-900 mb-0.5 mt-2">
             {user?.name ?? "Guest"}
           </h2>
           <p className="text-sm text-slate-500 mb-3">
-            {" "}
             {user?.email ?? "guest@mail.com"}
           </p>
           <span className="inline-block bg-indigo-50 text-indigo-600 text-xs font-semibold px-4 py-1.5 rounded-md mb-6">
-            {profile.targetRole ?? "Target role not seleted"}
+            {formData?.targetRole || "Role Not Set"}
           </span>
 
-          <div className="relative overflow-hidden rounded-2xl border border-blue-200/60 bg-linear-to-br from-blue-50 via-white to-indigo-50 p-6 shadow-sm mb-4">
+          <div className="relative overflow-hidden rounded-2xl border border-blue-200/60 bg-linear-to-br from-blue-50 via-white to-indigo-50 p-6 shadow-sm mb-4 text-left">
             <div className="absolute -right-8 -top-8 h-28 w-28 rounded-full bg-amber-200/20 blur-3xl" />
 
             <div className="relative">
@@ -211,7 +211,7 @@ export default function SettingsPage() {
               </div>
 
               <div className="mt-5 flex items-start gap-3 rounded-xl bg-white/80 p-3">
-                <Sparkles className="mt-0.5 h-4 w-4 text-amber-500" />
+                <Sparkles className="mt-0.5 h-4 w-4 text-amber-500 shrink-0" />
                 <p className="text-xs leading-relaxed text-slate-600">
                   Credits refresh every month. Spend them to generate resumes,
                   analyze ATS scores, and unlock AI career insights.
@@ -261,6 +261,7 @@ export default function SettingsPage() {
                   </label>
                   <input
                     value={formData.targetRole}
+                    maxLength={30}
                     name="targetRole"
                     onChange={(e) =>
                       setFormData({ ...formData, targetRole: e.target.value })
@@ -303,7 +304,6 @@ export default function SettingsPage() {
                         className="flex items-center gap-2 rounded-lg border border-indigo-100 bg-indigo-50 px-3 py-1.5 text-sm font-medium text-indigo-600"
                       >
                         {skill}
-
                         <button
                           type="button"
                           onClick={() => removeSkill(skill)}
@@ -390,7 +390,7 @@ export default function SettingsPage() {
                   onClick={handleClick}
                   disabled={mutationProfile.isPending}
                   type="button"
-                  className={`bg-indigo-600 text-white text-xs font-semibold px-5 py-2.5 rounded-xl hover:bg-indigo-700 shadow-sm shadow-indigo-100   transition`}
+                  className="bg-indigo-600 text-white text-xs font-semibold px-5 py-2.5 rounded-xl hover:bg-indigo-700 shadow-sm shadow-indigo-100 transition disabled:opacity-70"
                 >
                   {mutationProfile.isPending
                     ? "Saving changes"
@@ -440,13 +440,23 @@ export default function SettingsPage() {
                   </label>
                   <div className="relative">
                     <input
-                      type="password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      type={showConfirm ? "text" : "password"}
                       placeholder="Confirm new password"
-                      className="border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-500 w-full pr-8"
+                      className="border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-500 w-full pr-10"
                     />
-                    <span className="absolute right-2.5 top-2.5 text-slate-400 cursor-pointer hover:text-slate-600">
-                      <Eye />
-                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirm(!showConfirm)}
+                      className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600"
+                    >
+                      {showConfirm ? (
+                        <EyeOff className="w-4 h-4" />
+                      ) : (
+                        <Eye className="w-4 h-4" />
+                      )}
+                    </button>
                   </div>
                 </div>
               </div>
@@ -455,7 +465,11 @@ export default function SettingsPage() {
                   type="button"
                   disabled={mutateUpdatePassword.isPending}
                   onClick={updatePassword}
-                  className={`${mutateUpdatePassword.isPending ? "bg-indigo-500" : "bg-indigo-600"} text-white text-xs font-semibold px-5 py-2.5 rounded-xl shadow-sm shadow-indigo-100 transition`}
+                  className={`${
+                    mutateUpdatePassword.isPending
+                      ? "bg-indigo-500"
+                      : "bg-indigo-600"
+                  } text-white text-xs font-semibold px-5 py-2.5 rounded-xl shadow-sm shadow-indigo-100 transition disabled:opacity-70`}
                 >
                   {mutateUpdatePassword.isPending
                     ? "Saving changes"

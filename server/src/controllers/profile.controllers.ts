@@ -51,19 +51,25 @@ export const upsertProfile = async (req: Request, res: Response) => {
 };
 
 export const getProfile = async (req: Request, res: Response) => {
-  try {
-    const userId = (req as any).user.userId;
+    try {
+        const userId = (req as any).user.userId;
+       
 
-    const profile = await prisma.profile.findUnique({
-      where: {
-        userId,
-      },
-    });
+        const profile = await prisma.profile.findUnique({
+            where: {
+                userId,
+            },
+        });
 
-    return res.status(200).json(profile);
-  } catch (err) {
-    return res.status(500).json({
-      message: "Failed to fetch profile",
-    });
-  }
+        if (!profile) {
+            return res.status(200).json(null);
+        }
+
+        return res.status(200).json(profile);
+    } catch (err) {
+        console.log("failed to give profile", err)
+        return res.status(500).json({
+            message: "Failed to fetch profile",
+        });
+    }
 };

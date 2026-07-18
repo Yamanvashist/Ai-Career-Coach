@@ -5,8 +5,8 @@ import "react-circular-progressbar/dist/styles.css";
 import { Resume } from "./interfaces/resume";
 
 type ResumeAnalysisProps = {
-    analysis: Resume | null;
-}
+  analysis: Resume | null;
+};
 
 const ResumeAnalysis = ({ analysis }: ResumeAnalysisProps) => {
   return (
@@ -39,22 +39,22 @@ const ResumeAnalysis = ({ analysis }: ResumeAnalysisProps) => {
             {
               label: "Skills",
               icon: Zap,
-              score: analysis?.scores?.skills ?? 0,
+              score: analysis?.skills ?? 0,
             },
             {
               label: "Projects",
               icon: PanelsTopLeft,
-              score: analysis?.scores?.projects ?? 0,
+              score: analysis?.projects ?? 0,
             },
             {
               label: "Experience",
               icon: Star,
-              score: analysis?.scores?.experience ?? 0,
+              score: analysis?.experience ?? 0,
             },
             {
               label: "Formatting",
               icon: ALargeSmall,
-              score: analysis?.scores?.formatting ?? 0,
+              score: analysis?.formatting ?? 0,
             },
           ].map((item, idx) => {
             const Icon = item.icon;

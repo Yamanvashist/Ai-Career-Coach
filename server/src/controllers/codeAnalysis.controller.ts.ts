@@ -74,7 +74,7 @@ export const analyzeCode = async (req: Request, res: Response) => {
 
         return res.status(201).json({
             message: "Analysis completed",
-            analysis: codeAnalysis, 
+            analysis: codeAnalysis,
             analysisDuration,
         });
     } catch (err) {
