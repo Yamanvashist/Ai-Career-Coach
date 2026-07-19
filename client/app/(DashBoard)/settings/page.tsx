@@ -35,6 +35,7 @@ export default function SettingsPage() {
   useEffect(() => {
     if (!profile) return;
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setFormData({
       targetRole: profile.targetRole ?? "",
       experience: profile.experience ?? "",

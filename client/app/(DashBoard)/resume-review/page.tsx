@@ -17,12 +17,10 @@ const ResumeReview = () => {
   const [targetRole, setTargetRole] = useState<string>("");
   const [analysis, setAnalysis] = useState<Resume | null>(null);
 
-
   const pdfUrl = useMemo(() => {
     return file ? URL.createObjectURL(file) : null;
   }, [file]);
 
-  
   const mutationAnalyze = useResume();
 
   const analyzeResume = async () => {
@@ -34,7 +32,7 @@ const ResumeReview = () => {
 
     try {
       const result = await mutationAnalyze.mutateAsync(formData);
-      setAnalysis(result);
+      setAnalysis(result.resume);
     } catch (err) {
       console.log(err);
       toast.error("Server error , Please try again later");

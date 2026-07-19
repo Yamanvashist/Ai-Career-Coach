@@ -1,6 +1,8 @@
 import { Dispatch, SetStateAction } from "react";
 import { UploadCloud, Zap } from "lucide-react";
 
+import { useCurrentUser } from "@/hooks/auth/useCurrentUser";
+
 interface UploadFileProps {
   file: File | null;
   setFile: Dispatch<SetStateAction<File | null>>;
@@ -20,6 +22,8 @@ const UploadFile = ({
   analyzeResume,
   isLoading,
 }: UploadFileProps) => {
+  const { data: user } = useCurrentUser();
+
   const isDisabled = isLoading || !file || !targetRole.trim();
 
   return (
@@ -79,7 +83,7 @@ const UploadFile = ({
         <button
           type="button"
           onClick={analyzeResume}
-          disabled={isDisabled}
+          disabled={isDisabled || user.credits <= 0}
           className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-indigo-700 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-500"
         >
           {isLoading ? (
@@ -90,7 +94,9 @@ const UploadFile = ({
           ) : (
             <>
               <Zap className="h-4 w-4" />
-              Analyze Resume
+              {(user?.credits ?? 0) <= 0
+                ? "Insufficient Credits"
+                : "Analyze Resume"}
             </>
           )}
         </button>
