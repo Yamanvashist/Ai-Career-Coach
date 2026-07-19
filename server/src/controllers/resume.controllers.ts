@@ -5,11 +5,11 @@ import { analyze } from "../lib/GenAi";
 import prisma from "../lib/prisma";
 import Multer from "multer"
 
-interface MulterRequest extends Request {
+interface MulterRequest {
   file: Express.Multer.File;
 }
 
-export const resumeAnalyze = async (req: MulterRequest, res: Response) => {
+export const resumeAnalyze = async (req: Request, res: Response) => {
   try {
     const pdf = req.file
     const { targetRole } = req.body;
@@ -47,6 +47,11 @@ export const resumeAnalyze = async (req: MulterRequest, res: Response) => {
         improvements: aiData.improvements || [],
         userId: userId,
       },
+    });
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: { credits: { decrement: 1 } },
     });
 
     return res.json({ resume });

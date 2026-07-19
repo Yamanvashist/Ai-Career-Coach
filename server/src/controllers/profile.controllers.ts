@@ -3,7 +3,7 @@ import prisma from "../lib/prisma";
 
 export const upsertProfile = async (req: Request, res: Response) => {
     try {
-        const userId = (req as any).user.userId;
+        const userId = (req as any).user?.userId;
 
         if (!userId) {
             return res.status(401).json({
@@ -52,8 +52,8 @@ export const upsertProfile = async (req: Request, res: Response) => {
 
 export const getProfile = async (req: Request, res: Response) => {
     try {
-        const userId = (req as any).user.userId;
-       
+        const userId = (req as any).user?.userId;
+
 
         const profile = await prisma.profile.findUnique({
             where: {

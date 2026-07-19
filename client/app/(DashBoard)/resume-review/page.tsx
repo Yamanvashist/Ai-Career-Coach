@@ -1,10 +1,9 @@
 "use client";
 import { toast } from "sonner";
-
 import { useState, useMemo } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { resumeAnalyze } from "@/api/resume/resume";
 import { Resume } from "@/components/resume/interfaces/resume";
+
+import useResume from "@/hooks/resume/useResume";
 
 import Navbar from "@/components/resume/Navbar";
 import UploadFile from "@/components/resume/UploadFile";
@@ -18,13 +17,13 @@ const ResumeReview = () => {
   const [targetRole, setTargetRole] = useState<string>("");
   const [analysis, setAnalysis] = useState<Resume | null>(null);
 
+
   const pdfUrl = useMemo(() => {
     return file ? URL.createObjectURL(file) : null;
   }, [file]);
 
-  const mutationAnalyze = useMutation({
-    mutationFn: resumeAnalyze,
-  });
+  
+  const mutationAnalyze = useResume();
 
   const analyzeResume = async () => {
     if (!file || !targetRole.trim()) return;

@@ -132,7 +132,6 @@ export default function SettingsPage() {
     <div className="min-h-screen bg-slate-50/50 font-sans antialiased text-slate-800">
       <header className="flex min-h-20 items-center bg-white justify-between border-b border-slate-200 pl-6 mb-4">
         <h1 className="text-2xl font-bold text-slate-900">Settings</h1>
-       
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 p-5 items-start">
