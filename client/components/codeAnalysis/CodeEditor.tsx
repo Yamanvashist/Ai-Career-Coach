@@ -2,6 +2,7 @@ import { CodeAnalysis } from "./codeAnalysisInterface";
 import { Clipboard, Eraser } from "lucide-react";
 import { toast } from "sonner";
 import Editor from "@monaco-editor/react";
+import { useCurrentUser } from "@/hooks/auth/useCurrentUser";
 
 type CodeEditorProps = {
   code: string;
@@ -47,6 +48,9 @@ const CodeEditor = ({
   setAnalysis,
 }: CodeEditorProps) => {
 
+  const { data: user } = useCurrentUser()
+  const credits = user?.credits
+
   return (
     <section className="border border-gray-200  bg-white/20 rounded-2xl p-4 sm:p-6 shadow-sm flex flex-col lg:h-175">
       {/* Header */}
@@ -76,9 +80,7 @@ const CodeEditor = ({
         </select>
       </div>
 
-      {/* Editors */}
       <div className="grid flex-1 grid-cols-1 gap-4 xl:grid-cols-2 min-h-0">
-        {/* Original Code */}
         <div className="flex flex-col overflow-hidden rounded-xl border border-slate-200">
           <div className="flex items-center justify-between border-b border-slate-700 bg-slate-900 px-4 py-3">
             <div className="flex items-center gap-2">
@@ -103,7 +105,6 @@ const CodeEditor = ({
           </div>
         </div>
 
-        {/* Optimized Code */}
         <div className="flex flex-col overflow-hidden rounded-xl border border-slate-200">
           <div className="flex items-center justify-between border-b border-slate-700 bg-slate-900 px-4 py-3">
             <div className="flex items-center gap-2">
@@ -147,7 +148,6 @@ const CodeEditor = ({
         </div>
       </div>
 
-      {/* Footer */}
       <div className="mt-5 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-slate-500">
           <span>Lines: {code ? code.split("\n").length : 0}</span>
@@ -171,13 +171,12 @@ const CodeEditor = ({
           <button
             disabled={isLoading}
             onClick={analyzeCode}
-            className={`rounded-xl px-5 py-2.5 font-medium text-white cursor-pointer transition-all duration-200 ${
-              isLoading
-                ? "cursor-not-allowed bg-indigo-400"
-                : "bg-indigo-600 hover:bg-indigo-700 active:scale-95"
-            }`}
+            className={`rounded-xl px-5 py-2.5 font-medium text-white cursor-pointer transition-all duration-200 ${isLoading
+              ? "cursor-not-allowed bg-indigo-400"
+              : "bg-indigo-600 hover:bg-indigo-700 active:scale-95"
+              }`}
           >
-            {isLoading ? "Analyzing Code..." : "Analyze Code →"}
+            {isLoading ? "Analyzing Code..." : credits < 1 ? "Insufficient credits" : "Analyze Code →"}
           </button>
         </div>
       </div>

@@ -72,6 +72,17 @@ export const analyzeCode = async (req: Request, res: Response) => {
             },
         });
 
+        const totalCredits = await prisma.user.findUnique({
+            where: { id: userId },
+            select: {
+                credits: true
+            }
+        })
+
+        if (!totalCredits) return res.status(404).json({ message: "User not found" });
+        if (totalCredits.credits < 1) return res.status(402).json({ message: "Credits are insufficient" });
+
+
         await prisma.user.update({
             where: {
                 id: userId
