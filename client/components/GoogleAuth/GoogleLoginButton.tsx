@@ -1,10 +1,14 @@
 "use client";
 
 import { GoogleLogin, type CredentialResponse } from "@react-oauth/google";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 import { toast } from "sonner";
 
 export const GoogleLoginButton = () => {
+
+    const router = useRouter()
+
     const handleSuccess = async (credentialResponse: CredentialResponse | null) => {
         try {
             if (!credentialResponse?.credential) return;
@@ -20,7 +24,7 @@ export const GoogleLoginButton = () => {
             );
 
             console.log(data);
-
+            router.push("/dashboard")
             toast.success("Logged in successfully!");
         } catch (err) {
             console.error(err);

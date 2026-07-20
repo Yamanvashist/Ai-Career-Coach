@@ -1,5 +1,6 @@
 import express from "express";
 import { verifyUser } from "../middlewares/verifyUser.js";
+import { googleLogin } from "../controllers/auth.controllers.js";
 
 import {
   register,
@@ -13,11 +14,12 @@ const userRouter = express.Router();
 
 userRouter.post("/sign-in", login);
 userRouter.post("/sign-up", register);
-userRouter.post("/google", async (req, res) => {
-  console.log(req.body)
-})
+userRouter.post("/google", googleLogin)
+
 userRouter.post("/sign-out", verifyUser, signOut);
+
 userRouter.patch("/password", verifyUser, updatePassword)
+
 userRouter.get("/checkAuth", verifyUser, checkAuth);
 
 export default userRouter;

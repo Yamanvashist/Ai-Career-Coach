@@ -25,6 +25,7 @@
     "cors": "^2.8.6",
     "env": "^0.0.2",
     "express": "^5.2.1",
+    "google-auth-library": "^10.9.0",
     "jsonwebtoken": "^9.0.3",
     "multer": "^2.2.0",
     "pdf-parse": "^1.1.4",

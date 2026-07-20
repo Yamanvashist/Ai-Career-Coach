@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Mail, Lock, User, Compass, Eye, EyeClosed } from "lucide-react";
 import { useSignUp } from "@/hooks/auth/useSignUp";
 
-import { GoogleLoginButton } from "@/components/GoogleLoginButton";
+import { GoogleLoginButton } from "@/components/GoogleAuth/GoogleLoginButton";
 
 const SignUp = () => {
   const [name, setName] = useState("");

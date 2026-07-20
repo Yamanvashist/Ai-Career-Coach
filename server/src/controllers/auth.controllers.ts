@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import prisma from "../lib/prisma.js";
+import { googleClient } from "../lib/googleClient.js";
 
 import { hashPassword, comparePassword } from "../services/hashPassword.js";
 import generateToken from "../services/generateToken.js";
@@ -42,13 +43,13 @@ export const register = async (req: Request, res: Response) => {
 
     const token = await generateToken(user.id);
 
-    const isDev = process.env.NODE_ENV == "production";
+    const isProduction = process.env.NODE_ENV === "production";
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: isDev,
-      sameSite: isDev ? "none" : "lax",
-      maxAge: 3 * 24 * 60 * 60 * 1000
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
+      maxAge: 3 * 24 * 60 * 60 * 1000,
     });
 
     return res.status(201).json({
@@ -82,13 +83,13 @@ export const login = async (req: Request, res: Response) => {
 
     const token = await generateToken(user.id);
 
-    const isDev = process.env.NODE_ENV == "production";
+    const isProduction = process.env.NODE_ENV === "production";
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: isDev,
-      sameSite: isDev ? "none" : "lax",
-      maxAge: 3 * 24 * 60 * 60 * 1000
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
+      maxAge: 3 * 24 * 60 * 60 * 1000,
     });
 
     return res.status(201).json({
@@ -223,4 +224,80 @@ export const updatePassword = async (req: Request, res: Response) => {
       message: "Something went wrong.",
     });
   }
+};
+
+
+export const googleLogin = async (req: Request, res: Response) => {
+  try {
+    const { credential } = req.body
+
+    if (!credential) return res.status(400).json({ message: "Credentials not provided" });
+
+    const ticket = await googleClient.verifyIdToken({
+      idToken: credential,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    })
+
+    const payload = ticket.getPayload()
+
+    if (!payload) {
+      return res.status(401).json({
+        message: "Invalid Google Token",
+      });
+    };
+
+    const { name, email, email_verified } = payload
+
+
+    if (!email || !email_verified) {
+      return res.status(401).json({
+        message: "Google account is not verified",
+      });
+    }
+
+    let user = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    if (!user) {
+      user = await prisma.user.create({
+        data: {
+          name: name ?? "Google User",
+          email,
+          password: "",
+        },
+      });
+    }
+
+    console.log(user)
+
+    const token = await generateToken(user.id)
+
+    const isProduction = process.env.NODE_ENV === "production";
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
+      maxAge: 3 * 24 * 60 * 60 * 1000,
+    });
+
+    return res.status(200).json({
+      message: "Google login successful",
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      message: "Google login failed",
+    });
+
+  }
+
 };
