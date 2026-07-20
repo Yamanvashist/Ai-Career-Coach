@@ -53,7 +53,6 @@ const CodeEditor = ({
 
   return (
     <section className="border border-gray-200  bg-white/20 rounded-2xl p-4 sm:p-6 shadow-sm flex flex-col lg:h-175">
-      {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-5">
         <div>
           <h1 className="text-lg font-semibold text-slate-800">Your Code</h1>
