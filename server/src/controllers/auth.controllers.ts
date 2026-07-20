@@ -77,6 +77,8 @@ export const login = async (req: Request, res: Response) => {
     });
     if (!user) return res.status(400).json({ message: "User does not exist" });
 
+    if (!user.password) return res.status(400).json({ message: "Invalid Password" });
+
     const samePassword = await comparePassword(password, user.password);
     if (!samePassword)
       return res.status(400).json({ message: "Invalid Password" });

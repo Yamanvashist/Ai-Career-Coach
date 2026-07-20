@@ -13,7 +13,7 @@ export const GoogleLoginButton = () => {
         try {
             if (!credentialResponse?.credential) return;
 
-            const { data } = await axios.post(
+            await axios.post(
                 "http://localhost:4000/api/user/google",
                 {
                     credential: credentialResponse.credential,
@@ -23,7 +23,6 @@ export const GoogleLoginButton = () => {
                 }
             );
 
-            console.log(data);
             router.push("/dashboard")
             toast.success("Logged in successfully!");
         } catch (err) {
@@ -35,9 +34,12 @@ export const GoogleLoginButton = () => {
     return (
         <GoogleLogin
             onSuccess={handleSuccess}
-            onError={() => {
-                toast.error("Google Login Failed");
-            }}
+            onError={() => toast.error("Google Login Failed")}
+            theme="outline"
+            size="large"
+            shape="pill"
+            text="signin_with"
+            width="280"
         />
     );
 };
