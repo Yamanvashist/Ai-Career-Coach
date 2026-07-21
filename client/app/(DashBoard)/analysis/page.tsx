@@ -53,7 +53,7 @@ const Analysis = () => {
             analyzeCode={analyzeCode}
             isLoading={isPending}
             analysis={analysis}
-            setAnalysis={setAnalysis}
+            setAnalysis={setAnalysis as React.Dispatch<React.SetStateAction<string | null>>}
           />
           <AnalysisResults analysis={analysis} analysisDuration={analysisDuration} />
         </div>
