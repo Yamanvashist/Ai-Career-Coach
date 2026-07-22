@@ -1,4 +1,4 @@
-import { ArrowRight, Clock3, Layers } from "lucide-react";
+import { ArrowRight, CircleCheck, Clock3, Layers } from "lucide-react";
 import Interviews from "./InterviewData";
 import { useState } from "react";
 
@@ -71,25 +71,76 @@ const InterviewGrid = () => {
                 })}
                 {selectedInterview && (
                     <>
-                        <div onClick={() => setSelectedInterview(null)} className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm" />
+                        <div
+                            onClick={() => setSelectedInterview(null)}
+                            className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm"
+                        />
 
-                        <div className="fixed left-1/2 top-1/2 z-50 w-150 -translate-1/2 rounded-md bg-white p-4 shadow-2xl">
-                            <header>
-                                <div className="flex justify-between mb-4">
-                                    <h1 className="flex items-center gap-4 text-3xl font-bold tracking-tight text-slate-900">
-                                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-100">
-                                            <Layers className="h-6 w-6 text-indigo-600" />
+                        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                            <div className="w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl bg-white p-5 shadow-2xl md:p-8">
+
+                                {/* Header */}
+                                <header className="space-y-4">
+                                    <div className="flex items-start justify-between gap-4">
+                                        <div className="flex items-center gap-4">
+
+
+                                            <div>
+
+                                                <h1 className="flex items-center gap-2 text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
+                                                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-indigo-100">
+                                                        <Layers className="h-6 w-6 text-indigo-600" />
+                                                    </div>
+                                                    <span>{selectedInterview.title ?? "Unknown Interview"}</span>
+                                                </h1>
+
+                                                <p className="mt-2 text-sm text-slate-500 md:text-base">
+                                                    Comprehensive evaluation covering full-stack architecture,
+                                                    API design, and modern React patterns.
+                                                </p>
+                                            </div>
                                         </div>
 
-                                        <span>MERN Stack Interview</span>
-                                    </h1>                                    <span className="text-2xl text-gray-700">X</span>
-                                </div>
-                                <p className="text-gray-500">Comprehensive evaluation covering full-stack architecture , API design, and modern React patterns</p>
-                            </header>
+                                        <button
+                                            onClick={() => setSelectedInterview(null)}
+                                            className="rounded-lg p-2 text-xl text-slate-500 transition hover:bg-slate-100 hover:text-slate-800"
+                                        >
+                                            ✕
+                                        </button>
+                                    </div>
+                                </header>
 
-                            <main>
+                                {/* Body */}
+                                <main className="mt-8">
+                                    <div className="rounded-xl border border-slate-200 bg-indigo-50/60 p-5">
+                                        <div className="mb-5">
+                                            <h3 className="text-base font-semibold text-slate-900">
+                                                Evaluation Topics
+                                            </h3>
 
-                            </main>
+                                            <p className="mt-1 text-sm text-slate-500">
+                                                These are the skills the AI will evaluate during your interview.
+                                            </p>
+                                        </div>
+
+                                        <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                                            {selectedInterview.description.map((desc, idx) => (
+                                                <div
+                                                    key={idx}
+                                                    className="flex items-center gap-3 rounded-lg px-2 py-2 text-sm font-medium text-slate-700 transition hover:text-indigo-600"
+                                                >
+                                                    <CircleCheck
+                                                        size={18}
+                                                        className="shrink-0 text-indigo-600"
+                                                    />
+
+                                                    <span>{desc}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </main>
+                            </div>
                         </div>
                     </>
                 )}
