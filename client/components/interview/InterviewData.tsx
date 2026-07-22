@@ -1,9 +1,24 @@
-import { Braces, Code2, Database, Globe, Layers3, Server } from 'lucide-react';
+import {
+  Braces,
+  Code2,
+  Database,
+  Globe,
+  Layers3,
+  Server,
+} from "lucide-react";
 
 const Interviews = [
   {
     title: "MERN Stack",
-    description: "React, Node.js, Express, MongoDB, JWT, Authentication & APIs.",
+    description: [
+      "React",
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "JWT",
+      "Authentication",
+      "REST APIs",
+    ],
     icon: Layers3,
     difficulty: "Medium",
     duration: "15 mins",
@@ -11,7 +26,15 @@ const Interviews = [
   },
   {
     title: "Full Stack",
-    description: "Frontend + Backend interview covering complete web development.",
+    description: [
+      "Frontend",
+      "Backend",
+      "React",
+      "Node.js",
+      "Databases",
+      "Authentication",
+      "Deployment",
+    ],
     icon: Globe,
     difficulty: "Hard",
     duration: "20 mins",
@@ -19,7 +42,15 @@ const Interviews = [
   },
   {
     title: "JavaScript",
-    description: "Closures, Event Loop, Promises, Async/Await, DOM and ES6.",
+    description: [
+      "Closures",
+      "Event Loop",
+      "Promises",
+      "Async/Await",
+      "DOM",
+      "ES6+",
+      "Hoisting",
+    ],
     icon: Braces,
     difficulty: "Medium",
     duration: "12 mins",
@@ -27,7 +58,15 @@ const Interviews = [
   },
   {
     title: "Python",
-    description: "Functions, OOP, DSA basics, modules and problem solving.",
+    description: [
+      "Functions",
+      "OOP",
+      "DSA",
+      "Modules",
+      "Exceptions",
+      "File Handling",
+      "Problem Solving",
+    ],
     icon: Code2,
     difficulty: "Medium",
     duration: "15 mins",
@@ -35,7 +74,15 @@ const Interviews = [
   },
   {
     title: "Backend",
-    description: "Node.js, Express, APIs, Authentication, Databases & Security.",
+    description: [
+      "Node.js",
+      "Express",
+      "REST APIs",
+      "Authentication",
+      "MongoDB",
+      "Security",
+      "Performance",
+    ],
     icon: Server,
     difficulty: "Hard",
     duration: "18 mins",
@@ -43,13 +90,20 @@ const Interviews = [
   },
   {
     title: "Database",
-    description: "SQL, PostgreSQL, MongoDB, Indexing, Relations & Queries.",
+    description: [
+      "SQL",
+      "PostgreSQL",
+      "MongoDB",
+      "Indexing",
+      "Relations",
+      "Aggregation",
+      "Queries",
+    ],
     icon: Database,
     difficulty: "Easy",
     duration: "10 mins",
     color: "bg-purple-100 text-purple-600",
   },
 ];
-
 
 export default Interviews;
