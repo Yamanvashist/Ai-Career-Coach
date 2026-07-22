@@ -5,6 +5,8 @@ import { useState } from "react";
 const InterviewGrid = () => {
 
     const [selectedInterview, setSelectedInterview] = useState<typeof Interviews[number] | null>(null)
+    const [selectedDifficulty, setSelectedDifficulty] = useState("Medium")
+    const [selectedTotalQuestions, setSelectedTotalQuestions] = useState("10Qs")
 
 
     return (
@@ -13,7 +15,6 @@ const InterviewGrid = () => {
 
                 {Interviews.map((item) => {
                     const Icon = item.icon
-                    const difficultyColor = item.difficulty == "Easy" ? "bg-green-400" : item.difficulty == "Medium" ? "bg-orange-400" : "bg-red-400"
 
 
                     return (
@@ -46,9 +47,7 @@ const InterviewGrid = () => {
                                 ))}
                             </div>
                             <div className="mt-6 flex items-center justify-between">
-                                <span className={`rounded-full ${difficultyColor} px-3 py-1 text-xs font-medium text-white`}>
-                                    {item.difficulty}
-                                </span>
+
 
                                 <div className="flex items-center gap-1 text-sm text-slate-500">
                                     <Clock3 size={15} />
@@ -137,6 +136,55 @@ const InterviewGrid = () => {
                                                     <span>{desc}</span>
                                                 </div>
                                             ))}
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 mt-4 w-full gap-2">
+                                        <div className="max-w-md rounded-xl border border-slate-200 bg-white/10 p-5">
+                                            <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                                                Difficulty
+                                            </p>
+
+                                            <div className="flex rounded-xl bg-slate-100 p-1">
+                                                {["Easy", "Medium", "Hard"].map((difficulty, idx) => {
+
+                                                    return (
+                                                        <button onClick={() => setSelectedDifficulty(difficulty)} key={idx} className={`flex-1 rounded-lg 
+                                                    ${selectedDifficulty == difficulty ? "bg-white shadow-sm text-indigo-600 font-semibold " : "bg-transparent text-gray-500 "}
+                                                    py-2 text-sm  cursor-pointer transition-all duration-100 ease-in-out`}>
+                                                            {difficulty}
+                                                        </button>
+                                                    )
+                                                })}
+
+                                            </div>
+
+                                        </div>
+
+                                        <div className="max-w-md rounded-xl border border-slate-200 bg-white/10 p-5">
+                                            <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                                                Questions
+                                            </p>
+
+                                            <div className="flex rounded-xl bg-slate-100 p-1">
+                                                {["5Qs", "10Qs", "15Qs"].map((questions, idx) => {
+
+                                                    return (
+                                                        <button onClick={() => setSelectedTotalQuestions(questions)} key={idx} className={`flex-1 rounded-lg 
+                                                    ${selectedTotalQuestions == questions ? "bg-white shadow-sm text-indigo-600 font-semibold " : "bg-transparent text-gray-500 "}
+                                                    py-2 text-sm  cursor-pointer transition-all duration-100 ease-in-out`}>
+                                                            {questions}
+                                                        </button>
+                                                    )
+                                                })}
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <div>
+
                                         </div>
                                     </div>
                                 </main>
