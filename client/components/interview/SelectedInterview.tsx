@@ -1,25 +1,27 @@
 import { Layers, CircleCheck, ArrowRight, MessageSquareText, Mic } from 'lucide-react';
-import { Difficulty, Experience, InputMode, SelectedInterviewProps, TotalQuestions } from './Interfaces/interfaces';
+import {
+    Difficulty,
+    Experience,
+    InputMode,
+    SelectedInterviewProps,
+    TotalQuestions,
+    DIFFICULTY_OPTIONS,
+    EXPERIENCE_OPTIONS,
+    INPUT_MODE_OPTIONS
+} from './Interfaces/interfaces';
 
 import { useInterviewStart } from '@/hooks/interview/useInterviewStart';
 import { useState } from 'react';
-
-
-const INPUT_MODES = [
-    { id: "Text" as const, title: "Text Chat", desc: "Chat with AI", icon: MessageSquareText, disabled: false },
-    { id: "Voice" as const, title: "Voice Chat", desc: "Coming Soon", icon: Mic, disabled: true, }
-];
 
 const SelectedInterview = ({
     selectedInterview,
     setSelectedInterview,
 }: SelectedInterviewProps) => {
 
-    const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty>("Medium")
+    const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty>("MEDIUM")
     const [selectedTotalQuestions, setSelectedTotalQuestions] = useState<TotalQuestions>(10)
-    const [selectedExperience, setSelectedExperience] = useState<Experience>("Fresher");
-    const [selectedInput, setSelectedInput] = useState<InputMode>("Text");
-
+    const [selectedExperience, setSelectedExperience] = useState<Experience>("FRESHER");
+    const [selectedInput, setSelectedInput] = useState<InputMode>("TEXT");
 
     const { mutate, isPending } = useInterviewStart()
 
@@ -110,14 +112,14 @@ const SelectedInterview = ({
                                 </p>
 
                                 <div className="flex rounded-xl bg-slate-100 p-1">
-                                    {(["Easy", "Medium", "Hard"] as const).map((difficulty, idx) => (
+                                    {DIFFICULTY_OPTIONS.map((difficulty) => (
                                         <button
-                                            onClick={() => setSelectedDifficulty(difficulty)}
-                                            key={idx}
+                                            onClick={() => setSelectedDifficulty(difficulty.value)}
+                                            key={difficulty.value}
                                             className={`flex-1 rounded-lg py-2 text-xs sm:text-sm cursor-pointer transition-all duration-100 ease-in-out
-                                            ${selectedDifficulty === difficulty ? "bg-white shadow-sm text-indigo-600 font-semibold " : "bg-transparent text-gray-500 "}`}
+                                            ${selectedDifficulty === difficulty.value ? "bg-white shadow-sm text-indigo-600 font-semibold " : "bg-transparent text-gray-500 "}`}
                                         >
-                                            {difficulty}
+                                            {difficulty.label}
                                         </button>
                                     ))}
                                 </div>
@@ -150,15 +152,17 @@ const SelectedInterview = ({
                                 </p>
 
                                 <div className="grid grid-cols-2 gap-4">
-                                    {INPUT_MODES.map((mode) => {
-                                        const ModeIcon = mode.icon;
-                                        const isSelected = selectedInput === mode.id;
+                                    {INPUT_MODE_OPTIONS.map((mode) => {
+                                        const ModeIcon = mode.value === "TEXT" ? MessageSquareText : Mic;
+                                        const desc = mode.value === "TEXT" ? "Chat with AI" : "Coming Soon";
+                                        const isDisabled = mode.value === "VOICE";
+                                        const isSelected = selectedInput === mode.value;
 
                                         return (
                                             <button
-                                                key={mode.id}
-                                                disabled={mode.disabled}
-                                                onClick={() => setSelectedInput(mode.id)}
+                                                key={mode.value}
+                                                disabled={isDisabled}
+                                                onClick={() => setSelectedInput(mode.value)}
                                                 className={`group flex aspect-square flex-col items-center justify-center rounded-xl border transition-all duration-200 
                                                 ${isSelected ? "border-indigo-600 bg-indigo-50 shadow-sm" : "border-slate-200 bg-white hover:border-indigo-300 hover:bg-indigo-50/50"}`}
                                             >
@@ -167,10 +171,10 @@ const SelectedInterview = ({
                                                     className={`mb-3 transition-colors ${isSelected ? "text-indigo-600" : "text-slate-500 group-hover:text-indigo-600"}`}
                                                 />
                                                 <h3 className={`font-semibold text-sm sm:text-base ${isSelected ? "text-indigo-900" : "text-slate-800"}`}>
-                                                    {mode.title}
+                                                    {mode.label}
                                                 </h3>
                                                 <p className={`mt-1 text-center text-xs ${isSelected ? "text-indigo-600/80" : "text-slate-500"}`}>
-                                                    {mode.desc}
+                                                    {desc}
                                                 </p>
                                             </button>
                                         )
@@ -185,14 +189,14 @@ const SelectedInterview = ({
 
                                 <div className="flex flex-col items-center">
                                     <div className="flex w-full flex-wrap sm:flex-nowrap rounded-xl bg-slate-100 p-1">
-                                        {(["Fresher", "1-2 Years", "Senior"] as const).map((level) => (
+                                        {EXPERIENCE_OPTIONS.map((level) => (
                                             <button
-                                                key={level}
-                                                onClick={() => setSelectedExperience(level)}
+                                                key={level.value}
+                                                onClick={() => setSelectedExperience(level.value)}
                                                 className={`flex-1 rounded-lg px-2 sm:px-5 py-2 text-xs sm:text-sm transition-all duration-150 
-                                                ${selectedExperience === level ? "bg-white font-semibold text-indigo-600 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
+                                                ${selectedExperience === level.value ? "bg-white font-semibold text-indigo-600 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
                                             >
-                                                {level}
+                                                {level.label}
                                             </button>
                                         ))}
                                     </div>

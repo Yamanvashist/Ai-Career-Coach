@@ -2,7 +2,7 @@ export interface PromptProps {
     category: string;
     topics: string[];
     difficulty: "EASY" | "MEDIUM" | "HARD";
-    experience: "Fresher" | "1-2 Years" | "Senior";
+    experience: "FRESHER" | "ONE_TO_TWO_YEARS" | "SENIOR";
     inputMode: "TEXT" | "VOICE"
     totalQuestions: number;
 }
