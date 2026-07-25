@@ -1,18 +1,20 @@
 import axios from "axios"
-import { InterviewData, Difficulty, TotalQuestions, Experience, InputMode } from "@/components/interview/Interfaces/interfaces"
+import { Difficulty, TotalQuestions, Experience, InputMode } from "@/components/interview/Interfaces/interfaces"
 
 interface InterviewStartProps {
-    interview: InterviewData;
+    category: string;
+    topics: string[]
     difficulty: Difficulty;
-    questions: TotalQuestions;
+    totalQuestions: TotalQuestions;
     experience: Experience;
     inputMode: InputMode;
 }
 
 const interviewStart = async ({
-    interview,
+    category,
+    topics,
     difficulty,
-    questions,
+    totalQuestions,
     experience,
     inputMode,
 }: InterviewStartProps) => {
@@ -20,9 +22,10 @@ const interviewStart = async ({
         const { data } = await axios.post(
             "http://localhost:4000/api/interview/start",
             {
-                interview,
+                category,
+                topics,
                 difficulty,
-                totalQuestions: questions,
+                totalQuestions,
                 experience,
                 inputMode,
             }

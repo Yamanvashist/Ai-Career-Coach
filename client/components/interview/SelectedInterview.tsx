@@ -27,9 +27,10 @@ const SelectedInterview = ({
         if (!selectedInterview) return;
 
         mutate({
-            interview: selectedInterview,
+            category: selectedInterview.title,
+            topics: selectedInterview.description,
             difficulty: selectedDifficulty,
-            questions: selectedTotalQuestions,
+            totalQuestions: selectedTotalQuestions,
             experience: selectedExperience,
             inputMode: selectedInput,
         });
