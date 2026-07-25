@@ -1,24 +1,5 @@
 import { Layers, CircleCheck, ArrowRight, MessageSquareText, Mic } from 'lucide-react';
-
-export interface InterviewData {
-    title?: string;
-    description: string[];
-    duration: string;
-    color: string
-}
-
-interface SelectedInterviewProps {
-    selectedInterview: InterviewData | null;
-    setSelectedInterview: React.Dispatch<React.SetStateAction<InterviewData | null>>;
-    selectedDifficulty: "Easy" | "Medium" | "Hard";
-    setSelectedDifficulty: React.Dispatch<React.SetStateAction<"Easy" | "Medium" | "Hard">>;
-    selectedExperience: "Fresher" | "1-2 Years" | "Senior";
-    setSelectedExperience: React.Dispatch<React.SetStateAction<"Fresher" | "1-2 Years" | "Senior">>;
-    selectedTotalQuestions: 5 | 10 | 15;
-    setSelectedTotalQuestions: React.Dispatch<React.SetStateAction<5 | 10 | 15>>;
-    selectedInput: "Text" | "Voice";
-    setSelectedInput: React.Dispatch<React.SetStateAction<"Text" | "Voice">>;
-}
+import {SelectedInterviewProps } from './Interfaces/interfaces';
 
 const SelectedInterview = ({
     selectedInterview,
@@ -206,6 +187,7 @@ const SelectedInterview = ({
                             </div>
                         </div>
 
+                        {/* Footer */}
                         <div className="mt-8 flex justify-end">
                             <button
                                 onClick={() => console.log("Starting Interview...")}

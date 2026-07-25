@@ -35,7 +35,6 @@ const Interviews = [
       "Deployment",
     ],
     icon: Globe,
-    difficulty: "Hard",
     duration: "20 mins",
     color: "bg-blue-100 text-blue-600",
   },

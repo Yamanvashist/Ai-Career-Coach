@@ -1,14 +1,17 @@
-import { ArrowRight, CircleCheck, Clock3, Layers, MessageSquareText, Mic } from "lucide-react";
-import Interviews from "./InterviewData";
+import { ArrowRight, Clock3 } from "lucide-react";
 import { useState } from "react";
 
+import SelectedInterview from "./SelectedInterview";
+
+import Interviews from "./InterviewData";
+import { InterviewData } from "./Interfaces/interfaces";
 
 const InterviewGrid = () => {
-    const [selectedInterview, setSelectedInterview] = useState<typeof Interviews[number] | null>(null)
-    const [selectedDifficulty, setSelectedDifficulty] = useState("Medium")
-    const [selectedTotalQuestions, setSelectedTotalQuestions] = useState("10Qs")
-    const [selectedExperience, setSelectedExperience] = useState("Fresher");
-    const [selectedInput, setSelectedInput] = useState("text");
+    const [selectedInterview, setSelectedInterview] = useState<InterviewData | null>(null)
+    const [selectedDifficulty, setSelectedDifficulty] = useState<"Easy" | "Medium" | "Hard">("Medium")
+    const [selectedTotalQuestions, setSelectedTotalQuestions] = useState<5 | 10 | 15>(10)
+    const [selectedExperience, setSelectedExperience] = useState<"Fresher" | "1-2 Years" | "Senior">("Fresher");
+    const [selectedInput, setSelectedInput] = useState<"Text" | "Voice">("Text");
 
     return (
         <>
@@ -66,7 +69,18 @@ const InterviewGrid = () => {
                     )
                 })}
                 {selectedInterview && (
-                    
+                    <SelectedInterview
+                        selectedInterview={selectedInterview}
+                        setSelectedInterview={setSelectedInterview}
+                        selectedDifficulty={selectedDifficulty}
+                        setSelectedDifficulty={setSelectedDifficulty}
+                        selectedTotalQuestions={selectedTotalQuestions}
+                        setSelectedTotalQuestions={setSelectedTotalQuestions}
+                        selectedExperience={selectedExperience}
+                        setSelectedExperience={setSelectedExperience}
+                        selectedInput={selectedInput}
+                        setSelectedInput={setSelectedInput}
+                    />
                 )}
             </div>
         </>
