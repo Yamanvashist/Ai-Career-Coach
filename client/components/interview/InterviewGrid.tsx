@@ -6,14 +6,9 @@ import SelectedInterview from "./SelectedInterview";
 import Interviews from "./InterviewData";
 
 import { InterviewData } from "./Interfaces/interfaces";
-import { Difficulty, Experience, InputMode, TotalQuestions } from "./Interfaces/interfaces";
 
 const InterviewGrid = () => {
     const [selectedInterview, setSelectedInterview] = useState<InterviewData | null>(null)
-    const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty>("Medium")
-    const [selectedTotalQuestions, setSelectedTotalQuestions] = useState<TotalQuestions>(10)
-    const [selectedExperience, setSelectedExperience] = useState<Experience>("Fresher");
-    const [selectedInput, setSelectedInput] = useState<InputMode>("Text");
 
     return (
         <>
@@ -74,14 +69,6 @@ const InterviewGrid = () => {
                     <SelectedInterview
                         selectedInterview={selectedInterview}
                         setSelectedInterview={setSelectedInterview}
-                        selectedDifficulty={selectedDifficulty}
-                        setSelectedDifficulty={setSelectedDifficulty}
-                        selectedTotalQuestions={selectedTotalQuestions}
-                        setSelectedTotalQuestions={setSelectedTotalQuestions}
-                        selectedExperience={selectedExperience}
-                        setSelectedExperience={setSelectedExperience}
-                        selectedInput={selectedInput}
-                        setSelectedInput={setSelectedInput}
                     />
                 )}
             </div>

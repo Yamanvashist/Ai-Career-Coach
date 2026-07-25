@@ -1,23 +1,39 @@
 import { Layers, CircleCheck, ArrowRight, MessageSquareText, Mic } from 'lucide-react';
-import {SelectedInterviewProps } from './Interfaces/interfaces';
+import { Difficulty, Experience, InputMode, SelectedInterviewProps, TotalQuestions } from './Interfaces/interfaces';
+
+import { useInterviewStart } from '@/hooks/interview/useInterviewStart';
+import { useState } from 'react';
+
+
+const INPUT_MODES = [
+    { id: "Text" as const, title: "Text Chat", desc: "Chat with AI", icon: MessageSquareText, disabled: false },
+    { id: "Voice" as const, title: "Voice Chat", desc: "Coming Soon", icon: Mic, disabled: true, }
+];
 
 const SelectedInterview = ({
     selectedInterview,
     setSelectedInterview,
-    selectedDifficulty,
-    setSelectedDifficulty,
-    selectedExperience,
-    setSelectedExperience,
-    selectedTotalQuestions,
-    setSelectedTotalQuestions,
-    selectedInput,
-    setSelectedInput
 }: SelectedInterviewProps) => {
 
-    const INPUT_MODES = [
-        { id: "Text" as const, title: "Text Chat", desc: "Chat with AI", icon: MessageSquareText, disabled: false },
-        { id: "Voice" as const, title: "Voice Chat", desc: "Coming Soon", icon: Mic, disabled: true, }
-    ];
+    const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty>("Medium")
+    const [selectedTotalQuestions, setSelectedTotalQuestions] = useState<TotalQuestions>(10)
+    const [selectedExperience, setSelectedExperience] = useState<Experience>("Fresher");
+    const [selectedInput, setSelectedInput] = useState<InputMode>("Text");
+
+
+    const { mutate, isPending } = useInterviewStart()
+
+    const handleStartInterview = () => {
+        if (!selectedInterview) return;
+
+        mutate({
+            interview: selectedInterview,
+            difficulty: selectedDifficulty,
+            questions: selectedTotalQuestions,
+            experience: selectedExperience,
+            inputMode: selectedInput,
+        });
+    }
 
     return (
         <>
@@ -26,7 +42,7 @@ const SelectedInterview = ({
                 className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm"
             />
 
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <div className="fixed left-1/2 top-1/2 z-50 w-full max-w-4xl -translate-x-1/2 -translate-y-1/2 px-4">
                 <div className="w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl bg-white p-5 shadow-2xl md:p-8">
 
                     {/* Header */}
@@ -190,10 +206,11 @@ const SelectedInterview = ({
                         {/* Footer */}
                         <div className="mt-8 flex justify-end">
                             <button
-                                onClick={() => console.log("Starting Interview...")}
+                                disabled={isPending}
+                                onClick={handleStartInterview}
                                 className="group flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-indigo-600 px-8 py-3.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-indigo-700 hover:shadow-md active:scale-95"
                             >
-                                Start Interview Session
+                                {isPending ? "Generating..." : "Start Interview Session"}
                                 <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
                             </button>
                         </div>

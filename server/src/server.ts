@@ -6,6 +6,7 @@ import userRouter from "./routes/user.routes.js";
 import resumeRouter from "./routes/resume.routes.js"
 import profileRouter from "./routes/profile.routes.js";
 import codeRouter from "./routes/codeAnalysis.routes.js";
+import interviewRouter from "./routes/interview.routes.js";
 
 
 const app = express();
@@ -27,6 +28,7 @@ app.use("/api/user", userRouter);
 app.use("/api/resume", resumeRouter)
 app.use("/api/profile", profileRouter)
 app.use("/api/codeAnalysis", codeRouter)
+app.use("/api/interview", interviewRouter)
 
 
 const port = process.env.PORT || 4000;

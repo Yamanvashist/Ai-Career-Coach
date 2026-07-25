@@ -21,24 +21,4 @@ export interface SelectedInterviewProps {
     setSelectedInterview: React.Dispatch<
         React.SetStateAction<InterviewData | null>
     >;
-
-    selectedDifficulty: Difficulty;
-    setSelectedDifficulty: React.Dispatch<
-        React.SetStateAction<Difficulty>
-    >;
-
-    selectedExperience: Experience;
-    setSelectedExperience: React.Dispatch<
-        React.SetStateAction<Experience>
-    >;
-
-    selectedTotalQuestions: TotalQuestions;
-    setSelectedTotalQuestions: React.Dispatch<
-        React.SetStateAction<TotalQuestions>
-    >;
-
-    selectedInput: InputMode;
-    setSelectedInput: React.Dispatch<
-        React.SetStateAction<InputMode>
-    >;
 }

@@ -19,6 +19,8 @@ model User {
   resumes Resume[]
 
   codeAnalyses CodeAnalysis[]
+
+  interview Interview[]
 }
 
 model Profile {
@@ -82,6 +84,53 @@ model CodeAnalysis {
   improvements String[]
 
   optimizedCode String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum InterviewStatus {
+  ONGOING
+  COMPLETED
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum Experience {
+  FRESHER
+  ONE_TO_TWO_YEARS
+  SENIOR
+}
+
+enum InputMode {
+  TEXT
+  VOICE
+}
+
+model Interview {
+  id String @id @default(cuid())
+
+  category   String
+  difficulty Difficulty
+  experience Experience
+  inputMode  InputMode
+
+  totalQuestions Int
+
+  questions Json
+
+  report Json?
+
+  score Int?
+
+  status InterviewStatus @default(ONGOING)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
