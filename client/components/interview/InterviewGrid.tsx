@@ -4,14 +4,16 @@ import { useState } from "react";
 import SelectedInterview from "./SelectedInterview";
 
 import Interviews from "./InterviewData";
+
 import { InterviewData } from "./Interfaces/interfaces";
+import { Difficulty, Experience, InputMode, TotalQuestions } from "./Interfaces/interfaces";
 
 const InterviewGrid = () => {
     const [selectedInterview, setSelectedInterview] = useState<InterviewData | null>(null)
-    const [selectedDifficulty, setSelectedDifficulty] = useState<"Easy" | "Medium" | "Hard">("Medium")
-    const [selectedTotalQuestions, setSelectedTotalQuestions] = useState<5 | 10 | 15>(10)
-    const [selectedExperience, setSelectedExperience] = useState<"Fresher" | "1-2 Years" | "Senior">("Fresher");
-    const [selectedInput, setSelectedInput] = useState<"Text" | "Voice">("Text");
+    const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty>("Medium")
+    const [selectedTotalQuestions, setSelectedTotalQuestions] = useState<TotalQuestions>(10)
+    const [selectedExperience, setSelectedExperience] = useState<Experience>("Fresher");
+    const [selectedInput, setSelectedInput] = useState<InputMode>("Text");
 
     return (
         <>

@@ -8,15 +8,37 @@ export interface InterviewData {
     color: string
 }
 
+export type Difficulty = "Easy" | "Medium" | "Hard";
+
+export type Experience = "Fresher" | "1-2 Years" | "Senior";
+
+export type InputMode = "Text" | "Voice";
+
+export type TotalQuestions = 5 | 10 | 15;
+
 export interface SelectedInterviewProps {
     selectedInterview: InterviewData | null;
-    setSelectedInterview: React.Dispatch<React.SetStateAction<InterviewData | null>>;
-    selectedDifficulty: "Easy" | "Medium" | "Hard";
-    setSelectedDifficulty: React.Dispatch<React.SetStateAction<"Easy" | "Medium" | "Hard">>;
-    selectedExperience: "Fresher" | "1-2 Years" | "Senior";
-    setSelectedExperience: React.Dispatch<React.SetStateAction<"Fresher" | "1-2 Years" | "Senior">>;
-    selectedTotalQuestions: 5 | 10 | 15;
-    setSelectedTotalQuestions: React.Dispatch<React.SetStateAction<5 | 10 | 15>>;
-    selectedInput: "Text" | "Voice";
-    setSelectedInput: React.Dispatch<React.SetStateAction<"Text" | "Voice">>;
+    setSelectedInterview: React.Dispatch<
+        React.SetStateAction<InterviewData | null>
+    >;
+
+    selectedDifficulty: Difficulty;
+    setSelectedDifficulty: React.Dispatch<
+        React.SetStateAction<Difficulty>
+    >;
+
+    selectedExperience: Experience;
+    setSelectedExperience: React.Dispatch<
+        React.SetStateAction<Experience>
+    >;
+
+    selectedTotalQuestions: TotalQuestions;
+    setSelectedTotalQuestions: React.Dispatch<
+        React.SetStateAction<TotalQuestions>
+    >;
+
+    selectedInput: InputMode;
+    setSelectedInput: React.Dispatch<
+        React.SetStateAction<InputMode>
+    >;
 }
