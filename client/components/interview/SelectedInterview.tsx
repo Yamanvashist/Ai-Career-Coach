@@ -10,8 +10,17 @@ import {
     INPUT_MODE_OPTIONS
 } from './Interfaces/interfaces';
 
+import { toast } from "sonner"
+
 import { useInterviewStart } from '@/hooks/interview/useInterviewStart';
 import { useState } from 'react';
+
+interface InterviewSession {
+    interviewId: string;
+    questions: string[];
+    currentQuestionIndex: number;
+    answers: string[];
+}
 
 const SelectedInterview = ({
     selectedInterview,
@@ -23,19 +32,33 @@ const SelectedInterview = ({
     const [selectedExperience, setSelectedExperience] = useState<Experience>("FRESHER");
     const [selectedInput, setSelectedInput] = useState<InputMode>("TEXT");
 
-    const { mutate, isPending } = useInterviewStart()
+    const [interviewSession, setInterviewSession] = useState<InterviewSession | null>(null);
 
-    const handleStartInterview = () => {
-        if (!selectedInterview) return;
+    const { mutateAsync, isPending } = useInterviewStart()
 
-        mutate({
-            category: selectedInterview.title,
-            topics: selectedInterview.description,
-            difficulty: selectedDifficulty,
-            totalQuestions: selectedTotalQuestions,
-            experience: selectedExperience,
-            inputMode: selectedInput,
-        });
+    const handleStartInterview = async () => {
+        try {
+            if (!selectedInterview) return;
+
+            const res = await mutateAsync({
+                category: selectedInterview.title,
+                topics: selectedInterview.description,
+                difficulty: selectedDifficulty,
+                totalQuestions: selectedTotalQuestions,
+                experience: selectedExperience,
+                inputMode: selectedInput,
+            });
+
+            setInterviewSession({
+                interviewId: res.interviewId,
+                questions: res.questions,
+                currentQuestionIndex: 0,
+                answers: [],
+            })
+            toast.success(res.message);
+        } catch {
+            toast.error("Something went wrong");
+        }
     }
 
     return (

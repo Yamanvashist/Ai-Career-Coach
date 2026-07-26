@@ -20,7 +20,8 @@ export const startInterview = async (req: Request, res: Response) => {
         } = req.body as PromptProps;
 
         const userId = (req as any).user.userId;
-        if (!userId) return res.status(400).json({ message: "Unauthorized User", success: false })
+        
+        if (!userId) return res.status(401).json({ message: "Unauthorized User", success: false })
 
         if (!validateField(category, "Category", res)) return;
         if (!validateField(topics, "Topics", res)) return;
@@ -38,17 +39,29 @@ export const startInterview = async (req: Request, res: Response) => {
             inputMode,
         });
 
-        const response = await analyze(prompt);
+        const aiResponse = await analyze(prompt);
 
-        if (!response) return res.status(400).json({ message: "Failed to Generate" })
+        if (!aiResponse?.trim()) return res.status(400).json({
+            success: false,
+            message: "Failed to generate interview."
+        })
 
 
-        const cleanedResponse = response
+        const cleanedResponse = aiResponse
             .replace(/```json/g, "")
             .replace(/```/g, "")
             .trim();
 
-        const parsedQuestions = JSON.parse(cleanedResponse);
+        let parsedQuestions;
+
+        try {
+            parsedQuestions = JSON.parse(cleanedResponse);
+        } catch {
+            return res.status(500).json({
+                success: false,
+                message: "AI returned invalid JSON",
+            });
+        }
 
         const interview = await prisma.interview.create({
             data: {
@@ -62,7 +75,19 @@ export const startInterview = async (req: Request, res: Response) => {
             },
         });
 
-    } catch (err) {
+        return res.status(201).json({
+            success: true,
+            message: "Interview generated successfully.",
+            interviewId: interview.id,
+            questions: parsedQuestions.questions,
+        });
 
+    } catch (err) {
+        console.error(err);
+
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server Error",
+        });
     }
 }

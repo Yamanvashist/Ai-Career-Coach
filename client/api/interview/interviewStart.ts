@@ -28,7 +28,8 @@ const interviewStart = async ({
                 totalQuestions,
                 experience,
                 inputMode,
-            }
+            },
+            { withCredentials: true }
         );
 
         return data;
