@@ -1,3 +1,4 @@
+
 import { Layers, CircleCheck, ArrowRight, MessageSquareText, Mic } from 'lucide-react';
 import {
     Difficulty,
@@ -11,16 +12,11 @@ import {
 } from './Interfaces/interfaces';
 
 import { toast } from "sonner"
+import { useRouter } from 'next/navigation';
 
 import { useInterviewStart } from '@/hooks/interview/useInterviewStart';
 import { useState } from 'react';
 
-interface InterviewSession {
-    interviewId: string;
-    questions: string[];
-    currentQuestionIndex: number;
-    answers: string[];
-}
 
 const SelectedInterview = ({
     selectedInterview,
@@ -32,7 +28,7 @@ const SelectedInterview = ({
     const [selectedExperience, setSelectedExperience] = useState<Experience>("FRESHER");
     const [selectedInput, setSelectedInput] = useState<InputMode>("TEXT");
 
-    const [interviewSession, setInterviewSession] = useState<InterviewSession | null>(null);
+    const router = useRouter()
 
     const { mutateAsync, isPending } = useInterviewStart()
 
@@ -40,7 +36,7 @@ const SelectedInterview = ({
         try {
             if (!selectedInterview) return;
 
-            const res = await mutateAsync({
+            const { interviewId, message } = await mutateAsync({
                 category: selectedInterview.title,
                 topics: selectedInterview.description,
                 difficulty: selectedDifficulty,
@@ -49,13 +45,8 @@ const SelectedInterview = ({
                 inputMode: selectedInput,
             });
 
-            setInterviewSession({
-                interviewId: res.interviewId,
-                questions: res.questions,
-                currentQuestionIndex: 0,
-                answers: [],
-            })
-            toast.success(res.message);
+            router.push(`/interview/session/${interviewId}`)
+            toast.success(message);
         } catch {
             toast.error("Something went wrong");
         }

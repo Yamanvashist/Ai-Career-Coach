@@ -115,7 +115,7 @@ enum InputMode {
 }
 
 model Interview {
-  id String @id @default(cuid())
+  id Int @id @default(autoincrement())
 
   category   String
   difficulty Difficulty

@@ -1,9 +1,11 @@
 import { Router } from "express"
 import { verifyUser } from "../middlewares/verifyUser.ts"
-import { startInterview } from "../controllers/interview.controllers.ts"
+import { startInterview, getInterview } from "../controllers/interview.controllers.ts"
 
 const interviewRouter = Router()
 
-interviewRouter.post("/start", verifyUser ,startInterview)
+interviewRouter.post("/start", verifyUser, startInterview)
+interviewRouter.post("/:interviewId", verifyUser, getInterview)
+
 
 export default interviewRouter

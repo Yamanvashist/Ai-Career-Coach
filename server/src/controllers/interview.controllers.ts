@@ -20,7 +20,7 @@ export const startInterview = async (req: Request, res: Response) => {
         } = req.body as PromptProps;
 
         const userId = (req as any).user.userId;
-        
+
         if (!userId) return res.status(401).json({ message: "Unauthorized User", success: false })
 
         if (!validateField(category, "Category", res)) return;
@@ -91,3 +91,56 @@ export const startInterview = async (req: Request, res: Response) => {
         });
     }
 }
+
+export const getInterview = async (req: Request, res: Response) => {
+    try {
+        const userId = (req as any).user.userId;
+
+        if (!userId) {
+            return res.status(401).json({
+                success: false,
+                message: "Unauthorized User",
+            });
+        }
+
+        const interviewId = Number(req.params.interviewId);
+
+        if (!validateField(interviewId, "Interview ID", res)) return;
+
+        const interview = await prisma.interview.findFirst({
+            where: {
+                id: interviewId,
+                userId,
+            },
+            select: {
+                id: true,
+                category: true,
+                difficulty: true,
+                experience: true,
+                inputMode: true,
+                totalQuestions: true,
+                questions: true,
+                createdAt: true,
+            },
+        });
+
+        if (!interview) {
+            return res.status(404).json({
+                success: false,
+                message: "Interview not found.",
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            interview,
+        });
+    } catch (err) {
+        console.error(err);
+
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server Error",
+        });
+    }
+};
