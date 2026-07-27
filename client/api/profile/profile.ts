@@ -1,4 +1,4 @@
-import axios from "axios"
+import api from "../api";
 
 interface Form {
     targetRole: string;
@@ -9,12 +9,9 @@ interface Form {
 
 export const upsertProfile = async (formData: Form) => {
     try {
-        const { data } = await axios.patch("http://localhost:4000/api/profile",
-            formData, {
-            withCredentials: true
-        }
+        const { data } = await api.patch("/profile",
+            formData,
         )
-        console.log(data)
         return data
     } catch (err) {
         throw err
@@ -23,8 +20,7 @@ export const upsertProfile = async (formData: Form) => {
 
 export const getProfile = async () => {
     try {
-        const { data } = await axios.get("http://localhost:4000/api/profile", { withCredentials: true })
-        console.log(data)
+        const { data } = await api.get("/profile")
         return data
     } catch (err) {
         throw err

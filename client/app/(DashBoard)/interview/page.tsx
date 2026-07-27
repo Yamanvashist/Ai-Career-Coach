@@ -4,8 +4,6 @@ import Navbar from "@/components/interview/Navbar";
 import Title from "@/components/interview/Title";
 import InterviewGrid from "@/components/interview/InterviewGrid";
 
-
-
 const Interview = () => {
 
   return (

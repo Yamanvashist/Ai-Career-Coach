@@ -1,11 +1,10 @@
-import axios from "axios";
+import api from "../api";
 
 export const resumeAnalyze = async (formData: FormData) => {
   try {
-    const { data } = await axios.post(
-      "http://localhost:4000/api/resume/resumeAnalyze",
+    const { data } = await api.post(
+      "/resume/resumeAnalyze",
       formData,
-      { withCredentials: true },
     );
     return data;
   } catch (err) {

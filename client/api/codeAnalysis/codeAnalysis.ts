@@ -1,4 +1,4 @@
-import axios from 'axios'
+import api from "../api";
 
 interface CodeInput {
     code: string;
@@ -7,13 +7,11 @@ interface CodeInput {
 
 export const analyzeCode = async ({ code, language }: CodeInput) => {
     try {
-        const { data } = await axios.post("http://localhost:4000/api/codeAnalysis",
+        const { data } = await api.post("/codeAnalysis",
             {
                 code,
                 language,
-            }, {
-            withCredentials: true
-        }
+            },
         )
         return data
     } catch (error) {

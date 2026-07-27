@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../api";
 
 interface User {
   name?: string;
@@ -8,12 +8,9 @@ interface User {
 
 export const signUp = async (userData: User) => {
   try {
-    const { data } = await axios.post(
-      "http://localhost:4000/api/user/sign-up",
+    const { data } = await api.post(
+      "/user/sign-up",
       userData,
-      {
-        withCredentials: true,
-      },
     );
 
     return data.user;
@@ -24,10 +21,9 @@ export const signUp = async (userData: User) => {
 
 export const signIn = async (userData: User) => {
   try {
-    const { data } = await axios.post(
-      "http://localhost:4000/api/user/sign-in",
+    const { data } = await api.post(
+      "/user/sign-in",
       userData,
-      { withCredentials: true },
     );
     return data.user;
   } catch (error) {
@@ -37,9 +33,8 @@ export const signIn = async (userData: User) => {
 
 export const checkAuth = async () => {
   try {
-    const { data } = await axios.get(
-      "http://localhost:4000/api/user/checkAuth",
-      { withCredentials: true }
+    const { data } = await api.get(
+      "/user/checkAuth",
     );
     return data.user;
   } catch (error) {
@@ -50,9 +45,8 @@ export const checkAuth = async () => {
 
 export const logOut = async () => {
   try {
-    await axios.post("http://localhost:4000/api/user/sign-out",
+    await api.post("http://localhost:4000/api/user/sign-out",
       undefined,
-      { withCredentials: true },
     )
   } catch (error) {
     {

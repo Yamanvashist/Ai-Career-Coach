@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../api";
 
 export const updatePassword = async ({
   password,
@@ -8,10 +8,10 @@ export const updatePassword = async ({
   newPassword: string;
 }) => {
   try {
-    const {data} = await axios.patch("http://localhost:4000/api/user/password", {
+    const { data } = await api.patch("/user/password", {
       password,
       newPassword,
-    }, { withCredentials: true });
+    });
 
     return data;
   } catch (error) {
