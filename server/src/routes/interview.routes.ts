@@ -5,7 +5,7 @@ import { startInterview, getInterview } from "../controllers/interview.controlle
 const interviewRouter = Router()
 
 interviewRouter.post("/start", verifyUser, startInterview)
-interviewRouter.post("/:interviewId", verifyUser, getInterview)
+interviewRouter.get("/:interviewId", verifyUser, getInterview)
 
 
 export default interviewRouter
