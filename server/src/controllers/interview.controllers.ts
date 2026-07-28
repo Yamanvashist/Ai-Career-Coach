@@ -144,3 +144,45 @@ export const getInterview = async (req: Request, res: Response) => {
         });
     }
 };
+
+export const submitInterview = async (req: Request, res: Response) => {
+    const userId = (req as any).user.userId;
+
+    if (!userId) {
+        return res.status(401).json({
+            success: false,
+            message: "Unauthorized user",
+        });
+    }
+
+    const interviewId = Number(req.params.interviewId);
+
+    if (Number.isNaN(interviewId)) {
+        return res.status(400).json({
+            success: false,
+            message: "Invalid interview ID",
+        });
+    }
+
+    const { answers } = req.body;
+
+    if (!validateField(interviewId, "interviewId", res)) return;
+    if (!validateField(answers, "answers", res)) return;
+
+    const interview = await prisma.interview.findFirst({
+        where: {
+            id: interviewId,
+            userId,
+        },
+    });
+
+    if (!interview) {
+        return res.status(404).json({
+            success: false,
+            message: "Interview not found",
+        });
+    }
+
+    const questions = interview.questions
+
+};

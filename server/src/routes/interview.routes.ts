@@ -6,6 +6,7 @@ const interviewRouter = Router()
 
 interviewRouter.post("/start", verifyUser, startInterview)
 interviewRouter.get("/:interviewId", verifyUser, getInterview)
+interviewRouter.post("/:interviewId/submit", verifyUser)
 
 
 export default interviewRouter

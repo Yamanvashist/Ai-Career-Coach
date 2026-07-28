@@ -9,7 +9,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "wallpapersok.com",
+        hostname: "chatgpt.com",
       },
     ],
   },
