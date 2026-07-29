@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import useInterviewGet from "@/hooks/interview/useInterviewGet";
 import useCountDown from "@/hooks/countdown/useCountDown";
@@ -14,6 +14,8 @@ import SessionMetadataCard from "@/components/interview/session/SessionMetadataC
 import SessionHeader from "@/components/interview/session/SessionHeader";
 import QuestionPanel from "@/components/interview/session/QuestionPanel";
 import AnswerInput from "@/components/interview/session/AnswerInput";
+
+import useTTS from "@/hooks/tts/useTts";
 
 interface Answer {
   questionId: number;
@@ -30,10 +32,45 @@ const Session = () => {
   const [isMuted, setIsMuted] = useState(true);
 
   const { formattedTime } = useCountDown(10);
-  const { data: interview, isPending, error } = useInterviewGet(id);
+  const { mutateAsync: speak } = useTTS();
+
+  const {
+    data: interview,
+    isPending,
+    error,
+  } = useInterviewGet(id);
+
+  const currentQuestion =
+    interview?.interview?.questions?.[currentQuestionIndex];
+
+
+  useEffect(() => {
+  if (!currentQuestion?.speech) return;
+
+  const playSpeech = async () => {
+    try {
+      const blob = await speak(currentQuestion.speech);
+
+      const audioUrl = URL.createObjectURL(blob);
+
+      const audio = new Audio(audioUrl);
+
+      audio.onended = () => {
+        URL.revokeObjectURL(audioUrl);
+        // Start microphone here
+      };
+
+      await audio.play();
+    } catch (err) {
+      console.error("TTS Error:", err);
+    }
+  };
+
+  playSpeech();
+}, [currentQuestion?.speech, speak]);
 
   if (isPending) return <SessionLoading />;
-  if (error || !interview) return <SessionError />;
+  if (error || !interview?.interview) return <SessionError />;
 
   const {
     category,
@@ -45,27 +82,39 @@ const Session = () => {
   } = interview.interview;
 
   const isCompleted = currentQuestionIndex >= totalQuestions;
-  const currentQuestion = questions[currentQuestionIndex];
+
   const progressPercent = Math.min(
     100,
     Math.round((currentQuestionIndex / totalQuestions) * 100)
   );
 
-  const handleSubmit = () => {
-    if (!currentAnswer.trim() || isCompleted) return;
+  const handleSubmit = async () => {
+    if (!currentAnswer.trim() || isCompleted || !currentQuestion) return;
 
-    setAnswers((prev) => [
-      ...prev,
-      {
-        questionId: currentQuestion.id,
-        answer: currentAnswer,
-      },
-    ]);
+    const newAnswer = {
+      questionId: currentQuestion.id,
+      answer: currentAnswer,
+    };
+
+    const updatedAnswers = [...answers, newAnswer];
+
+    setAnswers(updatedAnswers);
     setCurrentAnswer("");
+
+    // Last question
+    if (currentQuestionIndex === totalQuestions - 1) {
+      console.log(updatedAnswers);
+
+      // await submitInterview({
+      //   interviewId: id,
+      //   answers: updatedAnswers,
+      // });
+
+      return;
+    }
+
     setCurrentQuestionIndex((prev) => prev + 1);
   };
-
-
 
   return (
     <div className="min-h-screen bg-linear-to-br from-emerald-50/40 via-slate-50 to-teal-50/30 text-slate-800 flex items-center justify-center p-4 sm:p-6 lg:p-8 font-sans selection:bg-emerald-100">

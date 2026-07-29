@@ -1,0 +1,18 @@
+import { ElevenLabsClient } from "@elevenlabs/elevenlabs-js"
+import "dotenv/config"
+
+const client = new ElevenLabsClient({
+    apiKey: process.env.ELEVENLABS_API_KEY!
+})
+
+const VOICE_ID = process.env.ELEVENLABS_VOICE_ID || "EXAVITQu4vr4xnSDxMaL" // BELLA
+
+export async function textToSpeech(text: string) {
+    const audio = await client.textToSpeech.convert(VOICE_ID, {
+        text,
+        modelId: "eleven_multilingual_v2",
+        outputFormat: "mp3_44100_128",
+    })
+
+    return audio
+}
