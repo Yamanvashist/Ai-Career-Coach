@@ -16,7 +16,6 @@ export const generateSpeech = async (req: Request, res: Response) => {
         res.setHeader("Content-Type", "audio/mpeg");
         res.setHeader("Cache-Control", "no-store");
 
-        // Stream audio directly to frontend
         for await (const chunk of audioStream) {
             res.write(chunk);
         }

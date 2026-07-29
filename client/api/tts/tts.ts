@@ -8,6 +8,6 @@ export const generateSpeech = async (text: string): Promise<Blob> => {
             responseType: "blob",
         }
     );
-
+    console.log(data)
     return data;
 };
