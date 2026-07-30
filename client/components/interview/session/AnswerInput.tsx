@@ -1,4 +1,4 @@
-import { Mic, MicOff, ArrowRight } from "lucide-react";
+import { Mic, MicOff, ArrowRight, Loader2 } from "lucide-react";
 
 interface AnswerInputProps {
   currentAnswer: string;
@@ -7,6 +7,7 @@ interface AnswerInputProps {
   setIsMuted: (value: boolean) => void;
   onSubmit: () => void;
   isLastQuestion: boolean;
+  isSubmitting?: boolean;
 }
 
 const AnswerInput = ({
@@ -16,6 +17,7 @@ const AnswerInput = ({
   setIsMuted,
   onSubmit,
   isLastQuestion,
+  isSubmitting = false,
 }: AnswerInputProps) => {
   const wordCount = currentAnswer.trim().split(/\s+/).filter(Boolean).length;
 
@@ -25,7 +27,8 @@ const AnswerInput = ({
         <textarea
           value={currentAnswer}
           onChange={(e) => setCurrentAnswer(e.target.value)}
-          className="w-full h-44 sm:h-52 bg-slate-50 border border-slate-200 rounded-2xl p-4 text-slate-800 placeholder-slate-400 text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition duration-200 resize-none shadow-xs"
+          disabled={isSubmitting}
+          className="w-full h-44 sm:h-52 bg-slate-50 border border-slate-200 rounded-2xl p-4 text-slate-800 placeholder-slate-400 text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition duration-200 resize-none shadow-xs disabled:opacity-60 disabled:cursor-not-allowed"
           placeholder="Type your structured response here..."
         />
         <div className="absolute bottom-3 right-3 text-[11px] font-medium text-slate-400 bg-white px-2 py-0.5 rounded border border-slate-200 shadow-xs">
@@ -37,7 +40,8 @@ const AnswerInput = ({
         <button
           type="button"
           onClick={() => setIsMuted(!isMuted)}
-          className={`h-12 w-12 rounded-xl flex items-center justify-center border transition-all duration-200 ${
+          disabled={isSubmitting}
+          className={`h-12 w-12 rounded-xl flex items-center justify-center border transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${
             isMuted
               ? "bg-rose-50 border-rose-200 text-rose-600 hover:bg-rose-100"
               : "bg-emerald-50 border-emerald-200 text-emerald-600 hover:bg-emerald-100"
@@ -50,11 +54,20 @@ const AnswerInput = ({
         <button
           type="button"
           onClick={onSubmit}
-          disabled={!currentAnswer.trim()}
+          disabled={!currentAnswer.trim() || isSubmitting}
           className="flex-1 h-12 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold rounded-xl text-sm flex items-center justify-center gap-2 transition-all duration-200 shadow-md shadow-emerald-600/15"
         >
-          <span>{isLastQuestion ? "Finish Interview" : "Submit Answer"}</span>
-          <ArrowRight className="w-4 h-4" />
+          {isSubmitting ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" />
+              <span>Submitting...</span>
+            </>
+          ) : (
+            <>
+              <span>{isLastQuestion ? "Finish Interview" : "Submit Answer"}</span>
+              <ArrowRight className="w-4 h-4" />
+            </>
+          )}
         </button>
       </div>
     </div>

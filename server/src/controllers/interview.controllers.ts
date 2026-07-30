@@ -208,7 +208,7 @@ export const submitInterview = async (req: Request, res: Response) => {
       userAnswer: answerMap.get(question.id) ?? "",
     }));
 
-    const prompt = interviewEvaluationPrompt(interviewData);
+    const prompt = InterviewEvaluationPrompt(interviewData);
 
     const aiResponse = await analyze(prompt);
 

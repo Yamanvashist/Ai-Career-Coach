@@ -14,5 +14,4 @@ interviewRouter.get("/:interviewId", verifyUser, getInterview);
 interviewRouter.post("/:interviewId/submit", verifyUser, submitInterview);
 interviewRouter.get("/:interviewId/result", verifyUser, getInterviewResult);
 
-
 export default interviewRouter;

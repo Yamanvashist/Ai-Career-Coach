@@ -1,3 +1,4 @@
+import axios from "axios";
 import api from "../api";
 
 interface User {
@@ -33,11 +34,16 @@ export const signIn = async (userData: User) => {
 
 export const checkAuth = async () => {
   try {
-    const { data } = await api.get(
-      "/user/checkAuth",
-    );
-    return data.user;
+    const { data } = await api.get("/user/checkAuth");
+    return data.user ?? null;
   } catch (error) {
+    if (
+      axios.isAxiosError(error) &&
+      (error.response?.status === 401 || error.response?.status === 403)
+    ) {
+      return null;
+    }
+
     throw error;
   }
 };

@@ -9,16 +9,16 @@ export default function ProtectedRoute({
 }: {
   children: React.ReactNode;
 }) {
-  const { data: user, isLoading } = useCurrentUser();
+  const { data: user, isLoading, isError } = useCurrentUser();
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoading && !user) {
+    if (!isLoading && user === null) {
       router.replace("/sign-in");
     }
   }, [isLoading, user, router]);
 
-  if (isLoading) {
+  if (isLoading || isError) {
     return (
       <div className="flex h-screen w-full items-center justify-center bg-white">
         <div className="w-60  md:w-160 space-y-4">

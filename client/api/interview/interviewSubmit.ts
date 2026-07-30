@@ -1,30 +1,29 @@
 import api from "../api";
 
-
 interface Answer {
-    questionId: number;
-    answer: string;
+  questionId: number;
+  answer: string;
 }
 
-interface interviewSubmitProps {
-    interviewId: number;
-    answers: Answer[]
+interface InterviewSubmitProps {
+  interviewId: number;
+  answers: Answer[];
 }
 
-const interviewSubmit = async ({ interviewId, answers
-}: interviewSubmitProps) => {
-    try {
-        const { data } = await api.post(
-            "/interview/submit",
-            {
-                interviewId,
-                answers
-            },
-        );
+const interviewSubmit = async ({
+  interviewId,
+  answers,
+}: InterviewSubmitProps) => {
+  try {
+    const { data } = await api.post(`/interview/${interviewId}/submit`, {
+      answers,
+    });
 
-        return data;
-    } catch (error) {
-        throw error;
-    }
+    return data;
+  } catch (error) {
+    console.error("Error submitting interview:", error);
+    throw error;
+  }
 };
-export default interviewSubmit
+
+export default interviewSubmit;
