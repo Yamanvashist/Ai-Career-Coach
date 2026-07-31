@@ -1,8 +1,8 @@
 import getInterviewResult from "../../api/interview/getInterviewResult";
 import { useQuery } from "@tanstack/react-query";
 
-const useGetInterviewResult = (interviewId: string | number) => {
-  const id = String(interviewId);
+const useGetInterviewResult = (interviewId: string) => {
+  const id = interviewId;
 
   return useQuery({
     queryKey: ["interviewResult", id],

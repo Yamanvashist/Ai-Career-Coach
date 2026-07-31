@@ -20,13 +20,13 @@ import AnswerInput from "@/components/interview/session/AnswerInput";
 import { toast } from "sonner";
 
 interface Answer {
-  questionId: number;
+  questionId: string;
   answer: string;
 }
 
 const Session = () => {
   const { interviewId } = useParams<{ interviewId: string | string[] }>();
-  const id = Number(Array.isArray(interviewId) ? interviewId[0] : interviewId);
+  const id = Array.isArray(interviewId) ? interviewId[0] : interviewId;
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<Answer[]>([]);
@@ -38,7 +38,7 @@ const Session = () => {
   const mutatedSubmit = useInterviewSubmit();
   const router = useRouter();
 
-  const { data: interview, isPending, error } = useInterviewGet(id);
+  const { data: interview, isPending, error } = useInterviewGet(id ?? "");
 
   const currentQuestion =
     interview?.interview?.questions?.[currentQuestionIndex];
@@ -117,7 +117,7 @@ const Session = () => {
     if (currentQuestionIndex === totalQuestions - 1) {
       try {
         const result = await mutatedSubmit.mutateAsync({
-          interviewId: id,
+          interviewId: id ?? "",
           answers: updatedAnswers,
         });
 

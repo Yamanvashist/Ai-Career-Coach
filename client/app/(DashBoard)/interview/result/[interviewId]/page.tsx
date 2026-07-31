@@ -11,7 +11,7 @@ import SummaryCard from "@/components/interview/result/SummaryCard";
 import ActionButtons from "@/components/interview/result/ActionButtons";
 
 export default function InterviewResults() {
-  const { interviewId } = useParams<{ interviewId: string }>();
+  const { interviewId } = useParams<{ interviewId: string | string[] }>();
   const id = Array.isArray(interviewId) ? interviewId[0] : interviewId;
 
   const { data: interviewResult } = useGetInterviewResult(id ?? "");

@@ -6,16 +6,16 @@ import { useCurrentUser } from "@/hooks/auth/useCurrentUser";
 import { useLogout } from "@/hooks/auth/useLogOut";
 
 interface NavPage {
-  id: number;
+  id: string;
   name: string;
   href: string;
 }
 
 const pages: NavPage[] = [
-  { id: 1, name: "Features", href: "/features" },
-  { id: 2, name: "How It Works", href: "/how-it-works" },
-  { id: 3, name: "Pricing", href: "/pricing" },
-  { id: 4, name: "Resources", href: "/resources" },
+  { id: "features", name: "Features", href: "/features" },
+  { id: "how-it-works", name: "How It Works", href: "/how-it-works" },
+  { id: "pricing", name: "Pricing", href: "/pricing" },
+  { id: "resources", name: "Resources", href: "/resources" },
 ];
 
 const Navbar = () => {

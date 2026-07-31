@@ -1,12 +1,12 @@
 import api from "../api";
 
 interface Answer {
-  questionId: number;
+  questionId: string;
   answer: string;
 }
 
 interface InterviewSubmitProps {
-  interviewId: number;
+  interviewId: string;
   answers: Answer[];
 }
 

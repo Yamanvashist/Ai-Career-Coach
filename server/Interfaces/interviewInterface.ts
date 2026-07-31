@@ -8,13 +8,13 @@ export interface PromptProps {
 }
 
 export interface InterviewQuestion {
-  id: number;
+  id: string;
   topic: string;
   speech: string;
   question: string;
 }
 
 export interface SubmittedAnswer {
-  questionId: number;
+  questionId: string;
   answer: string;
 }

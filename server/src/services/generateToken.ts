@@ -1,7 +1,7 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
 import "dotenv/config";
 
-const generateToken = async (userId: number): Promise<string> => {
+const generateToken = async (userId: string): Promise<string> => {
   const payload = { userId };
   const secret = process.env.JWT_SECRET as string;
   if (!secret) throw new Error("Jwt secret is not defined");

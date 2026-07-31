@@ -26,7 +26,7 @@ export interface CodeAnalysisResponse {
 
     optimizedCode: string;
 
-    userId: number;
+    userId: string;
 }
 
 export interface userInput {

@@ -1,5 +1,6 @@
 import { Response, NextFunction } from "express";
 import { verifyToken } from "../services/generateToken";
+import { JwtPayload } from "../../Interfaces/jwtPayload";
 
 export const verifyUser = (
   req: any,

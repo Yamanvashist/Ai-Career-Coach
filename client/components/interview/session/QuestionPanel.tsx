@@ -1,7 +1,7 @@
 import { CheckCircle2 } from "lucide-react";
 
 interface Question {
-  id: number;
+  id: string;
   question: string;
   topic?: string;
 }

@@ -12,13 +12,20 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { useCurrentUser } from "@/hooks/auth/useCurrentUser";
+import { useDashboard } from "@/hooks/dashboard/useDashboard";
 import Link from "next/link";
 import SkeletonLoader from "@/components/SkeletonLoader";
 
 const Dashboard = () => {
-  const { data: user, isLoading } = useCurrentUser();
+  const { data: user, isLoading: userLoading } = useCurrentUser();
+  const { data: dashboard, isLoading: dashboardLoading } = useDashboard();
 
-  if (isLoading) return <SkeletonLoader />;
+  if (userLoading || dashboardLoading) return <SkeletonLoader />;
+
+  const overallScore = dashboard?.overallScore ?? 0;
+  const resumeAvg = dashboard?.resumeAvg ?? 0;
+  const interviewAvg = dashboard?.interviewAvg ?? 0;
+  const codeAnalysisAvg = dashboard?.codeAnalysisAvg ?? 0;
 
   return (
     <div className="min-h-screen bg-slate-50 p-4 md:p-8 space-y-8 font-sans text-slate-900">
@@ -35,7 +42,7 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 items-start">
         <div
           id="career-readiness-index"
-          className="w-full rounded-2xl bg-white p-6 md:p-8 shadow-sm border border-slate-200"
+          className="w-full rounded-2xl bg-white p-6 md:p-8 h-full shadow-sm border border-slate-200"
         >
           <div className="space-y-1">
             <h2 className="text-xl font-bold tracking-tight">
@@ -50,7 +57,7 @@ const Dashboard = () => {
             <div className="w-48 h-48 sm:w-52 sm:h-52 shrink-0 bg-white rounded-full shadow-inner p-4 border border-slate-50">
               <div className="relative w-full h-full">
                 <CircularProgressbar
-                  value={78}
+                  value={overallScore}
                   strokeWidth={8}
                   styles={buildStyles({
                     pathColor: "#4F46E5",
@@ -60,7 +67,7 @@ const Dashboard = () => {
                 />
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
                   <span className="text-4xl font-extrabold tracking-tighter text-slate-900">
-                    78%
+                    {overallScore}%
                   </span>
                   <span className="text-xs font-semibold uppercase tracking-wider text-indigo-600 mt-1">
                     Ready
@@ -83,10 +90,13 @@ const Dashboard = () => {
                     Resume Score
                   </h4>
                   <p className="text-sm text-slate-400">
-                    <span className="font-bold text-slate-900">85</span>/100
+                    <span className="font-bold text-slate-900">
+                      {resumeAvg}
+                    </span>
+                    /100
                   </p>
                 </div>
-                <ProgressBar value={85} color="bg-blue-600" />
+                <ProgressBar value={resumeAvg} color="bg-blue-600" />
               </div>
 
               <div className="space-y-2">
@@ -98,10 +108,13 @@ const Dashboard = () => {
                     Interview Score
                   </h4>
                   <p className="text-sm text-slate-400">
-                    <span className="font-bold text-slate-900">75</span>/100
+                    <span className="font-bold text-slate-900">
+                      {interviewAvg}
+                    </span>
+                    /100
                   </p>
                 </div>
-                <ProgressBar value={75} color="bg-emerald-600" />
+                <ProgressBar value={interviewAvg} color="bg-emerald-600" />
               </div>
 
               <div className="space-y-2">
@@ -113,25 +126,13 @@ const Dashboard = () => {
                     Skills Match
                   </h4>
                   <p className="text-sm text-slate-400">
-                    <span className="font-bold text-slate-900">82</span>/100
-                  </p>
-                </div>
-                <ProgressBar value={82} color="bg-indigo-600" />
-              </div>
-
-              <div className="space-y-2">
-                <div className="flex justify-between items-end">
-                  <h4 className="font-semibold text-sm flex items-center gap-2">
-                    <span className="bg-orange-100 p-1.5 rounded-md text-orange-700">
-                      <Briefcase className="w-4 h-4" />
+                    <span className="font-bold text-slate-900">
+                      {codeAnalysisAvg}
                     </span>
-                    Portfolio
-                  </h4>
-                  <p className="text-sm text-slate-400">
-                    <span className="font-bold text-slate-900">84</span>/100
+                    /100
                   </p>
                 </div>
-                <ProgressBar value={84} color="bg-orange-500" />
+                <ProgressBar value={codeAnalysisAvg} color="bg-indigo-600" />
               </div>
             </div>
           </div>
@@ -144,7 +145,7 @@ const Dashboard = () => {
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
-            <div className="group border border-slate-200 hover:border-blue-300 rounded-xl p-5 flex flex-col justify-between bg-slate-50/50 hover:bg-blue-50/30 hover:shadow-md transition-all duration-200 min-h-55">
+            <div className="group border border-slate-200 hover:border-blue-300 rounded-xl p-5 flex flex-col justify-between bg-slate-50/50 hover:bg-blue-50/30 hover:shadow-md transition-all duration-200 min-h-[220px]">
               <div>
                 <div className="w-12 h-12 bg-white shadow-sm text-blue-600 rounded-xl flex items-center justify-center border border-slate-100 group-hover:scale-105 transition-transform">
                   <FileText className="w-6 h-6" />
@@ -172,7 +173,7 @@ const Dashboard = () => {
               </Link>
             </div>
 
-            <div className="group border border-slate-200 hover:border-emerald-300 rounded-xl p-5 flex flex-col justify-between bg-slate-50/50 hover:bg-emerald-50/30 hover:shadow-md transition-all duration-200 min-h-55">
+            <div className="group border border-slate-200 hover:border-emerald-300 rounded-xl p-5 flex flex-col justify-between bg-slate-50/50 hover:bg-emerald-50/30 hover:shadow-md transition-all duration-200 min-h-[220px]">
               <div>
                 <div className="w-12 h-12 bg-white shadow-sm text-emerald-600 rounded-xl flex items-center justify-center border border-slate-100 group-hover:scale-105 transition-transform">
                   <Code2 className="w-6 h-6" />
@@ -194,12 +195,15 @@ const Dashboard = () => {
                   </li>
                 </ul>
               </div>
-              <button className="w-full mt-6 bg-white border border-slate-200 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 text-slate-700 text-xs font-bold py-2.5 rounded-lg transition-colors flex items-center justify-center gap-1.5 shadow-sm">
+              <Link
+                href="/analysis"
+                className="w-full mt-6 bg-white border border-slate-200 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 text-slate-700 text-xs font-bold py-2.5 rounded-lg transition-colors flex items-center justify-center gap-1.5 shadow-sm"
+              >
                 Code Critic <span>&rarr;</span>
-              </button>
+              </Link>
             </div>
 
-            <div className="group border border-slate-200 hover:border-indigo-300 rounded-xl p-5 flex flex-col justify-between bg-slate-50/50 hover:bg-indigo-50/30 hover:shadow-md transition-all duration-200 min-h-55">
+            <div className="group border border-slate-200 hover:border-indigo-300 rounded-xl p-5 flex flex-col justify-between bg-slate-50/50 hover:bg-indigo-50/30 hover:shadow-md transition-all duration-200 min-h-[220px]">
               <div>
                 <div className="w-12 h-12 bg-white shadow-sm text-indigo-600 rounded-xl flex items-center justify-center border border-slate-100 group-hover:scale-105 transition-transform">
                   <Briefcase className="w-6 h-6" />
@@ -221,9 +225,12 @@ const Dashboard = () => {
                   </li>
                 </ul>
               </div>
-              <button className="w-full mt-6 bg-indigo-600 border border-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-2.5 rounded-lg transition-colors flex items-center justify-center gap-1.5 shadow-sm">
+              <Link
+                href="/interview"
+                className="w-full mt-6 bg-indigo-600 border border-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-2.5 rounded-lg transition-colors flex items-center justify-center gap-1.5 shadow-sm"
+              >
                 Start <span>&rarr;</span>
-              </button>
+              </Link>
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 export interface CodeAnalysis {
-    id: number;
+    id: string;
     title: string;
     language: string;
     code: string;
@@ -26,5 +26,5 @@ export interface CodeAnalysis {
     createdAt: string;
     updatedAt: string;
 
-    userId: number;
+    userId: string;
 }

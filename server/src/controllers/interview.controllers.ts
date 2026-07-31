@@ -111,7 +111,9 @@ export const getInterview = async (req: Request, res: Response) => {
       });
     }
 
-    const interviewId = Number(req.params.interviewId);
+    const interviewId = Array.isArray(req.params.interviewId)
+      ? req.params.interviewId[0]
+      : req.params.interviewId;
 
     if (!validateField(interviewId, "Interview ID", res)) return;
 
@@ -164,9 +166,11 @@ export const submitInterview = async (req: Request, res: Response) => {
       });
     }
 
-    const interviewId = Number(req.params.interviewId);
+    const interviewId = Array.isArray(req.params.interviewId)
+      ? req.params.interviewId[0]
+      : req.params.interviewId;
 
-    if (Number.isNaN(interviewId)) {
+    if (!interviewId) {
       return res.status(400).json({
         success: false,
         message: "Invalid interview ID",
@@ -197,7 +201,7 @@ export const submitInterview = async (req: Request, res: Response) => {
 
     const questionArray = interview.questions as unknown as InterviewQuestion[];
 
-    const answerMap = new Map<number, string>(
+    const answerMap = new Map<string, string>(
       answers.map((ans) => [ans.questionId, ans.answer]),
     );
 
@@ -237,6 +241,7 @@ export const submitInterview = async (req: Request, res: Response) => {
       data: {
         report,
         status: "COMPLETED",
+        overallScore : report.overallScore
       },
     });
 
@@ -267,9 +272,11 @@ export const getInterviewResult = async (req: Request, res: Response) => {
       });
     }
 
-    const interviewId = Number(req.params.interviewId);
+    const interviewId = Array.isArray(req.params.interviewId)
+      ? req.params.interviewId[0]
+      : req.params.interviewId;
 
-    if (Number.isNaN(interviewId)) {
+    if (!interviewId) {
       return res.status(400).json({
         success: false,
         message: "Invalid interview ID",

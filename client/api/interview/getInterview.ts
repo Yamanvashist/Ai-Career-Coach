@@ -1,6 +1,6 @@
 import api from "../api"
 
-const getInterview = async (interviewId: number) => {
+const getInterview = async (interviewId: string) => {
     try {
         const { data } = await api.get(`/interview/${interviewId}`)
         console.log(data)
