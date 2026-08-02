@@ -5,15 +5,15 @@ import { RecentHistorySkeleton } from "./skeletonLoading/RecentHistorySkeleton";
 
 interface RecentHistoryProps {
   history: HistoryProps[];
-  Loading : boolean
+  Loading: boolean;
 }
 
-export const RecentHistory = ({ history,Loading }: RecentHistoryProps) => {
+export const RecentHistory = ({ history, Loading }: RecentHistoryProps) => {
   console.log(history);
 
   if (Loading) return <RecentHistorySkeleton />;
   return (
-    <div className="min-h-75 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+    <div className="min-h-75 flex-1 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
       <header className="flex min-h-10 items-center justify-between">
         <div className="flex flex-col gap-1">
           <h1 className="text-2xl font-semibold text-slate-900">
@@ -30,41 +30,46 @@ export const RecentHistory = ({ history,Loading }: RecentHistoryProps) => {
         </span>
       </header>
 
-      <main className="mt-4 flex flex-1 flex-col">
-        <div className="rounded-tl-2xl rounded-tr-2xl bg-slate-100 p-5">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div className="tracking-wide text-gray-600">ACTIVITY</div>
+      <main className="mt-4 flex-1 overflow-x-auto">
+        <table className="w-full border-separate border-spacing-0">
+          <thead>
+            <tr className="bg-slate-100 text-left text-sm uppercase tracking-wide text-slate-600">
+              <th className="rounded-tl-2xl px-5 py-4 font-medium">Activity</th>
+              <th className="px-5 py-4 font-medium">Type</th>
+              <th className="px-5 py-4 font-medium">Score</th>
+              <th className="px-5 py-4 font-medium">Status</th>
+              <th className="rounded-tr-2xl px-5 py-4 font-medium">Created At</th>
+            </tr>
+          </thead>
 
-            <div className="flex items-center gap-6 text-gray-600">
-              <div className="tracking-wide">TYPE</div>
-              <div className="tracking-wide">SCORE</div>
-              <div className="tracking-wide">STATUS</div>
-            </div>
-          </div>
-        </div>
+          <tbody>
+            {history.map((item) => (
+              <tr
+                key={item.id}
+                className="border-b border-slate-200 transition-colors hover:bg-slate-50"
+              >
+                <td className="px-5 py-4 font-medium text-slate-900">
+                  {item.title}
+                </td>
 
-        <div className="divide-y divide-slate-200">
-          {history.map((item) => (
-            <div
-              key={item.id}
-              className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between"
-            >
-              <div className="font-medium text-slate-900">{item.title}</div>
+                <td className="px-5 py-4 text-slate-600">{item.type}</td>
 
-              <div className="grid grid-cols-3 gap-4 text-sm sm:flex sm:items-center sm:gap-8">
-                <div className="text-slate-600">{item.type}</div>
-
-                <div className="font-medium text-slate-900">
+                <td className="px-5 py-4 font-medium text-slate-900">
                   {item.score ?? 0}
-                </div>
+                </td>
 
-                <div className="font-medium text-emerald-600">
-                  {item.status}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+                <td className="px-5 py-4">
+                  <span className={`rounded-full px-3 py-1 text-sm font-medium ${item.status === "COMPLETED" ? "bg-emerald-100 text-emerald-700" : "bg-yellow-200 text-yellow-700"}`}>
+                    {item.status}
+                  </span>
+                </td>
+                <td className="px-5 py-4 font-medium text-slate-900">
+                  {new Date(item.createdAt).toLocaleString("en-IN")}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </main>
     </div>
   );

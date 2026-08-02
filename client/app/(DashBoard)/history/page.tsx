@@ -30,12 +30,12 @@ const History = () => {
         <HistoryStats history={history ?? []} Loading={isPending} />
       </div>
 
-      <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-2">
+      <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-[70%_30%]">
         <RecentHistory history={filteredHistory} Loading={isPending} />
 
         <div className="flex flex-col gap-4">
-          <QuickAccess />
-          <CareerInsightCard />
+          <QuickAccess Loading={isPending} />
+          <CareerInsightCard Loading={isPending}  />
         </div>
       </div>
     </div>

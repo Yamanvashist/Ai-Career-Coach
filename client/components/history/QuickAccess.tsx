@@ -1,7 +1,13 @@
-import React from "react";
 import { quickLinks } from "./historyData";
+import { QuickAccessSkeleton } from "./skeletonLoading/QuickAccessSkeleton";
 
-export const QuickAccess = () => {
+interface QuickAccessProps {
+  Loading: boolean;
+}
+
+export const QuickAccess = ({Loading} : QuickAccessProps) => {
+
+  if (Loading) return <QuickAccessSkeleton/>
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
       <h3 className="mb-4 text-sm font-semibold text-slate-900">
@@ -20,7 +26,7 @@ export const QuickAccess = () => {
             >
               <Icon size={16} />
               {link.name}
-            </a>
+            </a>  
           );
         })}
       </div>
