@@ -5,24 +5,33 @@ import { RecentHistory } from "@/components/history/RecentHistory";
 import { QuickAccess } from "@/components/history/QuickAccess";
 import { CareerInsightCard } from "@/components/history/CareerInsightCard";
 
+import { AllFilters } from "@/components/history/interfaces/historyProps";
+
 import useHistory from "@/hooks/history/useHistory";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 const History = () => {
   const { data: history, isPending } = useHistory();
-  console.log(history);
 
-  const [selectedFilter, setSelectecFilter] = useState("ALL");
+  const [selectedFilter, setSelectedFilter] = useState<AllFilters>("ALL");
+
+  const filteredHistory = useMemo(
+    () =>
+      history?.filter(
+        (item) => selectedFilter === "ALL" || item.type === selectedFilter,
+      ) ?? [],
+    [history, selectedFilter],
+  );
 
   return (
     <div className="min-h-screen bg-slate-100 p-6">
       <div className="mx-auto w-full rounded-3xl border border-slate-200 bg-white shadow-sm">
-        <HistoryHeader />
-        <HistoryStats history={history} Loading={isPending} />
+        <HistoryHeader setSelectedFilter={setSelectedFilter} />
+        <HistoryStats history={history ?? []} Loading={isPending} />
       </div>
 
       <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <RecentHistory />
+        <RecentHistory history={filteredHistory} Loading={isPending} />
 
         <div className="flex flex-col gap-4">
           <QuickAccess />

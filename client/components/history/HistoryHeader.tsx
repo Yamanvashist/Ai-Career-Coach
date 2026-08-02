@@ -1,7 +1,7 @@
-import React from "react";
 import { categories } from "./historyData";
+import { AllFilters, HistoryHeaderProps } from "./interfaces/historyProps";
 
-export const HistoryHeader = () => {
+export const HistoryHeader = ({ setSelectedFilter }: HistoryHeaderProps) => {
   return (
     <header className="flex flex-col gap-6 p-8 lg:flex-row lg:items-center lg:justify-between">
       <div>
@@ -22,7 +22,10 @@ export const HistoryHeader = () => {
 
           return (
             <li key={item.id}>
-              <button className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition-all duration-200 hover:border-emerald-500 hover:bg-emerald-50 hover:text-emerald-600">
+              <button
+                onClick={() => setSelectedFilter(item.id as AllFilters)}
+                className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition-all duration-200 hover:border-emerald-500 hover:bg-emerald-50 hover:text-emerald-600"
+              >
                 <Icon size={18} />
                 {item.label}
               </button>

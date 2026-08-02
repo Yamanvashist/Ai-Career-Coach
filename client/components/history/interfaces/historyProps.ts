@@ -7,3 +7,9 @@ export interface HistoryProps {
   status?: "ONGOING" | "COMPLETED";
   createdAt: string;
 }
+
+export type AllFilters = "ALL" | "RESUME" | "CODE_ANALYSIS" | "INTERVIEW"
+
+export interface HistoryHeaderProps {
+  setSelectedFilter: React.Dispatch<React.SetStateAction<AllFilters>>;
+}
