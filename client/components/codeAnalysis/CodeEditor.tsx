@@ -47,17 +47,18 @@ const CodeEditor = ({
   analysis,
   setAnalysis,
 }: CodeEditorProps) => {
-
-  const { data: user } = useCurrentUser()
-  const credits = user?.credits
+  const { data: user } = useCurrentUser();
+  const credits = user?.credits;
 
   return (
-    <section className="border border-gray-200  bg-white/20 rounded-2xl p-4 sm:p-6 shadow-sm flex flex-col lg:h-175">
+    <section className="border border-gray-200 dark:border-slate-800 bg-white/20 dark:bg-slate-900/60 rounded-2xl p-4 sm:p-6 shadow-sm flex flex-col lg:h-175 transition-colors">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-5">
         <div>
-          <h1 className="text-lg font-semibold text-slate-800">Your Code</h1>
+          <h1 className="text-lg font-semibold text-slate-800 dark:text-white">
+            Your Code
+          </h1>
 
-          <p className="mt-1 text-sm text-slate-500">
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
             Paste your source code for AI analysis.
           </p>
         </div>
@@ -65,7 +66,7 @@ const CodeEditor = ({
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
-          className="w-full sm:w-56 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+          className="w-full sm:w-56 rounded-lg border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-sm text-slate-800 dark:text-slate-100 outline-none transition focus:border-indigo-500 dark:focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200 dark:focus:ring-indigo-500/20"
         >
           <option value="javascript">JavaScript</option>
           <option value="typescript">TypeScript</option>
@@ -80,7 +81,7 @@ const CodeEditor = ({
       </div>
 
       <div className="grid flex-1 grid-cols-1 gap-4 xl:grid-cols-2 min-h-0">
-        <div className="flex flex-col overflow-hidden rounded-xl border border-slate-200">
+        <div className="flex flex-col overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800">
           <div className="flex items-center justify-between border-b border-slate-700 bg-slate-900 px-4 py-3">
             <div className="flex items-center gap-2">
               <div className="h-3 w-3 rounded-full bg-red-400" />
@@ -104,7 +105,7 @@ const CodeEditor = ({
           </div>
         </div>
 
-        <div className="flex flex-col overflow-hidden rounded-xl border border-slate-200">
+        <div className="flex flex-col overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800">
           <div className="flex items-center justify-between border-b border-slate-700 bg-slate-900 px-4 py-3">
             <div className="flex items-center gap-2">
               <div className="h-3 w-3 rounded-full bg-red-400" />
@@ -148,7 +149,7 @@ const CodeEditor = ({
       </div>
 
       <div className="mt-5 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-        <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-slate-500">
+        <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-slate-500 dark:text-slate-400">
           <span>Lines: {code ? code.split("\n").length : 0}</span>
           <span>Characters: {code.length}</span>
           <span>Language: {language}</span>
@@ -158,24 +159,29 @@ const CodeEditor = ({
           <button
             type="button"
             onClick={() => {
-              setAnalysis("");
+              setAnalysis(null);
               setCode("");
             }}
-            className="flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-red-500/10 px-5 py-2.5 font-medium text-red-400 transition-all duration-200 hover:bg-red-500 hover:text-white active:scale-95 cursor-pointer"
+            className="flex items-center justify-center gap-2 rounded-xl border border-white/20 dark:border-red-500/20 bg-red-500/10 px-5 py-2.5 font-medium text-red-400 transition-all duration-200 hover:bg-red-500 hover:text-white active:scale-95 cursor-pointer"
           >
             <Eraser size={18} />
             Clear
           </button>
 
           <button
-            disabled={isLoading}
+            disabled={isLoading || credits <= 0}
             onClick={analyzeCode}
-            className={`rounded-xl px-5 py-2.5 font-medium text-white cursor-pointer transition-all duration-200 ${isLoading
-              ? "cursor-not-allowed bg-indigo-400"
-              : "bg-indigo-600 hover:bg-indigo-700 active:scale-95"
-              }`}
+            className={`rounded-xl px-5 py-2.5 font-medium text-white transition-all duration-200 ${
+              isLoading || credits <= 0
+                ? "cursor-not-allowed bg-slate-400 dark:bg-slate-700"
+                : "cursor-pointer bg-indigo-600 dark:bg-indigo-500 hover:bg-indigo-700 dark:hover:bg-indigo-400 active:scale-95"
+            }`}
           >
-            {isLoading ? "Analyzing Code..." : credits < 1 ? "Insufficient credits" : "Analyze Code →"}
+            {isLoading
+              ? "Analyzing Code..."
+              : credits <= 0
+                ? "Insufficient credits"
+                : "Analyze Code →"}
           </button>
         </div>
       </div>

@@ -1,24 +1,26 @@
 import express from "express";
 import { verifyUser } from "../middlewares/verifyUser.js";
-import { googleLogin } from "../controllers/auth.controllers.js";
 
 import {
   register,
   login,
   checkAuth,
   signOut,
-  updatePassword
+  updatePassword,
+  deleteAccount,
+  googleLogin,
 } from "../controllers/auth.controllers.js";
 
 const userRouter = express.Router();
 
 userRouter.post("/sign-in", login);
 userRouter.post("/sign-up", register);
-userRouter.post("/google", googleLogin)
+userRouter.post("/google", googleLogin);
+userRouter.delete("/delete", verifyUser,deleteAccount);
 
 userRouter.post("/sign-out", verifyUser, signOut);
 
-userRouter.patch("/password", verifyUser, updatePassword)
+userRouter.patch("/password", verifyUser, updatePassword);
 
 userRouter.get("/checkAuth", verifyUser, checkAuth);
 

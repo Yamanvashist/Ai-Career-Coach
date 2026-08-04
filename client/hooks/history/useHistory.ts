@@ -3,10 +3,10 @@
 import { useQuery } from "@tanstack/react-query";
 import getHistory from "@/api/history/getHistory";
 
-const useHistory = () => {
+const useHistory = (page = 1) => {
   return useQuery({
-    queryKey: ["history"],
-    queryFn: getHistory,
+    queryKey: ["history", page],
+    queryFn: () => getHistory(page),
     retry: false,
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,

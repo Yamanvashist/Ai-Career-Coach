@@ -77,7 +77,8 @@ export const login = async (req: Request, res: Response) => {
     });
     if (!user) return res.status(400).json({ message: "User does not exist" });
 
-    if (!user.password) return res.status(400).json({ message: "Invalid Password" });
+    if (!user.password)
+      return res.status(400).json({ message: "Invalid Password" });
 
     const samePassword = await comparePassword(password, user.password);
     if (!samePassword)
@@ -228,28 +229,27 @@ export const updatePassword = async (req: Request, res: Response) => {
   }
 };
 
-
 export const googleLogin = async (req: Request, res: Response) => {
   try {
-    const { credential } = req.body
+    const { credential } = req.body;
 
-    if (!credential) return res.status(400).json({ message: "Credentials not provided" });
+    if (!credential)
+      return res.status(400).json({ message: "Credentials not provided" });
 
     const ticket = await googleClient.verifyIdToken({
       idToken: credential,
       audience: process.env.GOOGLE_CLIENT_ID,
-    })
+    });
 
-    const payload = ticket.getPayload()
+    const payload = ticket.getPayload();
 
     if (!payload) {
       return res.status(401).json({
         message: "Invalid Google Token",
       });
-    };
+    }
 
-    const { name, email, email_verified } = payload
-
+    const { name, email, email_verified } = payload;
 
     if (!email || !email_verified) {
       return res.status(401).json({
@@ -273,9 +273,9 @@ export const googleLogin = async (req: Request, res: Response) => {
       });
     }
 
-    console.log(user)
+    console.log(user);
 
-    const token = await generateToken(user.id)
+    const token = await generateToken(user.id);
 
     const isProduction = process.env.NODE_ENV === "production";
 
@@ -299,7 +299,32 @@ export const googleLogin = async (req: Request, res: Response) => {
     return res.status(500).json({
       message: "Google login failed",
     });
-
   }
+};
 
+export const deleteAccount = async (req: Request, res: Response) => {
+  try {
+    const userId: string = (req as any).user.userId;
+
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized user",
+      });
+    }
+
+    await prisma.user.delete({
+      where: {
+        id: userId,
+      },
+    });
+
+    return res
+      .status(200)
+      .json({ message: "Account deletion successfull", success: true });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "Account deletion failed", success: false });
+  }
 };

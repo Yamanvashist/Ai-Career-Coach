@@ -1,107 +1,110 @@
-    import prisma from "../lib/prisma";
-    import { Request, Response } from "express";
-    import CodeAnalysisPrompt from "../AiPrompt/CodeAnalysisPrompt";
-    import { analyze } from "../lib/GenAi";
-    import { CodeAnalysisResponse, userInput } from "../../Interfaces/codeInterface";
+import prisma from "../lib/prisma";
+import { Request, Response } from "express";
+import CodeAnalysisPrompt from "../AiPrompt/CodeAnalysisPrompt";
+import { analyze } from "../lib/GenAi";
+import {
+  CodeAnalysisResponse,
+  userInput,
+} from "../../Interfaces/codeInterface";
 
-    export const analyzeCode = async (req: Request, res: Response) => {
-        try {
-            const userId = (req as any).user?.userId;
-            const { code, language } = req.body as userInput;
+export const analyzeCode = async (req: Request, res: Response) => {
+  try {
+    const userId = (req as any).user?.userId;
+    const { code, language } = req.body as userInput;
 
-            if (!code?.trim()) {
-                return res.status(400).json({
-                    message: "Code field is empty",
-                });
-            }
+    if (!code?.trim()) {
+      return res.status(400).json({
+        message: "Code field is empty",
+      });
+    }
 
-            if (!language) {
-                return res.status(400).json({
-                    message: "Select a language",
-                });
-            }
+    if (!language) {
+      return res.status(400).json({
+        message: "Select a language",
+      });
+    }
 
-            const prompt = CodeAnalysisPrompt(code, language);
+    const totalCredits = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        credits: true,
+      },
+    });
 
-            const startTime = Date.now()
+    if (!totalCredits)
+      return res.status(404).json({ message: "User not found" });
+    if (totalCredits.credits < 1)
+      return res.status(402).json({ message: "Credits are insufficient" });
 
-            const response = await analyze(prompt);
+    await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        credits: { decrement: 1 },
+      },
+    });
 
-            const analysisDuration = Date.now() - startTime
+    const prompt = CodeAnalysisPrompt(code, language);
 
-            if (!response) {
-                return res.status(500).json({
-                    message: "Failed to analyze code",
-                });
-            }
+    const startTime = Date.now();
 
-            let result: CodeAnalysisResponse;
+    const response = await analyze(prompt);
 
-            try {
-                result = JSON.parse(response) as CodeAnalysisResponse;
-            } catch {
-                return res.status(500).json({
-                    message: "AI returned invalid JSON",
-                });
-            }
+    const analysisDuration = Date.now() - startTime;
 
-            const codeAnalysis = await prisma.codeAnalysis.create({
-                data: {
-                    title: result.title,
-                    language,
-                    code,
+    if (!response) {
+      return res.status(500).json({
+        message: "Failed to analyze code",
+      });
+    }
 
-                    summary: result.summary,
-                    overallScore: result.overallScore,
+    let result: CodeAnalysisResponse;
 
-                    correctness: result.correctness,
-                    performance: result.performance,
-                    readability: result.readability,
-                    maintainability: result.maintainability,
-                    bestPractices: result.bestPractices,
+    try {
+      result = JSON.parse(response) as CodeAnalysisResponse;
+    } catch {
+      return res.status(500).json({
+        message: "AI returned invalid JSON",
+      });
+    }
 
-                    linesOfCode: result.linesOfCode,
-                    complexity: result.complexity,
+    const codeAnalysis = await prisma.codeAnalysis.create({
+      data: {
+        title: result.title,
+        language,
+        code,
 
-                    issues: result.issues,
-                    improvements: result.improvements,
+        summary: result.summary,
+        overallScore: result.overallScore,
 
-                    optimizedCode: result.optimizedCode,
+        correctness: result.correctness,
+        performance: result.performance,
+        readability: result.readability,
+        maintainability: result.maintainability,
+        bestPractices: result.bestPractices,
 
-                    userId,
-                },
-            });
+        linesOfCode: result.linesOfCode,
+        complexity: result.complexity,
 
-            const totalCredits = await prisma.user.findUnique({
-                where: { id: userId },
-                select: {
-                    credits: true
-                }
-            })
+        issues: result.issues,
+        improvements: result.improvements,
 
-            if (!totalCredits) return res.status(404).json({ message: "User not found" });
-            if (totalCredits.credits < 1) return res.status(402).json({ message: "Credits are insufficient" });
+        optimizedCode: result.optimizedCode,
 
+        userId,
+      },
+    });
 
-            await prisma.user.update({
-                where: {
-                    id: userId
-                },
-                data: {
-                    credits: { decrement: 1 }
-                }
-            })
+    return res.status(201).json({
+      message: "Analysis completed",
+      analysis: codeAnalysis,
+      analysisDuration,
+    });
+  } catch (err) {
 
-            return res.status(201).json({
-                message: "Analysis completed",
-                analysis: codeAnalysis,
-                analysisDuration,
-            });
-        } catch (err) {
-            console.error(err);
-
-            return res.status(500).json({
-                message: "Server Error",
-            });
-        }
-    };
+    return res.status(500).json({
+      message: "Server Error",
+    });
+  }
+};

@@ -18,8 +18,8 @@ export default function InterviewResults() {
 
   if (!interviewResult) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50/50">
-        <p className="text-gray-500 font-medium">
+      <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 transition-colors">
+        <p className="text-slate-500 dark:text-slate-400 font-medium">
           Loading interview results...
         </p>
       </div>
@@ -40,7 +40,7 @@ export default function InterviewResults() {
   } = interviewResult.interview || {};
 
   return (
-    <div className="min-h-screen bg-gray-50/50 p-6 md:p-8 font-sans text-gray-800">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 p-6 md:p-8 font-sans text-slate-800 dark:text-slate-100 transition-colors duration-200">
       <Header category={category} />
 
       <HeroScoreCard

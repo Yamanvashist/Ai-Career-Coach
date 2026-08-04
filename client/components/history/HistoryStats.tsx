@@ -40,50 +40,58 @@ export const HistoryStats = ({ history, Loading }: HistoryStatsProps) => {
   return (
     <main className="min-h-60 p-8">
       <div className="grid grid-cols-2 gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <p className="text-sm font-medium text-slate-500">TOTAL ACTIVITIES</p>
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-sm transition-colors">
+          <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
+            TOTAL ACTIVITIES
+          </p>
 
-          <h2 className="mt-3 text-3xl font-bold text-slate-900">
+          <h2 className="mt-3 text-3xl font-bold text-slate-900 dark:text-white">
             {totalActivities}
           </h2>
 
-          <p className="mt-2 hidden text-sm text-slate-500 sm:block">
+          <p className="mt-2 hidden text-sm text-slate-500 dark:text-slate-400 sm:block">
             All recorded activities in your history
           </p>
         </div>
 
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <p className="text-sm font-medium text-slate-500">RESUME ANALYSES</p>
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-sm transition-colors">
+          <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
+            RESUME ANALYSES
+          </p>
 
-          <h2 className="mt-3 text-3xl font-bold text-slate-900">
+          <h2 className="mt-3 text-3xl font-bold text-slate-900 dark:text-white">
             {resumeLength}
           </h2>
 
-          <p className="mt-2 hidden text-sm text-slate-500 sm:block">
+          <p className="mt-2 hidden text-sm text-slate-500 dark:text-slate-400 sm:block">
             Resume reviews and improvements completed
           </p>
         </div>
 
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <p className="text-sm font-medium text-slate-500">CODE ANALYSES</p>
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-sm transition-colors">
+          <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
+            CODE ANALYSES
+          </p>
 
-          <h2 className="mt-3 text-3xl font-bold text-slate-900">
+          <h2 className="mt-3 text-3xl font-bold text-slate-900 dark:text-white">
             {codeAnalysisLength}
           </h2>
 
-          <p className="mt-2 hidden text-sm text-slate-500 sm:block">
+          <p className="mt-2 hidden text-sm text-slate-500 dark:text-slate-400 sm:block">
             Code reviews and analysis sessions completed
           </p>
         </div>
 
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <p className="text-sm font-medium text-slate-500">INTERVIEWS GIVEN</p>
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-sm transition-colors">
+          <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
+            INTERVIEWS GIVEN
+          </p>
 
-          <h2 className="mt-3 text-3xl font-bold text-slate-900">
+          <h2 className="mt-3 text-3xl font-bold text-slate-900 dark:text-white">
             {interviewLength}
           </h2>
 
-          <p className="mt-2 hidden text-sm text-slate-500 sm:block">
+          <p className="mt-2 hidden text-sm text-slate-500 dark:text-slate-400 sm:block">
             AI-powered interview sessions completed
           </p>
         </div>

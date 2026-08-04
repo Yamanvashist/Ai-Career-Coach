@@ -5,13 +5,15 @@ export const HistoryHeader = ({ setSelectedFilter }: HistoryHeaderProps) => {
   return (
     <header className="flex flex-col gap-6 p-8 lg:flex-row lg:items-center lg:justify-between">
       <div>
-        <span className="inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-medium tracking-wide text-slate-600">
+        <span className="inline-flex rounded-full bg-slate-100 dark:bg-slate-800 px-3 py-1 text-xs font-medium tracking-wide text-slate-600 dark:text-slate-300">
           NEW HISTORY PREVIEW
         </span>
 
-        <h1 className="mt-4 text-3xl font-bold text-slate-900">History</h1>
+        <h1 className="mt-4 text-3xl font-bold text-slate-900 dark:text-white">
+          History
+        </h1>
 
-        <p className="mt-2 text-sm text-slate-500">
+        <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
           Browse your previous AI activities.
         </p>
       </div>
@@ -24,7 +26,10 @@ export const HistoryHeader = ({ setSelectedFilter }: HistoryHeaderProps) => {
             <li key={item.id}>
               <button
                 onClick={() => setSelectedFilter(item.id as AllFilters)}
-                className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition-all duration-200 hover:border-emerald-500 hover:bg-emerald-50 hover:text-emerald-600"
+                className={`flex items-center gap-2 rounded-xl border border-slate-200 dark:border-slate-800
+                          bg-white dark:bg-slate-900 px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300
+                            transition-all duration-200 hover:border-emerald-500 dark:hover:border-emerald-500/50 hover:bg-emerald-50
+                          dark:hover:bg-emerald-500/10 hover:text-emerald-600 dark:hover:text-emerald-400 cursor-pointer`}
               >
                 <Icon size={18} />
                 {item.label}

@@ -18,35 +18,35 @@ const OverallScore = ({ analysis }: OverallScoreProps) => {
       name: "Correctness",
       score: analysis?.correctness ?? 0,
       icon: CircleCheckBig,
-      color: "text-green-500",
+      color: "text-green-500 dark:text-green-400",
       barColor: "bg-green-500",
     },
     {
       name: "Performance",
       score: analysis?.performance ?? 0,
       icon: Zap,
-      color: "text-blue-500",
+      color: "text-blue-500 dark:text-blue-400",
       barColor: "bg-blue-500",
     },
     {
       name: "Readability",
       score: analysis?.readability ?? 0,
       icon: Eye,
-      color: "text-purple-500",
+      color: "text-purple-500 dark:text-purple-400",
       barColor: "bg-purple-500",
     },
     {
       name: "Best Practices",
       score: analysis?.bestPractices ?? 0,
       icon: ShieldCheck,
-      color: "text-amber-500",
+      color: "text-amber-500 dark:text-amber-400",
       barColor: "bg-amber-500",
     },
     {
       name: "Maintainability",
       score: analysis?.maintainability ?? 0,
       icon: Wrench,
-      color: "text-cyan-500",
+      color: "text-cyan-500 dark:text-cyan-400",
       barColor: "bg-cyan-500",
     },
   ];
@@ -63,8 +63,10 @@ const OverallScore = ({ analysis }: OverallScoreProps) => {
           : "Excellent";
 
   return (
-    <section className="bg-white flex flex-col rounded-2xl p-6 shadow-sm min-h-62.5">
-      <h1 className="font-semibold text-slate-900 mb-4">Overall Score</h1>
+    <section className="bg-white dark:bg-slate-900 flex flex-col rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-800 min-h-62.5 transition-colors">
+      <h1 className="font-semibold text-slate-900 dark:text-white mb-4">
+        Overall Score
+      </h1>
 
       <div className="flex flex-col gap-4 items-center justify-center flex-1">
         <div className="w-40 h-40">
@@ -72,20 +74,22 @@ const OverallScore = ({ analysis }: OverallScoreProps) => {
             value={overallScore}
             styles={buildStyles({
               pathColor: "#4F46E5",
-              trailColor: "#e2e8f0",
+              trailColor: "rgba(100, 116, 139, 0.2)",
               strokeLinecap: "round",
             })}
           >
             <div className="text-center">
               <div className="flex items-baseline justify-center">
-                <span className="text-4xl font-bold text-slate-800">
+                <span className="text-4xl font-bold text-slate-800 dark:text-white">
                   {overallScore}
                 </span>
 
-                <span className="text-xl text-slate-400">/100</span>
+                <span className="text-xl text-slate-400 dark:text-slate-500">
+                  /100
+                </span>
               </div>
 
-              <span className="text-sm font-semibold text-indigo-600 mt-1">
+              <span className="text-sm font-semibold text-indigo-600 dark:text-indigo-400 mt-1">
                 {rating}
               </span>
             </div>
@@ -104,7 +108,7 @@ const OverallScore = ({ analysis }: OverallScoreProps) => {
                 <div className="flex items-center gap-2 min-w-36">
                   <Icon className={`w-4 h-4 ${metric.color}`} />
 
-                  <span className="text-sm font-medium text-slate-700">
+                  <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
                     {metric.name}
                   </span>
                 </div>
@@ -113,9 +117,11 @@ const OverallScore = ({ analysis }: OverallScoreProps) => {
                   <ProgressBar value={metric.score} color={metric.barColor} />
                 </div>
 
-                <span className="text-sm font-semibold text-slate-800">
+                <span className="text-sm font-semibold text-slate-800 dark:text-slate-100">
                   {metric.score}
-                  <span className="text-slate-400 font-normal">/100</span>
+                  <span className="text-slate-400 dark:text-slate-500 font-normal">
+                    /100
+                  </span>
                 </span>
               </div>
             );

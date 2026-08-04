@@ -12,6 +12,8 @@ import {
   Settings,
 } from "lucide-react";
 
+import ThemeToggle from "../ThemeToggle";
+
 const MobileSidebar = () => {
   const { isOpen, close } = useSidebarStore();
 
@@ -19,7 +21,7 @@ const MobileSidebar = () => {
     <>
       <div
         onClick={close}
-        className={`fixed inset-0 z-40 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ${
+        className={`fixed inset-0 z-40 bg-black/60 backdrop-blur-sm transition-opacity duration-300 ${
           isOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
@@ -27,14 +29,14 @@ const MobileSidebar = () => {
       />
 
       <aside
-        className={`fixed top-0 left-0 z-50 flex h-screen w-72 flex-col bg-slate-900 p-6 text-white shadow-2xl transition-all duration-300 ease-in-out ${
+        className={`fixed top-0 left-0 z-50 flex h-screen w-72 flex-col bg-slate-900 border-r border-slate-800 p-6 text-white shadow-2xl transition-all duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         <div className="mb-10 flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-extrabold tracking-tight">
-              Path<span className="text-blue-400">Way</span>
+              Path<span className="text-indigo-400">Way</span>
             </h1>
 
             <p className="mt-1 text-sm text-slate-400">
@@ -44,7 +46,7 @@ const MobileSidebar = () => {
 
           <button
             onClick={close}
-            className="rounded-lg p-2 transition hover:bg-slate-800"
+            className="rounded-lg p-2 text-slate-400 hover:text-white transition hover:bg-slate-800 cursor-pointer"
           >
             <X size={22} />
           </button>
@@ -56,7 +58,7 @@ const MobileSidebar = () => {
               <Link
                 href="/dashboard"
                 onClick={close}
-                className="flex items-center gap-3 rounded-xl px-4 py-3 transition hover:bg-slate-800 hover:text-blue-400"
+                className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-800/80 hover:text-indigo-400"
               >
                 <LayoutDashboard size={20} />
                 Dashboard
@@ -67,7 +69,7 @@ const MobileSidebar = () => {
               <Link
                 href="/resume-review"
                 onClick={close}
-                className="flex items-center gap-3 rounded-xl px-4 py-3 transition hover:bg-slate-800 hover:text-blue-400"
+                className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-800/80 hover:text-indigo-400"
               >
                 <Briefcase size={20} />
                 Resume
@@ -78,7 +80,7 @@ const MobileSidebar = () => {
               <Link
                 href="/analysis"
                 onClick={close}
-                className="flex items-center gap-3 rounded-xl px-4 py-3 transition hover:bg-slate-800 hover:text-blue-400"
+                className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-800/80 hover:text-indigo-400"
               >
                 <FileText size={20} />
                 Analysis
@@ -89,7 +91,7 @@ const MobileSidebar = () => {
               <Link
                 href="/interview"
                 onClick={close}
-                className="flex items-center gap-3 rounded-xl px-4 py-3 transition hover:bg-slate-800 hover:text-blue-400"
+                className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-800/80 hover:text-indigo-400"
               >
                 <Users size={20} />
                 Interview
@@ -100,7 +102,7 @@ const MobileSidebar = () => {
               <Link
                 href="/history"
                 onClick={close}
-                className="flex items-center gap-3 rounded-xl px-4 py-3 transition hover:bg-slate-800 hover:text-blue-400"
+                className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-800/80 hover:text-indigo-400"
               >
                 <History size={20} />
                 History
@@ -109,15 +111,20 @@ const MobileSidebar = () => {
           </ul>
         </nav>
 
-        <div className="border-t border-slate-800 pt-4">
+        <div className="border-t border-slate-800 pt-4 space-y-1">
           <Link
             href="/settings"
             onClick={close}
-            className="flex items-center gap-3 rounded-xl px-4 py-3 transition hover:bg-slate-800 hover:text-blue-400"
+            className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-800/80 hover:text-indigo-400"
           >
             <Settings size={20} />
             Settings
           </Link>
+
+          <div className="flex items-center justify-between px-4 py-2 text-slate-300">
+            <span className="text-sm font-medium">Theme</span>
+            <ThemeToggle />
+          </div>
         </div>
       </aside>
     </>

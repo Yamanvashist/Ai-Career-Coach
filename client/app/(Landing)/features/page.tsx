@@ -33,14 +33,14 @@ const Features = () => {
   ];
 
   return (
-    <section id="features" className="py-28">
+    <section id="features" className="py-28 min-h-screen bg-white dark:bg-gray-950 transition-colors">
       <div className="max-w-7xl mx-auto px-6">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="mt-4 text-4xl md:text-5xl font-bold text-gray-900">
+          <h2 className="mt-4 text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">
             Everything You Need To Advance Your Career
           </h2>
 
-          <p className="mt-6 text-lg text-gray-600">
+          <p className="mt-6 text-lg text-gray-600 dark:text-gray-400">
             CareerPilot helps you understand where you are, where you want to
             go, and how to get there with AI-powered guidance.
           </p>
@@ -50,13 +50,13 @@ const Features = () => {
           {features.map((feature) => (
             <div
               key={feature.title}
-              className="border border-gray-200 rounded-xl p-6 hover:shadow-md transition-all"
+              className="border border-gray-200 dark:border-gray-800 rounded-xl p-6 bg-white dark:bg-gray-900/50 hover:border-gray-300 dark:hover:border-gray-700 hover:shadow-md dark:hover:shadow-gray-900/50 transition-all"
             >
-              <h3 className="text-xl font-semibold text-gray-900">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
                 {feature.title}
               </h3>
 
-              <p className="mt-3 text-gray-600 leading-relaxed">
+              <p className="mt-3 text-gray-600 dark:text-gray-400 leading-relaxed">
                 {feature.description}
               </p>
             </div>

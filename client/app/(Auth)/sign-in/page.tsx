@@ -13,7 +13,6 @@ const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-
   const [showPassword, setShowPassword] = useState(false);
 
   const router = useRouter();
@@ -43,20 +42,20 @@ const SignIn = () => {
   };
 
   return (
-    <div className="relative min-h-[92.5vh] bg-[#FAF9F6] flex items-center justify-center p-4 overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1.5px,transparent_1.5px)] bg-size-[24px_24px] mask-[radial-gradient(ellipse_50%_50%_at_50%_50%,#000_60%,transparent_100%)] pointer-events-none" />
+    <div className="relative min-h-[92.5vh] bg-[#FAF9F6] dark:bg-slate-950 flex items-center justify-center p-4 overflow-hidden transition-colors duration-200">
+      <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1.5px,transparent_1.5px)] dark:bg-[radial-gradient(#334155_1.5px,transparent_1.5px)] bg-size-[24px_24px] mask-[radial-gradient(ellipse_50%_50%_at_50%_50%,#000_60%,transparent_100%)] pointer-events-none" />
 
-      <div className="relative z-10 w-full max-w-md bg-white border border-gray-200 rounded-2xl p-6 md:p-8 shadow-sm">
+      <div className="relative z-10 w-full max-w-md bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-6 md:p-8 shadow-sm transition-colors">
         <header className="text-center space-y-3">
-          <div className="flex items-center justify-center gap-2 text-gray-950 font-bold text-2xl tracking-tight">
-            <Compass className="w-6 h-6 text-gray-950 animate-spin-slow" />
+          <div className="flex items-center justify-center gap-2 text-gray-950 dark:text-white font-bold text-2xl tracking-tight">
+            <Compass className="w-6 h-6 text-gray-950 dark:text-white animate-spin-slow" />
             <span>CareerPilot</span>
           </div>
           <div className="space-y-1">
-            <h1 className="text-2xl font-bold tracking-tight text-gray-900">
+            <h1 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
               Welcome back
             </h1>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 dark:text-slate-400">
               Enter your details to access your account
             </p>
           </div>
@@ -67,20 +66,20 @@ const SignIn = () => {
         </header>
 
         <div className="flex items-center my-5">
-          <div className="grow border-t border-gray-200"></div>
-          <span className="px-3 text-[10px] font-semibold text-gray-400 uppercase tracking-widest">
+          <div className="grow border-t border-gray-200 dark:border-slate-800"></div>
+          <span className="px-3 text-[10px] font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-widest">
             Or sign in with email
           </span>
-          <div className="grow border-t border-gray-200"></div>
+          <div className="grow border-t border-gray-200 dark:border-slate-800"></div>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-semibold text-gray-600 dark:text-slate-300 uppercase tracking-wider mb-1.5">
               Email Address
             </label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-slate-500" />
               <input
                 type="email"
                 placeholder="you@example.com"
@@ -89,7 +88,7 @@ const SignIn = () => {
                   setEmail(e.target.value);
                   setErrorMessage("");
                 }}
-                className="w-full pl-10 pr-4 py-2.5 border border-gray-200 text-sm rounded-xl focus:outline-none focus:border-gray-900 transition-colors"
+                className="w-full pl-10 pr-4 py-2.5 border border-gray-200 dark:border-slate-800 bg-white dark:bg-slate-800/50 text-gray-900 dark:text-slate-100 placeholder:text-gray-400 dark:placeholder:text-slate-500 text-sm rounded-xl focus:outline-none focus:border-gray-900 dark:focus:border-indigo-400 transition-colors"
                 required
               />
             </div>
@@ -97,18 +96,18 @@ const SignIn = () => {
 
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              <label className="block text-xs font-semibold text-gray-600 dark:text-slate-300 uppercase tracking-wider">
                 Password
               </label>
               <Link
                 href="/forgot-password"
-                className="text-xs font-medium text-gray-500 hover:text-gray-950 hover:underline"
+                className="text-xs font-medium text-gray-500 dark:text-slate-400 hover:text-gray-950 dark:hover:text-white hover:underline"
               >
                 Forgot password?
               </Link>
             </div>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-slate-500" />
               <input
                 type={`${showPassword ? "text" : "password"}`}
                 placeholder="••••••••"
@@ -117,20 +116,20 @@ const SignIn = () => {
                   setPassword(e.target.value);
                   setErrorMessage("");
                 }}
-                className="w-full pl-10 pr-4 py-2.5 border border-gray-200 text-sm rounded-xl focus:outline-none focus:border-gray-900 transition-colors"
+                className="w-full pl-10 pr-4 py-2.5 border border-gray-200 dark:border-slate-800 bg-white dark:bg-slate-800/50 text-gray-900 dark:text-slate-100 placeholder:text-gray-400 dark:placeholder:text-slate-500 text-sm rounded-xl focus:outline-none focus:border-gray-900 dark:focus:border-indigo-400 transition-colors"
                 required
               />
               <div
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute top-2 right-3 text-gray-600 cursor-pointer"
+                className="absolute top-2.5 right-3 text-gray-600 dark:text-slate-400 hover:text-gray-900 dark:hover:text-white cursor-pointer"
               >
-                {showPassword ? <Eye /> : <EyeClosed />}
+                {showPassword ? <Eye className="w-4 h-4" /> : <EyeClosed className="w-4 h-4" />}
               </div>
             </div>
           </div>
 
           {errorMessage && (
-            <div className="flex items-center gap-3 rounded-xl border justify-center border-red-200 bg-red-50 px-4 py-3 text-red-700 shadow-sm">
+            <div className="flex items-center gap-3 rounded-xl border justify-center border-red-200 dark:border-red-900/50 bg-red-50 dark:bg-red-950/30 px-4 py-3 text-red-700 dark:text-red-400 shadow-sm">
               <AlertCircle className="h-5 w-5 shrink-0" />
               <p className="text-sm font-medium">{errorMessage}</p>
             </div>
@@ -139,17 +138,21 @@ const SignIn = () => {
           <button
             type="submit"
             disabled={signInMutation.isPending}
-            className={`w-full mt-2 py-3 ${signInMutation.isPending ? "bg-gray-500" : "bg-gray-950"}  text-white font-medium text-sm rounded-xl transition-colors duration-200 shadow-sm shadow-gray-950/10`}
+            className={`w-full mt-2 py-3 ${
+              signInMutation.isPending
+                ? "bg-gray-400 dark:bg-indigo-500/50 cursor-not-allowed"
+                : "bg-gray-950 hover:bg-gray-800 dark:bg-indigo-600 dark:hover:bg-indigo-500 cursor-pointer"
+            } text-white font-medium text-sm rounded-xl transition-colors duration-200 shadow-sm`}
           >
             {signInMutation.isPending ? "Signing In..." : "Sign In"}
           </button>
         </form>
 
-        <p className="text-center text-sm text-gray-500 mt-6">
+        <p className="text-center text-sm text-gray-500 dark:text-slate-400 mt-6">
           Do not have an account?{" "}
           <Link
             href="/sign-up"
-            className="text-gray-950 font-semibold hover:underline"
+            className="text-gray-950 dark:text-white font-semibold hover:underline"
           >
             Sign up
           </Link>

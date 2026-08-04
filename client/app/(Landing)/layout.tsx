@@ -1,7 +1,7 @@
 import "../globals.css";
 import Navbar from "@/components/Landing/Navbar";
 
-export default function RootLayout({
+export default function LandingLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

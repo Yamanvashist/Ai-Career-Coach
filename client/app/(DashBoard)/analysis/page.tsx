@@ -27,15 +27,13 @@ const Analysis = () => {
       });
       setAnalysis(analysis);
       setAnalysisDuration(Number((analysisDuration / 1000).toFixed(1)));
-      console.log(analysis);
-      console.log(analysisDuration);
     } catch (err) {
       console.log(err);
     }
   };
 
   return (
-    <div className="min-h-screen p-4 bg-slate-50 flex flex-col font-sans text-slate-900 lg:overflow-hidden">
+    <div className="min-h-screen p-4 bg-slate-50 dark:bg-slate-950 flex flex-col font-sans text-slate-900 dark:text-slate-100 lg:overflow-hidden transition-colors duration-200">
       <Navbar />
 
       <main className="flex-1 grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-6 p-6 overflow-y-auto">
@@ -53,7 +51,7 @@ const Analysis = () => {
             analyzeCode={analyzeCode}
             isLoading={isPending}
             analysis={analysis}
-            setAnalysis={setAnalysis as React.Dispatch<React.SetStateAction<string | null>>}
+            setAnalysis={setAnalysis as React.Dispatch<React.SetStateAction<any>>}
           />
           <AnalysisResults analysis={analysis} analysisDuration={analysisDuration} />
         </div>

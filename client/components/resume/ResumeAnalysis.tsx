@@ -10,10 +10,12 @@ type ResumeAnalysisProps = {
 
 const ResumeAnalysis = ({ analysis }: ResumeAnalysisProps) => {
   return (
-    <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
+    <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm relative overflow-hidden transition-colors">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-lg font-bold z-40 tracking-tight">AI Analysis</h2>
-        <BarChart2 className="w-5 h-5 text-slate-400" />
+        <h2 className="text-lg font-bold z-40 tracking-tight text-slate-900 dark:text-white">
+          AI Analysis
+        </h2>
+        <BarChart2 className="w-5 h-5 text-slate-400 dark:text-slate-500" />
       </div>
 
       <div className="flex flex-col items-center justify-center text-center">
@@ -23,14 +25,16 @@ const ResumeAnalysis = ({ analysis }: ResumeAnalysisProps) => {
             text={`${analysis?.atsScore ?? 0}`}
             styles={buildStyles({
               pathColor: "#4F46E5",
-              trailColor: "#e2e8f0",
+              trailColor: "rgba(100, 116, 139, 0.2)",
               textColor: "#4F46E5",
               strokeLinecap: "round",
             })}
           />
         </div>
-        <p className="mt-4 text-sm font-semibold text-slate-700">ATS Score</p>
-        <p className="mt-1 text-xs text-slate-500">
+        <p className="mt-4 text-sm font-semibold text-slate-700 dark:text-slate-200">
+          ATS Score
+        </p>
+        <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
           Upload a resume to generate your score
         </p>
 
@@ -61,16 +65,16 @@ const ResumeAnalysis = ({ analysis }: ResumeAnalysisProps) => {
             return (
               <div
                 key={idx}
-                className="flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-xl p-3"
+                className="flex items-center gap-3 bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/60 rounded-xl p-3"
               >
-                <div className="bg-green-600/10 p-1.5 rounded shrink-0">
-                  <Icon className="w-5 h-5 text-green-600" />
+                <div className="bg-green-600/10 dark:bg-green-500/10 p-1.5 rounded shrink-0">
+                  <Icon className="w-5 h-5 text-green-600 dark:text-green-400" />
                 </div>
                 <div className="flex flex-col text-left">
-                  <h1 className="text-sm font-semibold text-slate-800">
+                  <h1 className="text-sm font-semibold text-slate-800 dark:text-slate-200">
                     {item.label}
                   </h1>
-                  <p className="text-xs font-bold text-slate-500">
+                  <p className="text-xs font-bold text-slate-500 dark:text-slate-400">
                     {item.score}/100
                   </p>
                 </div>

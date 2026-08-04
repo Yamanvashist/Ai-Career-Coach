@@ -2,22 +2,22 @@ import Link from "next/link";
 
 const Hero = () => {
   return (
-    <section className="min-h-[85vh] flex items-center border-b border-gray-200">
+    <section className="min-h-[85vh] flex items-center border-b border-gray-200 dark:bg-gray-950">
       <div className="max-w-7xl mx-auto px-6 w-full">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
 
           <div>
-            <div className="mt-10 md:inline-flex items-center rounded-full border border-gray-200 px-4  text-sm font-medium text-gray-700 mb-6">
+            <div className="mt-10 md:inline-flex items-center rounded-full border border-gray-200 dark:border-gray-800 px-4 py-1 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-900/50 mb-6">
               AI-Powered Career Coach
             </div>
 
-            <h1 className="text-5xl lg:text-7xl font-bold text-gray-900 leading-tight">
+            <h1 className="text-5xl lg:text-7xl font-bold text-gray-900 dark:text-white leading-tight">
               Navigate Your Career
               <br />
               With Confidence
             </h1>
 
-            <p className="mt-6 text-lg text-gray-600 max-w-xl">
+            <p className="mt-6 text-lg text-gray-600 dark:text-gray-400 max-w-xl">
               Analyze resumes, identify skill gaps, generate
               personalized learning roadmaps, and prepare for
               interviews with AI-powered guidance.
@@ -28,12 +28,12 @@ const Hero = () => {
                 Get Started
               </Link>
 
-              <button className="border border-gray-300 hover:bg-gray-50 text-gray-900 px-6 py-3 rounded-xl font-medium transition-colors">
+              <button className="border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-900 dark:text-gray-100 px-6 py-3 rounded-xl font-medium transition-colors">
                 View Demo
               </button>
             </div>
 
-            <div className="mt-12 flex items-center gap-8 text-sm text-gray-500">
+            <div className="mt-12 flex items-center gap-8 text-sm text-gray-500 dark:text-gray-400">
               <p>✓ Resume Analysis</p>
               <p>✓ Skill Gap Detection</p>
               <p>✓ Interview Prep</p>
@@ -41,64 +41,64 @@ const Hero = () => {
           </div>
 
           <div className="relative">
-            <div className="rounded-2xl border border-gray-200 bg-white shadow-sm p-6">
+            <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm p-6">
 
-              <div className="flex items-center justify-between border-b border-gray-100 pb-4">
-                <h3 className="font-semibold text-gray-900">
+              <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-4">
+                <h3 className="font-semibold text-gray-900 dark:text-gray-100">
                   Career Dashboard
                 </h3>
 
-                <span className="text-sm text-blue-600 font-medium">
+                <span className="text-sm text-blue-600 dark:text-blue-400 font-medium">
                   Updated Today
                 </span>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 mt-6">
+              <div className="grid grid-cols-2 gap-4 mt-6 text-gray-900 dark:text-gray-100">
 
-                <div className="border border-gray-200 rounded-xl p-4">
-                  <p className="text-sm text-gray-500">Resume Score</p>
+                <div className="border border-gray-200 dark:border-gray-800 rounded-xl p-4 bg-gray-50/50 dark:bg-gray-900/50">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Resume Score</p>
                   <h2 className="text-3xl font-bold mt-2">87%</h2>
                 </div>
 
-                <div className="border border-gray-200 rounded-xl p-4">
-                  <p className="text-sm text-gray-500">
+                <div className="border border-gray-200 dark:border-gray-800 rounded-xl p-4 bg-gray-50/50 dark:bg-gray-900/50">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
                     Interview Readiness
                   </p>
                   <h2 className="text-3xl font-bold mt-2">81%</h2>
                 </div>
 
-                <div className="border border-gray-200 rounded-xl p-4 col-span-2">
-                  <p className="text-sm text-gray-500">
+                <div className="border border-gray-200 dark:border-gray-800 rounded-xl p-4 col-span-2 bg-gray-50/50 dark:bg-gray-900/50">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
                     Skill Gap Analysis
                   </p>
 
-                  <div className="mt-3 space-y-2">
+                  <div className="mt-3 space-y-2 text-sm text-gray-700 dark:text-gray-300">
                     <div className="flex justify-between">
                       <span>TypeScript</span>
-                      <span>90%</span>
+                      <span className="font-semibold">90%</span>
                     </div>
 
                     <div className="flex justify-between">
                       <span>System Design</span>
-                      <span>45%</span>
+                      <span className="font-semibold">45%</span>
                     </div>
 
                     <div className="flex justify-between">
                       <span>Node.js</span>
-                      <span>72%</span>
+                      <span className="font-semibold">72%</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="border border-gray-200 rounded-xl p-4 col-span-2">
-                  <p className="text-sm text-gray-500">
+                <div className="border border-gray-200 dark:border-gray-800 rounded-xl p-4 col-span-2 bg-gray-50/50 dark:bg-gray-900/50">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
                     Learning Roadmap
                   </p>
 
                   <div className="mt-3 space-y-3">
-                    <div className="h-2 bg-blue-600 rounded-full w-full"></div>
-                    <div className="h-2 bg-gray-200 rounded-full w-full"></div>
-                    <div className="h-2 bg-gray-200 rounded-full w-full"></div>
+                    <div className="h-2 bg-blue-600 dark:bg-blue-500 rounded-full w-full"></div>
+                    <div className="h-2 bg-gray-200 dark:bg-gray-800 rounded-full w-full"></div>
+                    <div className="h-2 bg-gray-200 dark:bg-gray-800 rounded-full w-full"></div>
                   </div>
                 </div>
 

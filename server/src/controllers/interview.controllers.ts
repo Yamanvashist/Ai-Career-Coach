@@ -48,6 +48,27 @@ export const startInterview = async (req: Request, res: Response) => {
       inputMode,
     });
 
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { credits: true },
+    });
+
+    if (!user || user.credits <= 0) {
+      return res.status(403).json({
+        success: false,
+        message: "No credits remaining",
+      });
+    }
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        credits: {
+          decrement: 1,
+        },
+      },
+    });
+
     const aiResponse = await analyze(prompt);
 
     if (!aiResponse?.trim())
@@ -241,7 +262,7 @@ export const submitInterview = async (req: Request, res: Response) => {
       data: {
         report,
         status: "COMPLETED",
-        overallScore : report.overallScore
+        overallScore: report.overallScore,
       },
     });
 
@@ -259,7 +280,6 @@ export const submitInterview = async (req: Request, res: Response) => {
     });
   }
 };
-
 
 export const getInterviewResult = async (req: Request, res: Response) => {
   try {

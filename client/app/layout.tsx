@@ -4,6 +4,9 @@ import "./globals.css";
 import Provider from "@/components/Providers";
 import { Toaster } from "sonner";
 import GoogleAuthProvider from "@/components/GoogleAuth/GoogleAuthProvider";
+import ThemeProvider from "@/components/ThemeProvider";
+
+import ThemeToggle from "@/components/ThemeToggle";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,7 +27,8 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: "AI Career Coach",
-  description: "AI-powered Resume Analysis, Code Review and Interview Preparation platform.",
+  description:
+    "AI-powered Resume Analysis, Code Review and Interview Preparation platform.",
 };
 
 export default function RootLayout({
@@ -35,16 +39,19 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <GoogleAuthProvider>
-          <Provider>
-            <main>{children}</main>
-            <Toaster richColors position="bottom-right" />
-          </Provider>
-        </GoogleAuthProvider>
+        <ThemeProvider>
+          <GoogleAuthProvider>
+            <Provider>
+              <main>{children}</main>
+              <Toaster richColors position="bottom-right" />
+            </Provider>
+          </GoogleAuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

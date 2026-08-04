@@ -29,20 +29,20 @@ const HowItWorks = () => {
   return (
     <section
       id="how-it-works"
-      className="py-28 bg-gray-50 scroll-mt-24"
+      className="min-h-screen py-28 bg-gray-50 dark:bg-gray-950 scroll-mt-24  transition-colors"
     >
       <div className="max-w-7xl mx-auto px-6">
         
         <div className="max-w-3xl mx-auto text-center">
-          <span className="text-blue-600 text-sm font-medium uppercase tracking-wider">
+          <span className="text-blue-600 dark:text-blue-400 text-sm font-medium uppercase tracking-wider">
             How It Works
           </span>
 
-          <h2 className="mt-4 text-4xl md:text-5xl font-bold text-gray-900">
+          <h2 className="mt-4 text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">
             A Simple Path To Career Growth
           </h2>
 
-          <p className="mt-6 text-lg text-gray-600">
+          <p className="mt-6 text-lg text-gray-600 dark:text-gray-400">
             CareerPilot guides you from resume analysis to interview readiness
             with a personalized AI-powered journey.
           </p>
@@ -52,17 +52,17 @@ const HowItWorks = () => {
           {steps.map((step) => (
             <div
               key={step.number}
-              className="bg-white border border-gray-200 rounded-xl p-6"
+              className="bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-xl p-6 shadow-sm hover:border-gray-300 dark:hover:border-gray-700 transition-all"
             >
-              <span className="text-4xl font-bold text-blue-600">
+              <span className="text-4xl font-bold text-blue-600 dark:text-blue-400">
                 {step.number}
               </span>
 
-              <h3 className="mt-6 text-xl font-semibold text-gray-900">
+              <h3 className="mt-6 text-xl font-semibold text-gray-900 dark:text-gray-100">
                 {step.title}
               </h3>
 
-              <p className="mt-3 text-gray-600 leading-relaxed">
+              <p className="mt-3 text-gray-600 dark:text-gray-400 leading-relaxed">
                 {step.description}
               </p>
             </div>

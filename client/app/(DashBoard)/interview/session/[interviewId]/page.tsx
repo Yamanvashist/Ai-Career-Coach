@@ -60,7 +60,6 @@ const Session = () => {
 
         audio.onended = () => {
           if (audioUrl) URL.revokeObjectURL(audioUrl);
-         
         };
 
         await audio.play();
@@ -128,11 +127,11 @@ const Session = () => {
         }
 
         toast.error(result.message || "Failed to submit interview.");
-        return; 
+        return;
       } catch (err) {
         console.error(err);
         toast.error("Failed to submit interview.");
-        return; 
+        return;
       }
     }
 
@@ -140,9 +139,9 @@ const Session = () => {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-emerald-50/40 via-slate-50 to-teal-50/30 text-slate-800 flex items-center justify-center p-4 sm:p-6 lg:p-8 font-sans selection:bg-emerald-100">
-      <div className="w-full max-w-7xl bg-white rounded-3xl border border-slate-200/80 shadow-xl shadow-slate-200/50 flex flex-col lg:flex-row overflow-hidden">
-        <aside className="w-full lg:w-[320px] xl:w-90 bg-slate-50/70 p-5 sm:p-6 border-b lg:border-b-0 lg:border-r border-slate-200/80 flex flex-col justify-between gap-6 shrink-0">
+    <div className="min-h-screen bg-linear-to-br from-emerald-50/40 via-slate-50 to-teal-50/30 dark:from-slate-950 dark:via-slate-950 dark:to-emerald-950/20 text-slate-800 dark:text-slate-100 flex items-center justify-center p-4 sm:p-6 lg:p-8 font-sans selection:bg-emerald-100 dark:selection:bg-emerald-900/50 transition-colors duration-200">
+      <div className="w-full max-w-7xl bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none flex flex-col lg:flex-row overflow-hidden transition-colors">
+        <aside className="w-full lg:w-[320px] xl:w-90 bg-slate-50/70 dark:bg-slate-900/60 p-5 sm:p-6 border-b lg:border-b-0 lg:border-r border-slate-200/80 dark:border-slate-800 flex flex-col justify-between gap-6 shrink-0 transition-colors">
           <div className="space-y-6">
             <AiAvatarCard inputMode={inputMode} />
             <TimerProgressCard
@@ -159,7 +158,7 @@ const Session = () => {
           />
         </aside>
 
-        <main className="flex-1 p-5 sm:p-8 flex flex-col justify-between gap-6 bg-white">
+        <main className="flex-1 p-5 sm:p-8 flex flex-col justify-between gap-6 bg-white dark:bg-slate-900 transition-colors">
           <div>
             <SessionHeader
               category={category}

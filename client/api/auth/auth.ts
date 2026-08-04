@@ -9,10 +9,7 @@ interface User {
 
 export const signUp = async (userData: User) => {
   try {
-    const { data } = await api.post(
-      "/user/sign-up",
-      userData,
-    );
+    const { data } = await api.post("/user/sign-up", userData);
 
     return data.user;
   } catch (error) {
@@ -22,10 +19,7 @@ export const signUp = async (userData: User) => {
 
 export const signIn = async (userData: User) => {
   try {
-    const { data } = await api.post(
-      "/user/sign-in",
-      userData,
-    );
+    const { data } = await api.post("/user/sign-in", userData);
     return data.user;
   } catch (error) {
     throw error;
@@ -48,16 +42,23 @@ export const checkAuth = async () => {
   }
 };
 
-
 export const logOut = async () => {
   try {
-    await api.post("http://localhost:4000/api/user/sign-out",
-      undefined,
-    )
+    await api.post("/user/sign-out", undefined);
   } catch (error) {
     {
-      throw error
+      throw error;
     }
   }
-}
+};
 
+export const accountDelete = async () => {
+  try {
+    const {data} = await api.delete("/user/delete");
+    return data
+  } catch (error) {
+    {
+      throw error;
+    }
+  }
+};
