@@ -7,6 +7,7 @@ import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import CareerReadinessCard from "@/components/dashboard/CareerReadinessCard";
 import QuickActionsCard from "@/components/dashboard/QuickActionsCard";
 import RecentActivityCard from "@/components/dashboard/RecentActivityCard";
+import Chart from "@/components/dashboard/Chart";
 
 const Dashboard = () => {
   const { data: userData, isLoading: userLoading } = useCurrentUser();
@@ -15,6 +16,7 @@ const Dashboard = () => {
   if (userLoading || dashboardLoading) return <DashboardSkeleton />;
 
   const { user } = userData || {};
+
   const {
     overallScore = 0,
     resumeAvg = 0,
@@ -23,7 +25,7 @@ const Dashboard = () => {
   } = dashboardData || {};
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 p-4 md:p-8 space-y-8 font-sans text-slate-900 dark:text-slate-100 transition-colors duration-200">
+    <div className="min-h-screen overflow-hidden bg-slate-50 dark:bg-slate-950 p-4 md:p-8 space-y-8 font-sans text-slate-900 dark:text-slate-100 transition-colors duration-200">
       <DashboardHeader userName={user?.name} />
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 items-start">
@@ -33,8 +35,11 @@ const Dashboard = () => {
           interviewAvg={interviewAvg}
           codeAnalysisAvg={codeAnalysisAvg}
         />
+
         <QuickActionsCard />
       </div>
+
+      <Chart />
 
       <RecentActivityCard />
     </div>
