@@ -2,6 +2,7 @@ import express from "express";
 import "dotenv/config";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+
 import userRouter from "./routes/user.routes.js";
 import resumeRouter from "./routes/resume.routes.js";
 import profileRouter from "./routes/profile.routes.js";
@@ -10,6 +11,7 @@ import interviewRouter from "./routes/interview.routes.js";
 import ttsRouter from "./routes/tts.routes.js";
 import dashboardRouter from "./routes/dashboard.routes.js";
 import historyRouter from "./routes/history.routes.js";
+import paymentRouter from "./routes/payment.route.js";
 
 const app = express();
 
@@ -34,6 +36,8 @@ app.use("/api/interview", interviewRouter);
 app.use("/api/tts", ttsRouter);
 app.use("/api/dashboard", dashboardRouter);
 app.use("/api/history", historyRouter);
+app.use("/api/payment", paymentRouter);
+
 
 const port = process.env.PORT || 4000;
 

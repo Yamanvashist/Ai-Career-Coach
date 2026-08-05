@@ -1,5 +1,4 @@
 import { ElevenLabsClient } from "@elevenlabs/elevenlabs-js"
-import "dotenv/config"
 
 const client = new ElevenLabsClient({
     apiKey: process.env.ELEVENLABS_API_KEY!
