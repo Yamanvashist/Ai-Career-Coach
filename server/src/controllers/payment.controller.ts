@@ -15,7 +15,7 @@ async function createOrder(req: Request, res: Response) {
       currency: "INR",
       receipt: `receipt_${Date.now()}`,
       notes: {
-        description: "Premium Subscription",
+        description: Subscription ?? "Premium Subscription",
       },
     };
 

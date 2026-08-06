@@ -10,6 +10,7 @@ import {
   Users,
   History,
   Settings,
+  CreditCard,
 } from "lucide-react";
 
 import ThemeToggle from "../ThemeToggle";
@@ -112,6 +113,15 @@ const MobileSidebar = () => {
         </nav>
 
         <div className="border-t border-slate-800 pt-4 space-y-1">
+           <Link
+            href="/billing"
+            onClick={close}
+            className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-800/80 hover:text-indigo-400"
+          >
+            <CreditCard size={20} />
+            Billing
+          </Link>
+
           <Link
             href="/settings"
             onClick={close}

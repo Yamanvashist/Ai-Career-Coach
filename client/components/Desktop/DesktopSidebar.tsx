@@ -9,6 +9,7 @@ import {
   History as HistoryIcon,
   Settings,
   User,
+  CreditCard,
 } from "lucide-react";
 import { useCurrentUser } from "@/hooks/auth/useCurrentUser";
 
@@ -117,6 +118,14 @@ const DesktopSidebar = () => {
       </nav>
 
       <div className="border-b border-slate-800 pt-4">
+        <Link
+          href="/billing"
+          className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition-all hover:bg-slate-800/80 hover:text-indigo-400"
+        >
+          <CreditCard size={20} />
+          Billing
+        </Link>
+
         <Link
           href="/settings"
           className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition-all hover:bg-slate-800/80 hover:text-indigo-400"
