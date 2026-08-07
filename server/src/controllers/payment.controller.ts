@@ -6,6 +6,7 @@ import prisma from "../lib/prisma";
 export async function createOrder(req: Request, res: Response) {
   try {
     const { amount, subscription } = req.body;
+    const Amount = Number(amount);
 
     const userId = (req as any).user.userId;
 
@@ -17,7 +18,7 @@ export async function createOrder(req: Request, res: Response) {
     }
 
     const options = {
-      amount: amount * 100,
+      amount: Amount * 100,
       currency: "INR",
       receipt: `receipt_${Date.now()}`,
       notes: {
@@ -27,13 +28,11 @@ export async function createOrder(req: Request, res: Response) {
 
     const order = await razorpay.orders.create(options);
 
-    console.log("Order Created Successfully:", order);
-
     const payment = await prisma.payment.create({
       data: {
         userId,
         razorpayOrderId: order.id,
-        amount: order.amount,
+        amount: Number(order.amount),
         currency: order.currency,
         type: subscription,
         status: "PENDING",
@@ -75,6 +74,50 @@ export async function verifyPayment(req: Request, res: Response) {
         .status(400)
         .json({ success: false, message: "Invalid signature" });
     }
+
+    const payment = await prisma.payment.update({
+      where: {
+        razorpayOrderId: razorpay_order_id,
+      },
+      data: {
+        razorpayPaymentId: razorpay_payment_id,
+        razorpaySignature: razorpay_signature,
+        status: "SUCCESS",
+      },
+    });
+
+    let creditsToAdd = 0;
+
+    switch (payment.type) {
+      case "100 Credits":
+        creditsToAdd = 100;
+        break;
+
+      case "250 Credits":
+        creditsToAdd = 250;
+        break;
+
+      case "500 Credits":
+        creditsToAdd = 500;
+        break;
+
+      case "Pro Monthly Subscription":
+        creditsToAdd = 300;
+        break;
+
+      case "Ultimate Monthly Subscription":
+        creditsToAdd = 1000;
+        break;
+    }
+
+    await prisma.user.update({
+      where: {
+        id: payment.userId,
+      },
+      data: {
+        credits: { increment: creditsToAdd },
+      },
+    });
 
     return res.status(200).json({ success: true, message: "Payment verified" });
   } catch (error) {
