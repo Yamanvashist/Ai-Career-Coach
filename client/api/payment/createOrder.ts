@@ -1,15 +1,12 @@
 import api from "../api";
 
 const createOrder = async (amount: number, subscription: string) => {
-  try {
-    const { data } = await api.post("/payment/createOrder", {
-      amount,
-      subscription,
-    });
-    return data;
-  } catch (error) {
-    throw error;
-  }
+  const { data } = await api.post("/payment/createOrder", {
+    amount,
+    subscription,
+  });
+
+  return data;
 };
 
 export default createOrder;

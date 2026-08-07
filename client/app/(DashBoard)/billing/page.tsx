@@ -1,11 +1,44 @@
 "use client";
 import { useCurrentUser } from "@/hooks/auth/useCurrentUser";
+import useCreateOrder from "@/hooks/payment/useCreateOrder";
+import { loadRazorPayScript } from "@/components/payment/Payment";
+import api from "@/api/api";
 
 export default function BillingPage() {
   const { data: user } = useCurrentUser();
   const { credits } = user;
 
-  
+  const { mutateAsync: createOrder, isPending } = useCreateOrder();
+
+  const handlePayment = async (amount: number, subscription: string) => {
+    const isLoaded = await loadRazorPayScript();
+    if (!isLoaded) return;
+
+    const { order } = await createOrder({
+      amount,
+      subscription,
+    });
+
+    const options = {
+      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+      amount: order.amount,
+      currency: order.currency,
+      order_id: order.id,
+      name: "Ai Career Coach",
+      description: "Premium",
+
+      handler: async function (response) {
+        const result = await api.post("/payment/verify", {
+          razorpay_order_id: response.razorpay_order_id,
+          razorpay_payment_id: response.razorpay_payment_id,
+          razorpay_signature: response.razorpay_signature,
+        });
+      },
+    };
+
+    const razorpay = new (window as any).Razorpay(options);
+    razorpay.open();
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 p-6 md:p-10 transition-colors">
@@ -68,7 +101,10 @@ export default function BillingPage() {
                   ₹99
                 </p>
               </div>
-              <button className="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-purple-600 hover:text-white font-medium rounded-lg transition-colors">
+              <button
+                onClick={() => handlePayment(99, "100 Credits")}
+                className="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-purple-600 hover:text-white font-medium rounded-lg transition-colors cursor-pointer"
+              >
                 Buy
               </button>
             </div>
@@ -80,7 +116,10 @@ export default function BillingPage() {
                   ₹199
                 </p>
               </div>
-              <button className="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-purple-600 hover:text-white font-medium rounded-lg transition-colors">
+              <button
+                onClick={() => handlePayment(199, "250 Credits")}
+                className="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-purple-600 hover:text-white font-medium cursor-pointer rounded-lg transition-colors"
+              >
                 Buy
               </button>
             </div>
@@ -92,7 +131,10 @@ export default function BillingPage() {
                   ₹349
                 </p>
               </div>
-              <button className="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-purple-600 hover:text-white font-medium rounded-lg transition-colors">
+              <button
+                onClick={() => handlePayment(349, "500 Credits")}
+                className="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-purple-600 hover:text-white cursor-pointer font-medium rounded-lg transition-colors"
+              >
                 Buy
               </button>
             </div>
@@ -159,7 +201,10 @@ export default function BillingPage() {
                   </li>
                 </ul>
               </div>
-              <button className="w-full mt-8 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl transition-colors">
+              <button
+                onClick={() => handlePayment(299, "Pro")}
+                className="w-full mt-8 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl cursor-pointer transition-colors"
+              >
                 Upgrade to Pro
               </button>
             </div>
@@ -190,7 +235,10 @@ export default function BillingPage() {
                   </li>
                 </ul>
               </div>
-              <button className="w-full mt-8 py-2.5 bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:hover:bg-white dark:text-slate-900 text-white font-semibold rounded-xl transition-colors">
+              <button
+                onClick={() => handlePayment(699, "Ultimate")}
+                className="w-full mt-8 py-2.5 bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:hover:bg-white dark:text-slate-900 cursor-pointer text-white font-semibold rounded-xl transition-colors"
+              >
                 Upgrade to Ultimate
               </button>
             </div>
@@ -203,8 +251,10 @@ export default function BillingPage() {
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="border-b border-slate-100 dark:border-slate-800 text-xs font-semibold text-slate-400 uppercase">
-                  {["Date", "Description", "Amount"].map((item) => (
-                    <th className="py-3 pr-4">{item}</th>
+                  {["Date", "Description", "Amount"].map((item, idx) => (
+                    <th key={idx} className="py-3 pr-4">
+                      {item}
+                    </th>
                   ))}
                   <th className="py-3 pl-4 text-right">Status</th>
                 </tr>

@@ -21,6 +21,7 @@ model User {
   codeAnalyses CodeAnalysis[]
 
   interview Interview[]
+  payments  Payment[]
 }
 
 model Profile {
@@ -127,7 +128,7 @@ model Interview {
   questions Json
 
   overallScore Int?
-  report Json?
+  report       Json?
 
   status InterviewStatus @default(ONGOING)
 
@@ -136,4 +137,31 @@ model Interview {
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+model Payment {
+  id String @id @default(cuid())
+
+  razorpayOrderId   String  @unique
+  razorpayPaymentId String? @unique
+  razorpaySignature String?
+
+  amount   Int
+  currency String @default("INR")
+
+  status PaymentStatus @default(PENDING)
+
+  type String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 }
