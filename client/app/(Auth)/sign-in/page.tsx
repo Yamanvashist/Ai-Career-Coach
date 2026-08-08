@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { Mail, Lock, Compass, Eye, EyeClosed, AlertCircle } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { signIn } from "@/api/auth/auth";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
@@ -15,13 +14,11 @@ const SignIn = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const router = useRouter();
 
   const signInMutation = useMutation({
     mutationFn: signIn,
     onSuccess: (user) => {
-      console.log(user);
-      router.push("/dashboard");
+      window.location.href = "/dashboard";
     },
     onError: (error) => {
       if (axios.isAxiosError(error)) {
@@ -123,7 +120,11 @@ const SignIn = () => {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute top-2.5 right-3 text-gray-600 dark:text-slate-400 hover:text-gray-900 dark:hover:text-white cursor-pointer"
               >
-                {showPassword ? <Eye className="w-4 h-4" /> : <EyeClosed className="w-4 h-4" />}
+                {showPassword ? (
+                  <Eye className="w-4 h-4" />
+                ) : (
+                  <EyeClosed className="w-4 h-4" />
+                )}
               </div>
             </div>
           </div>

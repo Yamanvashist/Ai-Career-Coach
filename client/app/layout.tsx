@@ -6,8 +6,6 @@ import { Toaster } from "sonner";
 import GoogleAuthProvider from "@/components/GoogleAuth/GoogleAuthProvider";
 import ThemeProvider from "@/components/ThemeProvider";
 
-import ThemeToggle from "@/components/ThemeToggle";
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
