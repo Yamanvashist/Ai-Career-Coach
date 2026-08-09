@@ -109,7 +109,11 @@ const SignUp = () => {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute top-2.5 right-3 text-gray-600 dark:text-slate-400 hover:text-gray-900 dark:hover:text-white cursor-pointer"
               >
-                {showPassword ? <Eye className="w-4 h-4" /> : <EyeClosed className="w-4 h-4" />}
+                {showPassword ? (
+                  <Eye className="w-4 h-4" />
+                ) : (
+                  <EyeClosed className="w-4 h-4" />
+                )}
               </div>
             </div>
           </div>
@@ -123,7 +127,9 @@ const SignUp = () => {
                 : "bg-gray-950 hover:bg-gray-800 dark:bg-indigo-600 dark:hover:bg-indigo-500 cursor-pointer"
             } text-white font-medium text-sm rounded-xl transition-colors duration-200 shadow-sm`}
           >
-            {signupMutation.isPending ? "Creating Account..." : "Create Account"}
+            {signupMutation.isPending
+              ? "Creating Account..."
+              : "Create Account"}
           </button>
         </form>
 

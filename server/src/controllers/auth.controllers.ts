@@ -6,6 +6,7 @@ import { hashPassword, comparePassword } from "../services/hashPassword.js";
 import generateToken from "../services/generateToken.js";
 
 import "dotenv/config";
+import * as crypto from "crypto";
 
 export const register = async (req: Request, res: Response) => {
   try {
@@ -326,4 +327,59 @@ export const deleteAccount = async (req: Request, res: Response) => {
       .status(500)
       .json({ message: "Account deletion failed", success: false });
   }
+};
+
+export const forgotPassword = async (req: Request, res: Response) => {
+  const { email } = req.body;
+
+  if (!email?.trim()) {
+    return res.status(400).json({
+      message: "Email field is empty",
+      success: false,
+    });
+  }
+
+  const userExist = await prisma.user.findFirst({
+    where: {
+      email,
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  if (!userExist) {
+    return res.status(200).json({
+      message:
+        "If an account exists with this email, a reset link has been sent.",
+      success: true,
+    });
+  }
+
+  const resetToken = crypto.randomBytes(32).toString("hex");
+
+  const tokenHash = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+  const resetTokenExpiry = new Date(Date.now() + 15 * 60 * 1000);
+
+  await prisma.user.update({
+    where: {
+      id: userExist.id,
+    },
+    data: {
+      resetTokenHash: tokenHash,
+      resetTokenExpiry,
+    },
+  });
+
+  const resetUrl = `${process.env.FRONTEND_URL}/auth?resetToken=${resetToken}`;
+
+  return res.status(200).json({
+    message:
+      "If an account exists with this email, a reset link has been sent.",
+    success: true,
+  });
 };

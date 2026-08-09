@@ -18,6 +18,8 @@ userRouter.post("/sign-up", register);
 userRouter.post("/google", googleLogin);
 userRouter.delete("/delete", verifyUser,deleteAccount);
 
+userRouter.post("/resetPassword",verifyUser,)
+
 userRouter.post("/sign-out", verifyUser, signOut);
 
 userRouter.patch("/password", verifyUser, updatePassword);
