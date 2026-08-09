@@ -110,8 +110,9 @@ export default function ProfileSidebar({ targetRole }: ProfileSidebarProps) {
           <div className="mt-5 flex items-start gap-3 rounded-xl bg-white/80 dark:bg-slate-800/60 p-3">
             <Sparkles className="mt-0.5 h-4 w-4 text-amber-500 shrink-0" />
             <p className="text-xs leading-relaxed text-slate-600 dark:text-slate-300">
-              Credits refresh every month. Spend them to generate resumes,
-              analyze ATS scores, and unlock AI career insights.
+              Create job-ready resumes, optimize your ATS score, and unlock
+              personalized AI insights designed to help you land your next
+              opportunity.
             </p>
           </div>
         </div>

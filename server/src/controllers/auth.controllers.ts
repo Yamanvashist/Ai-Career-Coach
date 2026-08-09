@@ -273,8 +273,6 @@ export const googleLogin = async (req: Request, res: Response) => {
       });
     }
 
-    console.log(user);
-
     const token = await generateToken(user.id);
 
     const isProduction = process.env.NODE_ENV === "production";
@@ -323,6 +321,7 @@ export const deleteAccount = async (req: Request, res: Response) => {
       .status(200)
       .json({ message: "Account deletion successfull", success: true });
   } catch (err) {
+    console.log(err);
     return res
       .status(500)
       .json({ message: "Account deletion failed", success: false });

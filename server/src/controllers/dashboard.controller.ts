@@ -3,7 +3,6 @@ import prisma from "../lib/prisma";
 
 export default async function getDashboardData(req: Request, res: Response) {
   try {
-
     const userId = (req as any).user?.userId;
 
     if (!userId) {
@@ -49,7 +48,6 @@ export default async function getDashboardData(req: Request, res: Response) {
               resume.length,
           );
 
-
     const interviewScores = interviewRecords
       .map((item) => item.overallScore)
       .filter((score): score is number => score !== null);
@@ -77,6 +75,18 @@ export default async function getDashboardData(req: Request, res: Response) {
     const overallScore = Math.round(
       (resumeAvg + interviewAvg + codeAnalysisAvg) / 3,
     );
+
+    // activity destribution
+
+    const activityDistribution = {
+      resume: resume.length,
+      interview: interviewRecords.length,
+      codeAnalysis: codeAnalyses.length,
+    };
+
+    // performance trend
+
+    
 
     return res.status(200).json({
       success: true,
