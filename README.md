@@ -1,4 +1,4 @@
-# 🚀 AI Career Coach
+# AI Career Coach
 
 > An AI-powered platform that helps developers analyze their resumes, improve coding skills, practice interviews, and track career readiness.
 
@@ -6,16 +6,16 @@
 
 ## ✨ Features
 
-* 📄 **AI Resume Analyzer** — Upload a resume and get role-specific feedback, scoring, strengths, and improvements.
-* 💻 **AI Code Analysis** — Get AI-powered feedback on code quality, logic, and complexity.
-* 🎤 **AI Interview Practice** — Practice role-specific interviews and receive performance feedback.
-* 📊 **Career Dashboard** — Track Resume, Code, and Interview scores with a Career Readiness Index.
-* 📚 **Activity History** — View and filter previous resume analyses, code reviews, and interviews.
-* 🔐 **Authentication** — JWT authentication with secure HTTP-only cookies.
-* 💳 **Payments** — Razorpay integration for premium features.
-* 🔊 **AI Voice** — Text-to-speech powered by ElevenLabs.
+* **AI Resume Analyzer** — Upload a resume and get role-specific feedback, scoring, strengths, and improvements.
+* **AI Code Analysis** — Get AI-powered feedback on code quality, logic, and complexity.
+* **AI Interview Practice** — Practice role-specific interviews and receive performance feedback.
+* **Career Dashboard** — Track Resume, Code, and Interview scores with a Career Readiness Index.
+* **Activity History** — View and filter previous resume analyses, code reviews, and interviews.
+* **Authentication** — JWT authentication with secure HTTP-only cookies.
+* **Payments** — Razorpay integration for premium features.
+* **AI Voice** — Text-to-speech powered by ElevenLabs.
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 **Frontend:** Next.js, React, TypeScript, Tailwind CSS, TanStack Query, Zustand, Recharts
 
@@ -97,7 +97,7 @@ AI Career Coach brings resume analysis, coding evaluation, interview preparation
 
 Built to explore **AI integration, full-stack architecture, authentication, payments, database design, and cloud deployment**.
 
-## 👨‍💻 Author
+## Author
 
 **Yaman Vashist** — Full-Stack Web Developer
 
