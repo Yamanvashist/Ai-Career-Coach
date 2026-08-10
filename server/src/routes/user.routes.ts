@@ -9,6 +9,8 @@ import {
   updatePassword,
   deleteAccount,
   googleLogin,
+  forgotPassword,
+  resetPassword,
 } from "../controllers/auth.controllers.js";
 
 const userRouter = express.Router();
@@ -16,9 +18,10 @@ const userRouter = express.Router();
 userRouter.post("/sign-in", login);
 userRouter.post("/sign-up", register);
 userRouter.post("/google", googleLogin);
-userRouter.delete("/delete", verifyUser,deleteAccount);
+userRouter.delete("/delete", verifyUser, deleteAccount);
 
-userRouter.post("/resetPassword",verifyUser,)
+userRouter.post("/forgotPassword", forgotPassword);
+userRouter.post("/resetPassword", resetPassword);
 
 userRouter.post("/sign-out", verifyUser, signOut);
 

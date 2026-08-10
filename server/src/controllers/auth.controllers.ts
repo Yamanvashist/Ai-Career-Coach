@@ -7,6 +7,8 @@ import generateToken from "../services/generateToken.js";
 
 import "dotenv/config";
 import * as crypto from "crypto";
+import resend from "../lib/resend.js";
+import { resetPasswordEmail } from "../templates/emails/reset-password.js";
 
 export const register = async (req: Request, res: Response) => {
   try {
@@ -330,56 +332,131 @@ export const deleteAccount = async (req: Request, res: Response) => {
 };
 
 export const forgotPassword = async (req: Request, res: Response) => {
-  const { email } = req.body;
+  try {
+    const { email } = req.body;
 
-  if (!email?.trim()) {
-    return res.status(400).json({
-      message: "Email field is empty",
-      success: false,
+    if (!email?.trim()) {
+      return res.status(400).json({
+        message: "Email field is empty",
+        success: false,
+      });
+    }
+
+    const userExist = await prisma.user.findFirst({
+      where: {
+        email,
+      },
+      select: {
+        id: true,
+      },
     });
-  }
 
-  const userExist = await prisma.user.findFirst({
-    where: {
-      email,
-    },
-    select: {
-      id: true,
-    },
-  });
+    if (!userExist) {
+      return res.status(200).json({
+        message:
+          "If an account exists with this email, a reset link has been sent.",
+        success: true,
+      });
+    }
 
-  if (!userExist) {
+    const resetToken = crypto.randomBytes(32).toString("hex");
+
+    const tokenHash = crypto
+      .createHash("sha256")
+      .update(resetToken)
+      .digest("hex");
+
+    const resetTokenExpiry = new Date(Date.now() + 15 * 60 * 1000);
+
+    await prisma.user.update({
+      where: {
+        id: userExist.id,
+      },
+      data: {
+        resetTokenHash: tokenHash,
+        resetTokenExpiry,
+      },
+    });
+
+    const resetUrl = `${process.env.FRONTEND_URL}/sign-in?resetToken=${resetToken}`;
+
+    await resend.emails.send({
+      from: "onboarding@resend.dev",
+      to: email,
+      subject: "Reset your password",
+      html: resetPasswordEmail(resetUrl),
+    });
+
     return res.status(200).json({
       message:
         "If an account exists with this email, a reset link has been sent.",
       success: true,
     });
+  } catch (error) {
+    console.error("Forgot password error:", error);
+
+    return res.status(500).json({
+      message: "Something went wrong",
+      success: false,
+    });
   }
+};
 
-  const resetToken = crypto.randomBytes(32).toString("hex");
+export const resetPassword = async (req: Request, res: Response) => {
+  try {
+    const { token, password } = req.body;
 
-  const tokenHash = crypto
-    .createHash("sha256")
-    .update(resetToken)
-    .digest("hex");
+    if (!token?.trim() || !password?.trim()) {
+      return res.status(400).json({
+        message: "Token and password are required",
+        success: false,
+      });
+    }
 
-  const resetTokenExpiry = new Date(Date.now() + 15 * 60 * 1000);
+    const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
 
-  await prisma.user.update({
-    where: {
-      id: userExist.id,
-    },
-    data: {
-      resetTokenHash: tokenHash,
-      resetTokenExpiry,
-    },
-  });
+    const user = await prisma.user.findFirst({
+      where: {
+        resetTokenHash: tokenHash,
+        resetTokenExpiry: {
+          gt: new Date(),
+        },
+      },
+      select: {
+        id: true,
+      },
+    });
 
-  const resetUrl = `${process.env.FRONTEND_URL}/auth?resetToken=${resetToken}`;
+    if (!user) {
+      return res.status(400).json({
+        message: "Invalid or expired reset token",
+        success: false,
+      });
+    }
 
-  return res.status(200).json({
-    message:
-      "If an account exists with this email, a reset link has been sent.",
-    success: true,
-  });
+    const hashedPassword = await hashPassword(password, 12);
+
+    await prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        password: hashedPassword,
+        resetTokenHash: null,
+        resetTokenExpiry: null,
+      },
+    });
+
+    return res.status(200).json({
+      message: "Password reset successfully",
+      success: true,
+    });
+  } catch (error) {
+    console.error("Reset password error:", error);
+
+    return res.status(500).json({
+      message: "Something went wrong",
+      success: false,
+    });
+  }
 };

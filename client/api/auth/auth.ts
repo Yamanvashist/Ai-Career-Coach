@@ -54,11 +54,37 @@ export const logOut = async () => {
 
 export const accountDelete = async () => {
   try {
-    const {data} = await api.delete("/user/delete");
-    return data
+    const { data } = await api.delete("/user/delete");
+    return data;
   } catch (error) {
     {
       throw error;
     }
+  }
+};
+
+export const forgotPassword = async (email: string) => {
+  try {
+    const { data } = await api.post("/user/forgotPassword", {
+      email,
+    });
+
+    return data;
+  } catch (Err) {
+    console.log(Err);
+  }
+};
+
+export const resetPassword = async (token: string, password: string) => {
+  try {
+    const { data } = await api.post("/user/resetPassword", {
+      token,
+      password,
+    });
+
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
   }
 };
