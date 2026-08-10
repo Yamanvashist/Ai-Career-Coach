@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const Hero = () => {
   return (
-    <section className="min-h-[85vh] flex items-center border-b border-gray-200 dark:bg-gray-950">
+    <section className="min-h-[85vh] flex items-center border-b border-gray-200 p-6 dark:bg-gray-950">
       <div className="max-w-7xl mx-auto px-6 w-full">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
 
