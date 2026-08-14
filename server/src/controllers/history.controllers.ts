@@ -1,11 +1,7 @@
 import { Request, Response } from "express";
 import prisma from "../lib/prisma";
 
-interface AuthenticatedRequest extends Request {
-  user?: { userId: string };
-}
-
-const getHistory = async (req: AuthenticatedRequest, res: Response) => {
+const getHistory = async (req: Request, res: Response) => {
   try {
     const userId = req.user?.userId;
 

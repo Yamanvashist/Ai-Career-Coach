@@ -3,7 +3,7 @@ import prisma from "../lib/prisma";
 
 export default async function getDashboardData(req: Request, res: Response) {
   try {
-    const userId = (req as any).user?.userId;
+    const userId = req.user?.userId;
 
     if (!userId) {
       return res.status(401).json({
@@ -84,9 +84,15 @@ export default async function getDashboardData(req: Request, res: Response) {
       codeAnalysis: codeAnalyses.length,
     };
 
-    // performance trend
+    //skill performance
 
-    
+    const skillPerformance = [
+      { name: "Resume", score: resumeAvg },
+      { name: "Interview", score: interviewAvg },
+      { name: "Code Analysis", score: codeAnalysisAvg },
+    ].map((item) => {
+      return { skill: item.name, score: item.score };
+    });
 
     return res.status(200).json({
       success: true,
@@ -94,6 +100,7 @@ export default async function getDashboardData(req: Request, res: Response) {
       interviewAvg,
       codeAnalysisAvg,
       overallScore,
+      skillPerformance,
     });
   } catch (error) {
     console.error(error);

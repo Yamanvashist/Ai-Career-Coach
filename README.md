@@ -50,11 +50,11 @@ cd YOUR_REPOSITORY
 
 ```bash
 # Frontend
-cd frontend
+cd client
 npm install
 
 # Backend
-cd ../backend
+cd server
 npm install
 ```
 

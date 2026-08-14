@@ -1,15 +1,9 @@
-import { Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from "express";
 import { verifyToken } from "../services/generateToken";
-import { JwtPayload } from "../../Interfaces/jwtPayload";
 
-export const verifyUser = (
-  req: any,
-  res: Response,
-  next: NextFunction
-) => {
+export const verifyUser = (req: Request, res: Response, next: NextFunction) => {
   try {
     const { token } = req.cookies;
-    
 
     if (!token) {
       return res.status(401).json({

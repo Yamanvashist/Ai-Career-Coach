@@ -8,7 +8,7 @@ export async function createOrder(req: Request, res: Response) {
     const { amount, subscription } = req.body;
     const Amount = Number(amount);
 
-    const userId = (req as any).user.userId;
+    const userId = req.user?.userId;
 
     if (!amount) {
       return res.status(400).json({

@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import Link from "next/link";
 import { Send } from "lucide-react";
@@ -13,14 +14,14 @@ interface NavPage {
 }
 
 const pages: NavPage[] = [
-  { id: "features", name: "Features", href: "/features" },
-  { id: "how-it-works", name: "How It Works", href: "/how-it-works" },
-  { id: "pricing", name: "Pricing", href: "/pricing" },
-  { id: "resources", name: "Resources", href: "/resources" },
+  { id: "features", name: "Features", href: "#features" },
+  { id: "how-it-works", name: "How It Works", href: "#how-it-works" },
+  { id: "pricing", name: "Pricing", href: "#pricing" },
+  { id: "resources", name: "Resources", href: "#resources" },
 ];
 
 const Navbar = () => {
-  const { data: user } = useCurrentUser();
+  const { data: user, isLoading } = useCurrentUser();
   const mutatedLogOut = useLogout();
 
   const handleLogOut = () => {
@@ -28,25 +29,27 @@ const Navbar = () => {
   };
 
   return (
-    // Changed h-18 to h-20 here (or use h-[72px] if you want that specific size)
-    <nav className="h-20 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 transition-colors">
+    <nav className="sticky top-0 z-50 h-20 border-b border-slate-200/80 bg-white/80 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/80 transition-colors">
       <div className="max-w-7xl mx-auto h-full px-4 flex items-center justify-between">
         <div className="flex items-center gap-2 cursor-pointer">
-          <Send color="#2080fe" size={30} />
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600/10 ring-1 ring-blue-200 dark:ring-blue-900/60">
+            <Send color="#2080fe" size={22} />
+          </div>
+
           <Link
             href="/"
-            className="text-2xl font-poppins font-bold text-gray-900 dark:text-white"
+            className="text-2xl font-poppins font-bold tracking-tight text-slate-900 dark:text-white"
           >
             CareerPilot
           </Link>
         </div>
 
-        <ul className="hidden md:flex items-center gap-10">
+        <ul className="hidden md:flex items-center gap-2">
           {pages.map((page) => (
             <li key={page.id}>
               <Link
                 href={page.href}
-                className="text-sm font-semibold text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white cursor-pointer transition-colors"
+                className="rounded-full px-4 py-2 text-sm font-semibold text-slate-700 transition-all hover:bg-blue-50 hover:text-blue-700 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
               >
                 {page.name}
               </Link>
@@ -55,10 +58,29 @@ const Navbar = () => {
         </ul>
 
         <div className="flex items-center gap-4">
-          {user ? (
+          {isLoading ? (
+            <div className="flex items-center gap-4">
+              <div className="relative h-10 w-10 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
+                <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-linear-to-r from-transparent via-white/70 to-transparent dark:via-slate-500/20" />
+              </div>
+
+              <div className="hidden md:flex flex-col gap-2">
+                <div className="relative h-3 w-24 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
+                  <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-linear-to-r from-transparent via-white/70 to-transparent dark:via-slate-500/20" />
+                </div>
+
+                <div className="relative h-2.5 w-36 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
+                  <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-linear-to-r from-transparent via-white/70 to-transparent dark:via-slate-500/20" />
+                </div>
+              </div>
+
+              <div className="relative h-9 w-20 overflow-hidden rounded-lg bg-slate-200 dark:bg-slate-800">
+                <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-linear-to-r from-transparent via-white/70 to-transparent dark:via-slate-500/20" />
+              </div>
+            </div>
+          ) : user ? (
             <div className="flex items-center gap-4">
               <button className="h-10 w-10 rounded-full bg-blue-600 text-white font-semibold flex items-center justify-center">
-                {/* Added optional chaining so it doesn't crash if name is missing */}
                 {user?.name?.charAt(0).toUpperCase() || "U"}
               </button>
 
@@ -66,6 +88,7 @@ const Navbar = () => {
                 <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">
                   {user.name}
                 </span>
+
                 <span className="text-xs text-gray-500 dark:text-gray-400">
                   {user.email || "guest@mail.com"}
                 </span>
@@ -79,6 +102,7 @@ const Navbar = () => {
               </button>
             </div>
           ) : (
+          
             <div className="flex items-center gap-4 md:gap-6">
               <Link
                 href="/sign-in"
@@ -89,7 +113,7 @@ const Navbar = () => {
 
               <Link
                 href="/sign-up"
-                className="shrink-0  bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium px-3 py-2 rounded-lg transition-all"
+                className="shrink-0 bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium px-3 py-2 rounded-lg transition-all"
               >
                 Sign Up
               </Link>

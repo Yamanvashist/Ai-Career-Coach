@@ -9,7 +9,7 @@ import {
 
 export const analyzeCode = async (req: Request, res: Response) => {
   try {
-    const userId = (req as any).user?.userId;
+    const userId = req.user?.userId;
     const { code, language } = req.body as userInput;
 
     if (!code?.trim()) {

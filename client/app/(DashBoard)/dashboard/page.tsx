@@ -22,6 +22,7 @@ const Dashboard = () => {
     resumeAvg = 0,
     interviewAvg = 0,
     codeAnalysisAvg = 0,
+    skillPerformance
   } = dashboardData || {};
 
   return (
@@ -39,7 +40,7 @@ const Dashboard = () => {
         <QuickActionsCard />
       </div>
 
-      <Chart />
+      <Chart data={skillPerformance} />
 
       <RecentActivityCard />
     </div>

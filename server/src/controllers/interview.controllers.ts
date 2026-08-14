@@ -25,7 +25,7 @@ export const startInterview = async (req: Request, res: Response) => {
       inputMode,
     } = req.body as PromptProps;
 
-    const userId = (req as any).user.userId;
+    const userId = req.user?.userId;
 
     if (!userId)
       return res
@@ -123,7 +123,7 @@ export const startInterview = async (req: Request, res: Response) => {
 
 export const getInterview = async (req: Request, res: Response) => {
   try {
-    const userId = (req as any).user.userId;
+    const userId = req.user?.userId;
 
     if (!userId) {
       return res.status(401).json({
@@ -178,7 +178,7 @@ export const getInterview = async (req: Request, res: Response) => {
 
 export const submitInterview = async (req: Request, res: Response) => {
   try {
-    const userId = (req as any).user.userId;
+    const userId = req.user?.userId;
 
     if (!userId) {
       return res.status(401).json({
@@ -283,7 +283,7 @@ export const submitInterview = async (req: Request, res: Response) => {
 
 export const getInterviewResult = async (req: Request, res: Response) => {
   try {
-    const userId = (req as any).user.userId;
+    const userId = req.user?.userId;
 
     if (!userId) {
       return res.status(401).json({

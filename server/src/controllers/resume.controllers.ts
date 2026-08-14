@@ -3,18 +3,13 @@ import { parsePdf } from "../lib/pdfParse";
 import { buildResumePrompt } from "../AiPrompt/ResumePrompt";
 import { analyze } from "../lib/GenAi";
 import prisma from "../lib/prisma";
-import Multer from "multer"
-
-interface MulterRequest {
-  file: Express.Multer.File;
-}
 
 export const resumeAnalyze = async (req: Request, res: Response) => {
   try {
-    const pdf = req.file
+    const pdf = req.file;
     const { targetRole } = req.body;
 
-    const userId = (req as any).user?.userId;
+    const userId = req.user?.userId;
 
     if (!pdf || !pdf.path) {
       return res.status(400).json({ error: "No resume file uploaded" });
@@ -31,8 +26,6 @@ export const resumeAnalyze = async (req: Request, res: Response) => {
 
     const text = await analyze(resumePrompt);
     const aiData = JSON.parse(text || "{}");
-
-
 
     const resume = await prisma.resume.create({
       data: {
@@ -53,21 +46,22 @@ export const resumeAnalyze = async (req: Request, res: Response) => {
     const totalCredits = await prisma.user.findUnique({
       where: { id: userId },
       select: {
-        credits: true
-      }
-    })
+        credits: true,
+      },
+    });
 
-    if (!totalCredits) return res.status(404).json({ message: "User not found" });
-    if (totalCredits.credits < 1) return res.status(402).json({ message: "Credits are insufficient" });
+    if (!totalCredits)
+      return res.status(404).json({ message: "User not found" });
+    if (totalCredits.credits < 1)
+      return res.status(402).json({ message: "Credits are insufficient" });
 
     await prisma.user.update({
       where: { id: userId },
       data: { credits: { decrement: 1 } },
       select: {
-        credits: true
-      }
+        credits: true,
+      },
     });
-
 
     return res.json({ resume });
   } catch (err) {

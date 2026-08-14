@@ -130,7 +130,7 @@ export const signOut = (req: Request, res: Response) => {
 
 export const checkAuth = async (req: Request, res: Response) => {
   try {
-    const userId = (req as any).user.userId;
+    const userId = req.user?.userId;
     if (!userId) return;
 
     const user = await prisma.user.findUnique({
@@ -163,7 +163,7 @@ export const checkAuth = async (req: Request, res: Response) => {
 };
 
 export const updatePassword = async (req: Request, res: Response) => {
-  const userId = (req as any).user.userId;
+  const userId = req.user?.userId;
 
   if (!userId) {
     return res.status(401).json({
@@ -305,7 +305,7 @@ export const googleLogin = async (req: Request, res: Response) => {
 
 export const deleteAccount = async (req: Request, res: Response) => {
   try {
-    const userId: string = (req as any).user.userId;
+    const userId: string = req.user?.userId ?? "";
 
     if (!userId) {
       return res.status(401).json({
