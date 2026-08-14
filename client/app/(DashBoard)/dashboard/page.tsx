@@ -7,7 +7,8 @@ import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import CareerReadinessCard from "@/components/dashboard/CareerReadinessCard";
 import QuickActionsCard from "@/components/dashboard/QuickActionsCard";
 import RecentActivityCard from "@/components/dashboard/RecentActivityCard";
-import Chart from "@/components/dashboard/Chart";
+import BarChartUi from "@/components/dashboard/BarChartUi";
+import DonutChartUi from "@/components/dashboard/DonutChartUi";
 
 const Dashboard = () => {
   const { data: userData, isLoading: userLoading } = useCurrentUser();
@@ -22,7 +23,8 @@ const Dashboard = () => {
     resumeAvg = 0,
     interviewAvg = 0,
     codeAnalysisAvg = 0,
-    skillPerformance
+    skillPerformance,
+    activityData
   } = dashboardData || {};
 
   return (
@@ -40,7 +42,10 @@ const Dashboard = () => {
         <QuickActionsCard />
       </div>
 
-      <Chart data={skillPerformance} />
+      <div className="gap-4  grid grid-cols-1 md:grid-cols-2">
+      <BarChartUi data={skillPerformance} />
+      <DonutChartUi data={activityData}/>
+      </div>
 
       <RecentActivityCard />
     </div>

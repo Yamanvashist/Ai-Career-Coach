@@ -46,7 +46,7 @@ const CustomTooltip = ({
   );
 };
 
-const Chart = ({ data = [] }: ChartProps) => {
+const BarChartUi = ({ data = [] }: ChartProps) => {
   if (!data.length) {
     return (
       <div className="flex h-96 w-full items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-50 dark:border-slate-800 dark:bg-slate-950/50">
@@ -56,7 +56,7 @@ const Chart = ({ data = [] }: ChartProps) => {
   }
 
   return (
-    <div className="h-96 w-full md:w-1/2 rounded-xl bg-white p-4 shadow-sm dark:bg-slate-950">
+    <div className="h-96 w-full rounded-xl bg-white p-4 shadow-sm dark:bg-slate-950">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart 
           data={data} 
@@ -92,6 +92,7 @@ const Chart = ({ data = [] }: ChartProps) => {
             cursor={{ fill: '#f1f5f9', opacity: 0.1 }} 
           />
           <Bar 
+            barSize={100}
             dataKey="score" 
             fill="url(#colorScore)" 
             radius={[6, 6, 0, 0]} 
@@ -104,4 +105,4 @@ const Chart = ({ data = [] }: ChartProps) => {
   );
 };
 
-export default Chart;
+export default BarChartUi;

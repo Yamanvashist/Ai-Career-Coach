@@ -19,6 +19,10 @@ export default async function getDashboardData(req: Request, res: Response) {
         },
         select: {
           atsScore: true,
+          createdAt: true,
+        },
+        orderBy: {
+          createdAt: "desc",
         },
       }),
       prisma.interview.findMany({
@@ -28,6 +32,10 @@ export default async function getDashboardData(req: Request, res: Response) {
         },
         select: {
           overallScore: true,
+          completedAt: true,
+        },
+        orderBy: {
+          completedAt: "asc",
         },
       }),
       prisma.codeAnalysis.findMany({
@@ -36,6 +44,10 @@ export default async function getDashboardData(req: Request, res: Response) {
         },
         select: {
           overallScore: true,
+          createdAt: true,
+        },
+        orderBy: {
+          createdAt: "asc",
         },
       }),
     ]);
@@ -76,23 +88,30 @@ export default async function getDashboardData(req: Request, res: Response) {
       (resumeAvg + interviewAvg + codeAnalysisAvg) / 3,
     );
 
-    // activity destribution
+    // activity Data
 
-    const activityDistribution = {
-      resume: resume.length,
-      interview: interviewRecords.length,
-      codeAnalysis: codeAnalyses.length,
-    };
+    const activityData = [
+      {
+        activity: "Resume",
+        count: resume.length,
+      },
+      {
+        activity: "Interview",
+        count: interviewRecords.length,
+      },
+      {
+        activity: "Code Analysis",
+        count: codeAnalyses.length,
+      },
+    ];
 
     //skill performance
 
     const skillPerformance = [
-      { name: "Resume", score: resumeAvg },
-      { name: "Interview", score: interviewAvg },
-      { name: "Code Analysis", score: codeAnalysisAvg },
-    ].map((item) => {
-      return { skill: item.name, score: item.score };
-    });
+      { skill: "Resume", score: resumeAvg },
+      { skill: "Interview", score: interviewAvg },
+      { skill: "Code Analysis", score: codeAnalysisAvg },
+    ];
 
     return res.status(200).json({
       success: true,
@@ -101,6 +120,7 @@ export default async function getDashboardData(req: Request, res: Response) {
       codeAnalysisAvg,
       overallScore,
       skillPerformance,
+      activityData
     });
   } catch (error) {
     console.error(error);
