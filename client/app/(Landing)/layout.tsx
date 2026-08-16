@@ -1,5 +1,6 @@
 import "../globals.css";
 import Navbar from "@/components/Landing/Navbar";
+import Sidebar from "@/components/Landing/mobile/Sidebar";
 
 export default function LandingLayout({
   children,

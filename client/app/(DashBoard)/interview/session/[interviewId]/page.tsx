@@ -33,12 +33,15 @@ const Session = () => {
   const [currentAnswer, setCurrentAnswer] = useState("");
   const [isMuted, setIsMuted] = useState(true);
 
-  const { formattedTime } = useCountDown({ initialTime: 10 });
   const { mutateAsync: speak } = useTTS();
   const mutatedSubmit = useInterviewSubmit();
   const router = useRouter();
 
   const { data: interview, isPending, error } = useInterviewGet(id ?? "");
+
+  const totalTime = interview?.interview?.totalTime ?? 0;
+  console.log(totalTime)
+  const { formattedTime } = useCountDown({ initialTime: totalTime  });
 
   const currentQuestion =
     interview?.interview?.questions?.[currentQuestionIndex];

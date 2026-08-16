@@ -32,9 +32,10 @@ const Hero = () => {
                 Get Started
               </Link>
 
-              <button className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white/80 px-6 py-3.5 text-base font-semibold text-slate-800 transition-all duration-200 hover:-translate-y-0.5 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-100 dark:hover:bg-slate-800">
-                View Demo
-              </button>
+
+              <Link href="#pricing" className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white/80 px-6 py-3.5 text-base font-semibold text-slate-800 transition-all duration-200 hover:-translate-y-0.5 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-100 dark:hover:bg-slate-800">
+                View Pricing
+              </Link>
             </div>
 
             <div className="mt-10 flex flex-wrap items-center gap-6 text-sm text-slate-600 dark:text-slate-300">
@@ -98,7 +99,7 @@ const Hero = () => {
                       <span>System Design</span>
                       <span className="font-semibold">45%</span>
                     </div>
-
+  
                     <div className="flex justify-between">
                       <span>Node.js</span>
                       <span className="font-semibold">72%</span>

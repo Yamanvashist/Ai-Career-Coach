@@ -39,6 +39,20 @@ export const startInterview = async (req: Request, res: Response) => {
     if (!validateField(experience, "Experience", res)) return;
     if (!validateField(inputMode, "Input Mode", res)) return;
 
+    let totalTime: number = 5;
+
+    switch (totalQuestions) {
+      case 5:
+        totalTime = 10;
+        break;
+      case 10:
+        totalTime = 15;
+        break;
+      case 15:
+        totalTime = 20;
+        break;
+    }
+
     const prompt = InterviewPrompt({
       category,
       topics,
@@ -102,6 +116,7 @@ export const startInterview = async (req: Request, res: Response) => {
         inputMode,
         totalQuestions,
         questions: parsedQuestions.questions,
+        totalTime,
       },
     });
 
@@ -110,6 +125,7 @@ export const startInterview = async (req: Request, res: Response) => {
       message: "Interview generated successfully.",
       interviewId: interview.id,
       questions: parsedQuestions.questions,
+      totalTime,
     });
   } catch (err) {
     console.error(err);
@@ -151,6 +167,7 @@ export const getInterview = async (req: Request, res: Response) => {
         inputMode: true,
         totalQuestions: true,
         questions: true,
+        totalTime: true,
         createdAt: true,
       },
     });

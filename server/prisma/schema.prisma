@@ -131,6 +131,7 @@ model Interview {
 
   overallScore Int?
   report       Json?
+  totalTime  Int 
 
   status InterviewStatus @default(ONGOING)
 
