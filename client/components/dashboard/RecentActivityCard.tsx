@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Clock, CheckCircle2 } from "lucide-react";
+import RecentActivityCardSkeleton from "./skeletonLoader/RecentActivityCardSkeleton";
 
 interface ActivityItem {
   title: string;
@@ -27,7 +28,8 @@ const ACTIVITIES: ActivityItem[] = [
   },
 ];
 
-const RecentActivityCard = () => {
+const RecentActivityCard = ({ isLoading = false }: { isLoading?: boolean }) => {
+  if (isLoading) return <RecentActivityCardSkeleton />;
   return (
     <div className="w-full rounded-2xl bg-white dark:bg-slate-900 p-6 md:p-8 shadow-sm border border-slate-200 dark:border-slate-800 mt-8 transition-colors">
       <div className="flex items-center gap-3 mb-6">

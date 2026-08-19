@@ -46,7 +46,11 @@ const CustomTooltip = ({
   );
 };
 
-const BarChartUi = ({ data = [] }: ChartProps) => {
+import BarChartSkeleton from "./skeletonLoader/BarChartSkeleton";
+
+const BarChartUi = ({ data = [], isLoading = false }: ChartProps & { isLoading?: boolean }) => {
+  if (isLoading) return <BarChartSkeleton />;
+
   if (!data.length) {
     return (
       <div className="flex h-96 w-full items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-50 dark:border-slate-800 dark:bg-slate-950/50">

@@ -1,10 +1,15 @@
 "use client";
 
+import DashboardHeaderSkeleton from "./skeletonLoader/DashboardHeaderSkeleton";
+
 interface DashboardHeaderProps {
   userName?: string;
+  isLoading?: boolean;
 }
 
-const DashboardHeader = ({ userName = "Guest" }: DashboardHeaderProps) => {
+const DashboardHeader = ({ userName = "Guest", isLoading = false }: DashboardHeaderProps) => {
+  if (isLoading) return <DashboardHeaderSkeleton />;
+
   return (
     <div className="space-y-1">
       <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">

@@ -5,12 +5,14 @@ import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import ProgressBar from "@/components/ProgressBar";
 import { FileText, Video, Code2 } from "lucide-react";
+import CareerReadinessCardSkeleton from "./skeletonLoader/CareerReadinessCardSkeleton";
 
 interface CareerReadinessCardProps {
   overallScore?: number;
   resumeAvg?: number;
   interviewAvg?: number;
   codeAnalysisAvg?: number;
+  isLoading?: boolean;
 }
 
 const CareerReadinessCard = ({
@@ -18,7 +20,9 @@ const CareerReadinessCard = ({
   resumeAvg = 0,
   interviewAvg = 0,
   codeAnalysisAvg = 0,
+  isLoading = false,
 }: CareerReadinessCardProps) => {
+  if (isLoading) return <CareerReadinessCardSkeleton />;
   return (
     <div
       id="career-readiness-index"

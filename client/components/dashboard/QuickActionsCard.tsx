@@ -4,7 +4,28 @@ import React from "react";
 import Link from "next/link";
 import { FileText, Code2, Briefcase, CheckCircle2 } from "lucide-react";
 
-const QuickActionsCard = () => {
+interface QuickActionsCardProps {
+  isLoading?: boolean;
+}
+
+const QuickActionsCard = ({ isLoading = false }: QuickActionsCardProps) => {
+  if (isLoading) {
+    return (
+      <div className="w-full h-full rounded-2xl bg-white dark:bg-slate-900 p-6 md:p-8 shadow-sm border border-slate-200 dark:border-slate-800 transition-colors animate-pulse">
+        <div className="h-6 w-40 bg-slate-200 dark:bg-slate-800 rounded mb-2" />
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="border border-slate-200 dark:border-slate-800 rounded-xl p-5 min-h-55">
+              <div className="w-12 h-12 bg-slate-200 dark:bg-slate-800 rounded-xl mb-4" />
+              <div className="h-4 w-24 bg-slate-200 dark:bg-slate-800 rounded mb-2" />
+              <div className="h-3 w-32 bg-slate-100 dark:bg-slate-800/60 rounded" />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full h-full rounded-2xl bg-white dark:bg-slate-900 p-6 md:p-8 shadow-sm border border-slate-200 dark:border-slate-800 transition-colors">
       <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">

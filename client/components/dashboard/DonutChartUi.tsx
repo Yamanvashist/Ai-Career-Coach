@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
+import DonutChartSkeleton from "./skeletonLoader/DonutChartSkeleton";
 import {
   PieChart,
   Pie,
@@ -46,8 +47,8 @@ const CustomTooltip = ({
   );
 };
 
-const DonutChartUi = ({ data = [] }: DonutChartProps) => {
-  // Calculate the total so the middle isn't empty
+const DonutChartUi = ({ data = [], isLoading = false }: DonutChartProps & { isLoading?: boolean }) => {
+  if (isLoading) return <DonutChartSkeleton />;
   const total = useMemo(() => {
     return data.reduce((acc, curr) => acc + curr.count, 0);
   }, [data]);

@@ -11,7 +11,7 @@ import { useState } from "react";
 import { useSidebarStore } from "@/store/sidebarStore";
 
 export default function Home() {
-  const { open, close } = useSidebarStore();
+  const { open } = useSidebarStore();
   const [startX, setStartX] = useState(0);
 
   const handleStart = (e: React.TouchEvent) => {
@@ -29,9 +29,6 @@ export default function Home() {
       open();
     }
 
-    if (deltaX < -100) {
-      close();
-    }
   };
 
   return (
