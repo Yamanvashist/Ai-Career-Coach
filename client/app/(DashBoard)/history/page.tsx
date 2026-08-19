@@ -9,10 +9,10 @@ import { CareerInsightCard } from "@/components/history/CareerInsightCard";
 import { AllFilters } from "@/components/history/interfaces/historyProps";
 import useHistory from "@/hooks/history/useHistory";
 
-import { useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-const History = () => {
+const HistoryContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [selectedFilter, setSelectedFilter] = useState<AllFilters>("ALL");
@@ -59,5 +59,17 @@ const History = () => {
     </div>
   );
 };
+
+const History = () => (
+  <Suspense
+    fallback={
+      <div className="min-h-screen bg-slate-100 dark:bg-slate-950 p-6 text-slate-500 dark:text-slate-400">
+        Loading history...
+      </div>
+    }
+  >
+    <HistoryContent />
+  </Suspense>
+);
 
 export default History;

@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { Send, Menu,Bot } from "lucide-react";
+import { Send, Menu, Bot } from "lucide-react";
 import { useCurrentUser } from "@/hooks/auth/useCurrentUser";
 import { useLogout } from "@/hooks/auth/useLogOut";
 import ThemeToggle from "../ThemeToggle";
@@ -22,7 +22,7 @@ const pages: NavPage[] = [
 ];
 
 const Navbar = () => {
-  const { open } = useSidebarStore();
+  const { open,toggle } = useSidebarStore();
   const { data: user, isLoading } = useCurrentUser();
   const mutatedLogOut = useLogout();
 
@@ -36,7 +36,15 @@ const Navbar = () => {
         <div className="flex items-center gap-2 cursor-pointer space-x-2">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600/10 ring-1 ring-blue-200 dark:ring-blue-900/60">
             <Bot color="#2080fe" size={22} className="hidden md:block" />
-            <Menu onClick={open} color="#2080fe" size={22} className="block md:hidden cursor-pointer" />
+
+            <button
+              type="button"
+              onClick={open}
+              className="block md:hidden focus:outline-none"
+              aria-label="Open menu"
+            >
+              <Menu color="#2080fe" size={22} />
+            </button>
           </div>
 
           <Link
@@ -47,7 +55,7 @@ const Navbar = () => {
           </Link>
         </div>
 
-        <ul className="hidden md:flex md:mr-16 items-center gap-2">
+        <ul className="hidden md:flex mr-16 items-center gap-2">
           {pages.map((page) => (
             <li key={page.id} className="shrink-0">
               <Link

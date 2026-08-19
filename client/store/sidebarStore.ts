@@ -21,4 +21,3 @@ export const useSidebarStore = create<SidebarStore>((set) => {
     },
   };
 });
-

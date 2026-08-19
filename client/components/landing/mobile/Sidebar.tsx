@@ -15,6 +15,7 @@ const navLinks = [
 const Sidebar = () => {
   const { isOpen, close } = useSidebarStore();
   const { data: user, isLoading } = useCurrentUser();
+
   const mutatedLogOut = useLogout();
 
   const handleLogOut = () => {

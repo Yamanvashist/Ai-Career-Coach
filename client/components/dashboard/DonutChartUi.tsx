@@ -91,7 +91,15 @@ const DonutChartUi = ({ data = [] }: DonutChartProps) => {
             ))}
             <Label
               content={({ viewBox }) => {
-                const { cx, cy } = viewBox;
+                const { cx, cy } = (viewBox ?? {}) as {
+                  cx?: number;
+                  cy?: number;
+                };
+
+                if (cx === undefined || cy === undefined) {
+                  return null;
+                }
+
                 return (
                   <text x={cx} y={cy} textAnchor="middle" dominantBaseline="middle">
                     <tspan x={cx} y={cy - 5} className="fill-slate-900 text-3xl font-bold dark:fill-white">

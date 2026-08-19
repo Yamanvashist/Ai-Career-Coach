@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import Link from "next/link";
 import { Mail, Lock, Compass, Eye, EyeClosed, AlertCircle } from "lucide-react";
 import { useSearchParams } from "next/navigation";
@@ -10,7 +10,7 @@ import ResetPassword from "@/components/resetPassword/ResetPassword";
 import useResetPassword from "@/hooks/auth/useResetPassword";
 import useSignIn from "@/hooks/auth/useSignIn";
 
-const SignIn = () => {
+const SignInContent = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -276,5 +276,17 @@ const SignIn = () => {
     </div>
   );
 };
+
+const SignIn = () => (
+  <Suspense
+    fallback={
+      <div className="flex min-h-[92.5vh] items-center justify-center bg-[#FAF9F6] dark:bg-slate-950 px-4 text-sm text-gray-500 dark:text-slate-400">
+        Loading...
+      </div>
+    }
+  >
+    <SignInContent />
+  </Suspense>
+);
 
 export default SignIn;
