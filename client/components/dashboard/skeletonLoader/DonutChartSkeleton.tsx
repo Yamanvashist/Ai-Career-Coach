@@ -3,7 +3,7 @@
 const DonutChartSkeleton = () => {
   return (
     <div className="h-96 w-full rounded-xl bg-white p-4 shadow-sm dark:bg-slate-950 flex flex-col items-center justify-center gap-6 animate-pulse">
-      <div className="relative flex items-center justify-center w-52 h-52 rounded-full border-[18px] border-slate-200 dark:border-slate-800">
+      <div className="relative flex items-center justify-center w-52 h-52 rounded-full border-18 border-slate-200 dark:border-slate-800">
         <div className="flex flex-col items-center justify-center">
           <div className="h-8 w-14 bg-slate-200 dark:bg-slate-800 rounded mb-1" />
           <div className="h-3 w-10 bg-slate-200 dark:bg-slate-800 rounded" />

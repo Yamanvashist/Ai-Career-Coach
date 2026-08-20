@@ -57,7 +57,6 @@ export default function InterviewResults() {
 
       <SummaryCard summary={summary} />
 
-      <ActionButtons />
     </div>
   );
 }

@@ -5,36 +5,37 @@ interface UseCountDownProps {
   onComplete?: () => void;
 }
 
-const useCountDown = ({ initialTime = 10 ,onComplete}: UseCountDownProps) => {
-    const [timeLeft, setTimeLeft] = useState(initialTime * 60);
+const useCountDown = ({ initialTime = 10, onComplete }: UseCountDownProps) => {
+  const [timeLeft, setTimeLeft] = useState(initialTime * 60);
 
-    useEffect(() => {
-        if (initialTime > 0) {
-            setTimeLeft(initialTime * 60);
-        }
-    }, [initialTime]);
+  useEffect(() => {
+    if (initialTime > 0) {
+      setTimeLeft(initialTime * 60);
+    }
+  }, [initialTime]);
 
-    useEffect(() => {
-        if (timeLeft <= 0) {
-            if (onComplete) onComplete();
-            return;
-        }
+  useEffect(() => {
+    if (timeLeft <= 0) {
+      if (onComplete) onComplete();
+      return;
+    }
 
-        const timer = setInterval(() => {
-            setTimeLeft(prev => prev - 1);
-        }, 1000);
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => prev - 1);
+    }, 1000);
 
-        return () => clearInterval(timer);
-    }, [timeLeft]);
+    return () => clearInterval(timer);
+  }, [timeLeft, onComplete]);
 
-    const minutes = Math.floor(timeLeft / 60);
-    const seconds = timeLeft % 60;
+  const minutes = Math.floor(timeLeft / 60);
+  const seconds = timeLeft % 60;
 
-    const formattedTime = `${minutes} : ${seconds.toString().padStart(2, "0")}`;
+  const formattedTime = `${minutes} : ${seconds.toString().padStart(2, "0")}`;
 
-    return {
-        formattedTime,
-    };
+  return {
+    formattedTime,
+    timeLeft,
+  };
 };
 
 export default useCountDown;

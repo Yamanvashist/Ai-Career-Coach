@@ -169,6 +169,7 @@ export const getInterview = async (req: Request, res: Response) => {
         questions: true,
         totalTime: true,
         createdAt: true,
+        status: true,
       },
     });
 
@@ -176,6 +177,13 @@ export const getInterview = async (req: Request, res: Response) => {
       return res.status(404).json({
         success: false,
         message: "Interview not found.",
+      });
+    }
+
+    if (interview.status == "COMPLETED") {
+      return res.status(404).json({
+        success: false,
+        message: "Interview already completed.",
       });
     }
 

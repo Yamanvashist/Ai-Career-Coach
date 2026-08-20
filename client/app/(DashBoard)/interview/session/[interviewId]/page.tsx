@@ -40,8 +40,9 @@ const Session = () => {
   const { data: interview, isPending, error } = useInterviewGet(id ?? "");
 
   const totalTime = interview?.interview?.totalTime ?? 0;
-  console.log(totalTime)
-  const { formattedTime } = useCountDown({ initialTime: totalTime  });
+  const { formattedTime } = useCountDown({ initialTime: totalTime,onComplete : ()=>{
+    
+  }  });
 
   const currentQuestion =
     interview?.interview?.questions?.[currentQuestionIndex];
@@ -109,7 +110,7 @@ const Session = () => {
 
     const newAnswer = {
       questionId: currentQuestion.id,
-      answer: currentAnswer,
+      answer: currentAnswer
     };
 
     const updatedAnswers = [...answers, newAnswer];

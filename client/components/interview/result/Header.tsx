@@ -11,7 +11,7 @@ export default function Header({ category }: HeaderProps) {
       <div>
         <div className="flex items-center gap-2">
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-            Interview Results
+            Interview Result
           </h1>
           <span className="p-1 bg-green-100 dark:bg-green-500/10 text-green-700 dark:text-green-400 rounded-md">
             <Award className="w-4 h-4" />
