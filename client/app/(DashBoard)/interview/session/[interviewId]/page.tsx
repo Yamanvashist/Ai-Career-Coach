@@ -1,7 +1,7 @@
 "use client";
 
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 
 import useInterviewGet from "@/hooks/interview/useInterviewGet";
 import useCountDown from "@/hooks/countdown/useCountDown";
@@ -25,28 +25,89 @@ interface Answer {
 }
 
 const Session = () => {
-  const { interviewId } = useParams<{ interviewId: string | string[] }>();
+  const { interviewId } = useParams<{
+    interviewId: string | string[];
+  }>();
+
   const id = Array.isArray(interviewId) ? interviewId[0] : interviewId;
+
+  const router = useRouter();
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<Answer[]>([]);
   const [currentAnswer, setCurrentAnswer] = useState("");
   const [isMuted, setIsMuted] = useState(true);
 
+  const hasSubmittedRef = useRef(false);
+
   const { mutateAsync: speak } = useTTS();
   const mutatedSubmit = useInterviewSubmit();
-  const router = useRouter();
 
   const { data: interview, isPending, error } = useInterviewGet(id ?? "");
 
   const totalTime = interview?.interview?.totalTime ?? 0;
-  const { formattedTime } = useCountDown({ initialTime: totalTime,onComplete : ()=>{
-    
-  }  });
+
+  const submitInterview = useCallback(
+    async (finalAnswers: Answer[]) => {
+      if (mutatedSubmit.isPending || hasSubmittedRef.current) return;
+
+      hasSubmittedRef.current = true;
+
+      try {
+        const result = await mutatedSubmit.mutateAsync({
+          interviewId: id ?? "",
+          answers: finalAnswers,
+        });
+
+        if (result.success) {
+          toast.success("Interview submitted successfully!");
+          router.push(`/interview/result/${id}`);
+          return;
+        }
+
+        toast.error(result.message || "Failed to submit interview.");
+
+        hasSubmittedRef.current = false;
+      } catch (err) {
+        console.error(err);
+        toast.error("Failed to submit interview.");
+
+        hasSubmittedRef.current = false;
+      }
+    },
+    [id, mutatedSubmit, router]
+  );
+
+
+  const handleTimeUp = useCallback(async () => {
+    if (!interview?.interview || hasSubmittedRef.current) return;
+
+    const questions: Array<{ id: string }> = interview.interview.questions;
+
+    const finalAnswers: Answer[] = questions.map(
+      (question: { id: string }) => {
+        const existingAnswer = answers.find(
+          (answer) => answer.questionId === question.id
+        );
+
+      return {
+        questionId: question.id,
+        answer: existingAnswer?.answer || "Not answered",
+      };
+    });
+
+    await submitInterview(finalAnswers);
+  }, [answers, interview, submitInterview]);
+
+  const { formattedTime } = useCountDown({
+    initialTime: isPending ? 0 : 1,
+    onComplete: handleTimeUp,
+  });
 
   const currentQuestion =
     interview?.interview?.questions?.[currentQuestionIndex];
 
+ 
   useEffect(() => {
     if (!currentQuestion?.speech) return;
 
@@ -57,13 +118,16 @@ const Session = () => {
     const playSpeech = async () => {
       try {
         const blob = await speak(currentQuestion.speech);
+
         if (!isMounted) return;
 
         audioUrl = URL.createObjectURL(blob);
         audio = new Audio(audioUrl);
 
         audio.onended = () => {
-          if (audioUrl) URL.revokeObjectURL(audioUrl);
+          if (audioUrl) {
+            URL.revokeObjectURL(audioUrl);
+          }
         };
 
         await audio.play();
@@ -76,10 +140,12 @@ const Session = () => {
 
     return () => {
       isMounted = false;
+
       if (audio) {
         audio.pause();
         audio.currentTime = 0;
       }
+
       if (audioUrl) {
         URL.revokeObjectURL(audioUrl);
       }
@@ -87,10 +153,18 @@ const Session = () => {
   }, [currentQuestion?.speech, speak]);
 
   if (isPending) return <SessionLoading />;
-  if (error || !interview?.interview) return <SessionError />;
 
-  const { category, difficulty, experience, inputMode, totalQuestions } =
-    interview.interview;
+  if (error || !interview?.interview) {
+    return <SessionError />;
+  }
+
+  const {
+    category,
+    difficulty,
+    experience,
+    inputMode,
+    totalQuestions,
+  } = interview.interview;
 
   const isCompleted = currentQuestionIndex >= totalQuestions;
 
@@ -104,39 +178,26 @@ const Session = () => {
       !currentAnswer.trim() ||
       isCompleted ||
       !currentQuestion ||
-      mutatedSubmit.isPending
-    )
+      mutatedSubmit.isPending ||
+      hasSubmittedRef.current
+    ) {
       return;
+    }
 
-    const newAnswer = {
+    const newAnswer: Answer = {
       questionId: currentQuestion.id,
-      answer: currentAnswer
+      answer: currentAnswer.trim(),
     };
 
     const updatedAnswers = [...answers, newAnswer];
+
     setAnswers(updatedAnswers);
     setCurrentAnswer("");
 
+ 
     if (currentQuestionIndex === totalQuestions - 1) {
-      try {
-        const result = await mutatedSubmit.mutateAsync({
-          interviewId: id ?? "",
-          answers: updatedAnswers,
-        });
-
-        if (result.success) {
-          toast.success("Interview submitted successfully!");
-          router.push(`/interview/result/${id}`);
-          return;
-        }
-
-        toast.error(result.message || "Failed to submit interview.");
-        return;
-      } catch (err) {
-        console.error(err);
-        toast.error("Failed to submit interview.");
-        return;
-      }
+      await submitInterview(updatedAnswers);
+      return;
     }
 
     setCurrentQuestionIndex((prev) => prev + 1);
@@ -145,9 +206,12 @@ const Session = () => {
   return (
     <div className="min-h-screen bg-linear-to-br from-emerald-50/40 via-slate-50 to-teal-50/30 dark:from-slate-950 dark:via-slate-950 dark:to-emerald-950/20 text-slate-800 dark:text-slate-100 flex items-center justify-center p-4 sm:p-6 lg:p-8 font-sans selection:bg-emerald-100 dark:selection:bg-emerald-900/50 transition-colors duration-200">
       <div className="w-full max-w-7xl bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none flex flex-col lg:flex-row overflow-hidden transition-colors">
+
         <aside className="w-full lg:w-[320px] xl:w-90 bg-slate-50/70 dark:bg-slate-900/60 p-5 sm:p-6 border-b lg:border-b-0 lg:border-r border-slate-200/80 dark:border-slate-800 flex flex-col justify-between gap-6 shrink-0 transition-colors">
+
           <div className="space-y-6">
             <AiAvatarCard inputMode={inputMode} />
+
             <TimerProgressCard
               formattedTime={formattedTime}
               progressPercent={progressPercent}
@@ -155,6 +219,7 @@ const Session = () => {
               totalQuestions={totalQuestions}
             />
           </div>
+
           <SessionMetadataCard
             category={category}
             difficulty={difficulty}
@@ -163,6 +228,7 @@ const Session = () => {
         </aside>
 
         <main className="flex-1 p-5 sm:p-8 flex flex-col justify-between gap-6 bg-white dark:bg-slate-900 transition-colors">
+
           <div>
             <SessionHeader
               category={category}
@@ -170,6 +236,7 @@ const Session = () => {
               experience={experience}
               inputMode={inputMode}
             />
+
             <QuestionPanel
               isCompleted={isCompleted}
               currentQuestion={currentQuestion}
@@ -185,7 +252,9 @@ const Session = () => {
               isMuted={isMuted}
               setIsMuted={setIsMuted}
               onSubmit={handleSubmit}
-              isLastQuestion={currentQuestionIndex === totalQuestions - 1}
+              isLastQuestion={
+                currentQuestionIndex === totalQuestions - 1
+              }
               isSubmitting={mutatedSubmit.isPending}
             />
           )}

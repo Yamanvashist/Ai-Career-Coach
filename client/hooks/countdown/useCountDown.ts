@@ -5,18 +5,22 @@ interface UseCountDownProps {
   onComplete?: () => void;
 }
 
-const useCountDown = ({ initialTime = 10, onComplete }: UseCountDownProps) => {
+const useCountDown = ({ initialTime = 0, onComplete }: UseCountDownProps) => {
   const [timeLeft, setTimeLeft] = useState(initialTime * 60);
+  const [isStarted, setIsStarted] = useState(false);
 
   useEffect(() => {
     if (initialTime > 0) {
       setTimeLeft(initialTime * 60);
+      setIsStarted(true);
     }
   }, [initialTime]);
 
   useEffect(() => {
+    if (!isStarted || initialTime <= 0) return;
+
     if (timeLeft <= 0) {
-      if (onComplete) onComplete();
+      onComplete?.();
       return;
     }
 
@@ -25,10 +29,10 @@ const useCountDown = ({ initialTime = 10, onComplete }: UseCountDownProps) => {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [timeLeft, onComplete]);
+  }, [timeLeft, initialTime, onComplete, isStarted]);
 
-  const minutes = Math.floor(timeLeft / 60);
-  const seconds = timeLeft % 60;
+  const minutes = Math.floor(Math.max(0, timeLeft) / 60);
+  const seconds = Math.max(0, timeLeft) % 60;
 
   const formattedTime = `${minutes} : ${seconds.toString().padStart(2, "0")}`;
 
