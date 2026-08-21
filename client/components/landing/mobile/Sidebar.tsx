@@ -44,12 +44,12 @@ const Sidebar = () => {
         {/* Header */}
         <div className="flex h-20 items-center justify-between border-b border-slate-100 px-6 dark:border-slate-800">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-600 text-sm font-bold text-white">
-              CP
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-sm font-bold text-black">
+              Ai
             </div>
             <div>
               <h1 className="font-semibold text-slate-900 dark:text-white">
-                CareerPilot
+                Career Coach
               </h1>
             </div>
           </div>

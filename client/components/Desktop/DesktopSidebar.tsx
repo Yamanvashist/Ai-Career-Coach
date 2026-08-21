@@ -56,7 +56,7 @@ const DesktopSidebar = () => {
     <aside className="hidden md:flex w-72 flex-col bg-slate-900 border-r border-slate-800 text-white p-6 shadow-xl">
       <div className="mb-12">
         <h1 className="text-3xl font-extrabold tracking-tight">
-          Path<span className="text-indigo-400">Way</span>
+          Ai<span className="text-indigo-400 text-2xl"> CareerCoach</span>
         </h1>
 
         <p className="mt-1 text-sm text-slate-400">Your Career. Your Path.</p>

@@ -15,7 +15,7 @@ const MobileHeader = () => {
       </button>
 
       <h1 className="text-xl font-bold text-slate-900 dark:text-white">
-        Path<span className="text-indigo-600 dark:text-indigo-400">Way</span>
+        Ai<span className="text-indigo-600 dark:text-indigo-400"> CareerCoach</span>
       </h1>
 
       <div className="w-10.5" />

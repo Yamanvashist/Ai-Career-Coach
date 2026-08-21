@@ -35,13 +35,13 @@ const MobileSidebar = () => {
         }`}
       >
         <div className="mb-10 flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-extrabold tracking-tight">
-              Path<span className="text-indigo-400">Way</span>
+          <div className="">
+            <h1 className="text-2xl font-extrabold tracking-tight">
+              Career<span className="ml-1 text-indigo-400">Coach</span>
             </h1>
 
             <p className="mt-1 text-sm text-slate-400">
-              Your Career. Your Path.
+              Ai career coach
             </p>
           </div>
 
@@ -113,7 +113,7 @@ const MobileSidebar = () => {
         </nav>
 
         <div className="border-t border-slate-800 pt-4 space-y-1">
-           <Link
+          <Link
             href="/billing"
             onClick={close}
             className="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-300 transition hover:bg-slate-800/80 hover:text-indigo-400"

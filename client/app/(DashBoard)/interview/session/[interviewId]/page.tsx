@@ -100,7 +100,7 @@ const Session = () => {
   }, [answers, interview, submitInterview]);
 
   const { formattedTime } = useCountDown({
-    initialTime: isPending ? 0 : 1,
+    initialTime: isPending ? 0 : totalTime,
     onComplete: handleTimeUp,
   });
 
