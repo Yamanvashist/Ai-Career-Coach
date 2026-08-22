@@ -2,6 +2,8 @@
 
 import { useCurrentUser } from "@/hooks/auth/useCurrentUser";
 import useCreateOrder from "@/hooks/payment/useCreateOrder";
+import usePaymentHistory from "@/hooks/payment/usePaymentHistory";
+
 import { loadRazorPayScript } from "@/components/payment/Payment";
 import api from "@/api/api";
 
@@ -14,6 +16,9 @@ import { PaymentHistory } from "@/components/billing/PaymentHistory";
 export default function BillingPage() {
   const { data: user } = useCurrentUser();
   const credits = user?.credits ?? 0;
+
+  const {data,isPending : paymentLoading,isError} = usePaymentHistory()
+  const {paymentHistory} = data ?? {}
 
   const { mutateAsync: createOrder, isPending } = useCreateOrder();
 
@@ -54,8 +59,9 @@ export default function BillingPage() {
         <CurrentPlanCard credits={credits} />
         <CreditPacks isLoading={isPending} onBuy={handlePayment} />
         <SubscriptionPlans isLoading={isPending} onSubscribe={handlePayment} />
-        <PaymentHistory />
+        <PaymentHistory history={paymentHistory ?? []}   />
       </div>
     </div>
   );
 }
+  

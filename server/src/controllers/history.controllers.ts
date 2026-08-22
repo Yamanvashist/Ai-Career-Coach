@@ -64,7 +64,7 @@ const getHistory = async (req: Request, res: Response) => {
       pagination: { totalItems,currentPage : page, totalPages, hasNextPage, hasPrevPage },
     });
   } catch (error) {
-    console.error("[getHistory Error]:", error);
+    console.error("Error fetching history", error);
     return res
       .status(500)
       .json({ success: false, message: "Internal Server Error" });

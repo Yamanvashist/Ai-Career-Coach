@@ -10,6 +10,11 @@ export async function createOrder(req: Request, res: Response) {
 
     const userId = req.user?.userId;
 
+    if (!userId)
+      return res
+        .status(401)
+        .json({ message: "Unauthorized User", success: false });
+
     if (!amount) {
       return res.status(400).json({
         success: false,
@@ -32,7 +37,7 @@ export async function createOrder(req: Request, res: Response) {
       data: {
         userId,
         razorpayOrderId: order.id,
-        amount: Number(order.amount),
+        amount: Number(order.amount)/100,
         currency: order.currency,
         type: subscription,
         status: "PENDING",
@@ -123,6 +128,46 @@ export async function verifyPayment(req: Request, res: Response) {
   } catch (error) {
     console.error(error);
 
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+}
+
+export async function paymentHistory(req: Request, res: Response) {
+  try {
+    const userId = req.user?.userId;
+
+    if (!userId) {
+      return res.status(401).json({
+        message: "Unauthorized User",
+        success: false,
+      });
+    }
+
+    const payments = await prisma.payment.findMany({
+      where: {
+        userId,
+      },
+      select: {
+        type: true,
+        createdAt: true,
+        amount: true,
+        status: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      take: 5,
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Payment history fetched",
+      paymentHistory: payments,
+    });
+  } catch (err) {
     return res.status(500).json({
       success: false,
       message: "Internal server error",

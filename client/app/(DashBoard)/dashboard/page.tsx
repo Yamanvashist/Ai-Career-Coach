@@ -23,6 +23,7 @@ const Dashboard = () => {
     skillPerformance,
     activityData
   } = dashboardData || {};
+  
 
   const isLoading = userLoading || dashboardLoading;
 

@@ -158,7 +158,7 @@ model Payment {
   amount   Int
   currency String @default("INR")
 
-  status PaymentStatus @default(PENDING)
+  status PaymentStatus @default(FAILED)
 
   type String
 
