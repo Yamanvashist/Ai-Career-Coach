@@ -6,7 +6,6 @@ import HowItWorks from "@/components/landing/HowItWorks";
 import Pricing from "@/components/landing/Pricing";
 import CreditBundles from "@/components/landing/CreditBundles";
 import FaqSection from "@/components/landing/FaqSection";
-import Resources from "@/components/landing/Resources";
 import { useState } from "react";
 import { useSidebarStore } from "@/store/sidebarStore";
 
@@ -44,7 +43,6 @@ export default function Home() {
       <Pricing />
       <CreditBundles />
       <FaqSection />
-      <Resources />
     </main>
   );
 }

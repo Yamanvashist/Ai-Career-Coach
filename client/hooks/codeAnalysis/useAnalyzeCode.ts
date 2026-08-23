@@ -7,7 +7,8 @@ export const useAnalyzeCode = () => {
     return useMutation({
         mutationFn: analyzeCode,
         onSuccess: (data) => {
-            queryClient.invalidateQueries({ queryKey: ["user"] })
+            queryClient.invalidateQueries({ queryKey : ["user"] })
+            queryClient.invalidateQueries({queryKey : ["dashboard"]})
             return data
         },
         onError: (err) => {

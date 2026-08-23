@@ -3,6 +3,7 @@
 import { useCurrentUser } from "@/hooks/auth/useCurrentUser";
 import useCreateOrder from "@/hooks/payment/useCreateOrder";
 import usePaymentHistory from "@/hooks/payment/usePaymentHistory";
+import useVerifyPayment from "@/hooks/payment/useVerifyPayment";
 
 import { loadRazorPayScript } from "@/components/payment/Payment";
 import api from "@/api/api";
@@ -17,8 +18,10 @@ export default function BillingPage() {
   const { data: user } = useCurrentUser();
   const credits = user?.credits ?? 0;
 
-  const {data,isPending : paymentLoading,isError} = usePaymentHistory()
-  const {paymentHistory} = data ?? {}
+  const { data} = usePaymentHistory();
+  const { mutateAsync: verifyPaymentMutation } = useVerifyPayment();
+
+  const { paymentHistory } = data ?? {};
 
   const { mutateAsync: createOrder, isPending } = useCreateOrder();
 
@@ -40,7 +43,7 @@ export default function BillingPage() {
       description: "Premium",
 
       handler: async function (response: any) {
-        await api.post("/payment/verify", {
+        await verifyPaymentMutation({
           razorpay_order_id: response.razorpay_order_id,
           razorpay_payment_id: response.razorpay_payment_id,
           razorpay_signature: response.razorpay_signature,
@@ -59,9 +62,8 @@ export default function BillingPage() {
         <CurrentPlanCard credits={credits} />
         <CreditPacks isLoading={isPending} onBuy={handlePayment} />
         <SubscriptionPlans isLoading={isPending} onSubscribe={handlePayment} />
-        <PaymentHistory history={paymentHistory ?? []}   />
+        <PaymentHistory history={paymentHistory ?? []} />
       </div>
     </div>
   );
 }
-  

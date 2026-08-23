@@ -14,7 +14,7 @@ interface PaymentHistoryProps {
 export function PaymentHistory({ history }: PaymentHistoryProps) {
   return (
     <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
-      <h3 className="text-lg font-bold mb-4">Payment History</h3>
+      <h3 className="text-lg font-bold mb-4">Payment History (Last 5 payments)</h3>
 
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
@@ -40,7 +40,10 @@ export function PaymentHistory({ history }: PaymentHistoryProps) {
               history.map((item, idx) => (
                 <tr key={idx}>
                   <td className="py-4 pr-4 text-slate-500 dark:text-slate-400">
-                    {new Date(item.createdAt).toLocaleDateString()}
+                    {new Date(item.createdAt).toLocaleDateString("en-IN",{
+                      month : "short",
+                      day : "numeric"
+                    })}
                   </td>
 
                   <td className="py-4 px-4">{item.type}</td>
