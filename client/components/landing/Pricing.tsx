@@ -33,7 +33,7 @@ const featuredPlans = [
 
 export default function Pricing() {
   return (
-    <section id="pricing" className="scroll-mt-28 py-24 transition-colors duration-200">
+    <section id="pricing" className="scroll-mt-28 py-24  transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex flex-col gap-12 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">

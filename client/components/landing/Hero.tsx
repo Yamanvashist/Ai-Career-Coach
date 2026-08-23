@@ -1,18 +1,19 @@
 import Link from "next/link";
+import { FaGithub } from "react-icons/fa";
 
 const Hero = () => {
   return (
-    <section className="relative min-h-[85vh] overflow-hidden border-b border-slate-200/80 bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.18),transparent_26%),radial-gradient(circle_at_bottom_right,rgba(139,92,246,0.12),transparent_30%),linear-gradient(180deg,#f8fbff_0%,#f8fafc_100%)] px-6 py-16 dark:border-slate-800 dark:bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.18),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(139,92,246,0.16),transparent_28%),linear-gradient(180deg,#020817_0%,#0f172a_100%)]">
+    <section className="relative min-h-screen overflow-hidden border-b border-slate-200/80 bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.18),transparent_26%),radial-gradient(circle_at_bottom_right,rgba(139,92,246,0.12),transparent_30%),linear-gradient(180deg,#f8fbff_0%,#f8fafc_100%)] px-6 py-16 dark:border-slate-800 dark:bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.18),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(139,92,246,0.16),transparent_28%),linear-gradient(180deg,#020817_0%,#0f172a_100%)]">
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(148,163,184,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(148,163,184,0.08)_1px,transparent_1px)] bg-size-[38px_38px] opacity-30" />
 
-      <div className="relative mx-auto max-w-7xl w-full">
+      <div className="relative mt-0 md:mt-8 mx-auto max-w-7xl w-full">
         <div className="grid items-center gap-16 lg:grid-cols-2">
           <div className="pt-8">
             <div className="mb-6 inline-flex items-center rounded-full border border-blue-200 bg-white/80 px-4 py-2 text-sm font-medium text-blue-700 shadow-sm backdrop-blur-sm dark:border-blue-900/60 dark:bg-slate-900/70 dark:text-blue-300">
               AI-Powered Career Coach
             </div>
 
-            <h1 className="max-w-xl text-5xl font-black leading-[1.05] tracking-[-0.06em] text-slate-900 dark:text-white lg:text-7xl">
+            <h1 className="max-w- xl text-5xl font-black leading-[1.05] tracking-[-0.06em] text-slate-900 dark:text-white lg:text-7xl">
               Navigate Your Career
               <br />
               With Confidence
@@ -33,8 +34,11 @@ const Hero = () => {
               </Link>
 
 
-              <Link href="#pricing" className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white/80 px-6 py-3.5 text-base font-semibold text-slate-800 transition-all duration-200 hover:-translate-y-0.5 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-100 dark:hover:bg-slate-800">
-                View Pricing
+              <Link href="https://github.com/Yamanvashist/Ai-Career-Coach" className="inline-flex gap-2 items-center justify-center rounded-xl border border-slate-200 bg-white/80 px-6 py-3.5 text-base font-semibold text-slate-800 transition-all duration-200 hover:-translate-y-0.5 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-100 dark:hover:bg-slate-800">
+                <div className="text-2xl">
+                  <FaGithub />
+                </div>
+                View Github
               </Link>
             </div>
 
