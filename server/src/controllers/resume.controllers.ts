@@ -57,7 +57,7 @@ export const resumeAnalyze = async (req: Request, res: Response) => {
 
     await prisma.user.update({
       where: { id: userId },
-      data: { credits: { decrement: 1 } },
+      data: { credits: { decrement: 2 } },
       select: {
         credits: true,
       },

@@ -14,6 +14,9 @@ const useVerifyPayment = () => {
         queryKey: ["user"],
       });
     },
+    onError: (err) => {
+      console.log("failed to verify payment", err);
+    },
   });
 };
 

@@ -19,6 +19,9 @@ const useCreateOrder = () => {
         queryKey: ["paymentHistory"],
       });
     },
+    onError: (err) => {
+      console.log("failed to create order", err);
+    },
   });
 };
 

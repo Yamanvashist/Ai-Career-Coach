@@ -8,10 +8,10 @@ const useResume = () => {
         mutationFn: resumeAnalyze,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["user"] });
+            queryClient.invalidateQueries({ queryKey: ["dashboard"] });
         },
         onError: (err) => {
-            console.log(err)
-            return err
+            console.log("failed to analyze reusme", err)
         }
     });
 

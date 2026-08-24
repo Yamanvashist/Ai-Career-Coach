@@ -78,7 +78,7 @@ export const startInterview = async (req: Request, res: Response) => {
       where: { id: userId },
       data: {
         credits: {
-          decrement: 1,
+          decrement: 5,
         },
       },
     });
