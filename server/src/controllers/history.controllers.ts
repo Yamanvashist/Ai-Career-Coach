@@ -51,6 +51,7 @@ const getHistory = async (req: Request, res: Response) => {
       })),
     ].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
+
     const totalItems = fullHistory.length;
     const totalPages = Math.ceil(totalItems / limit);
     const history = fullHistory.slice(skip, skip + limit);
@@ -61,7 +62,13 @@ const getHistory = async (req: Request, res: Response) => {
     return res.status(200).json({
       success: true,
       history,
-      pagination: { totalItems,currentPage : page, totalPages, hasNextPage, hasPrevPage },
+      pagination: {
+        totalItems,
+        currentPage: page,
+        totalPages,
+        hasNextPage,
+        hasPrevPage,
+      },
     });
   } catch (error) {
     console.error("Error fetching history", error);

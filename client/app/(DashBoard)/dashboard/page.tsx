@@ -21,7 +21,8 @@ const Dashboard = () => {
     interviewAvg = 0,
     codeAnalysisAvg = 0,
     skillPerformance,
-    activityData
+    activityData,
+    recentActivities 
   } = dashboardData || {};
   
 
@@ -48,7 +49,7 @@ const Dashboard = () => {
       <DonutChartUi data={activityData} isLoading={dashboardLoading} />
       </div>
 
-      <RecentActivityCard isLoading={dashboardLoading} />
+      <RecentActivityCard Activities={recentActivities} isLoading={dashboardLoading} />
     </div>
   );
 };

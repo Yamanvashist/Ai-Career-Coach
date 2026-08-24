@@ -12,7 +12,7 @@ export default async function getDashboardData(req: Request, res: Response) {
       });
     }
 
-    const [resume, interviewRecords, codeAnalyses] = await Promise.all([
+    const [resumes, interviewRecords, codeAnalyses] = await Promise.all([
       prisma.resume.findMany({
         where: {
           userId,
@@ -20,6 +20,7 @@ export default async function getDashboardData(req: Request, res: Response) {
         select: {
           atsScore: true,
           createdAt: true,
+          resumeName: true,
         },
         orderBy: {
           createdAt: "desc",
@@ -33,6 +34,9 @@ export default async function getDashboardData(req: Request, res: Response) {
         select: {
           overallScore: true,
           completedAt: true,
+          status: true,
+          category: true,
+          difficulty: true,
         },
         orderBy: {
           completedAt: "asc",
@@ -45,6 +49,8 @@ export default async function getDashboardData(req: Request, res: Response) {
         select: {
           overallScore: true,
           createdAt: true,
+          language: true,
+          title: true,
         },
         orderBy: {
           createdAt: "asc",
@@ -53,11 +59,11 @@ export default async function getDashboardData(req: Request, res: Response) {
     ]);
 
     const resumeAvg =
-      resume.length === 0
+      resumes.length === 0
         ? 0
         : Math.round(
-            resume.reduce((sum, item) => sum + item.atsScore, 0) /
-              resume.length,
+            resumes.reduce((sum, item) => sum + item.atsScore, 0) /
+              resumes.length,
           );
 
     const interviewScores = interviewRecords
@@ -93,7 +99,7 @@ export default async function getDashboardData(req: Request, res: Response) {
     const activityData = [
       {
         activity: "Resume",
-        count: resume.length,
+        count: resumes.length,
       },
       {
         activity: "Interview",
@@ -113,6 +119,35 @@ export default async function getDashboardData(req: Request, res: Response) {
       { skill: "Code Analysis", score: codeAnalysisAvg },
     ];
 
+    //Recent activies
+
+    const recentActivities = [
+      ...resumes.map((resume) => ({
+        type: "RESUME",
+        title: "Uploaded a new resume",
+        description: resume.resumeName,
+        time: resume.createdAt,
+      })),
+
+      ...interviewRecords
+        .filter((interview) => interview.status === "COMPLETED")
+        .map((interview) => ({
+          type: "INTERVIEW",
+          title: "Completed a mock interview",
+          description: `${interview.category} · ${interview.difficulty.toLowerCase()} difficulty`,
+          time: interview.completedAt,
+        })),
+
+      ...codeAnalyses.map((code) => ({
+        type: "CODE_ANALYSIS",
+        title: "Completed a code analysis",
+        description: `${code.language} · ${code.title ?? "Code analysis"}`,
+        time: code.createdAt,
+      })),
+    ]
+      .sort((a, b) => b.time.getTime() - a.time.getTime())
+      .slice(0, 5);
+
     return res.status(200).json({
       success: true,
       resumeAvg,
@@ -120,7 +155,8 @@ export default async function getDashboardData(req: Request, res: Response) {
       codeAnalysisAvg,
       overallScore,
       skillPerformance,
-      activityData
+      activityData,
+      recentActivities,
     });
   } catch (error) {
     console.error(error);
