@@ -2,12 +2,13 @@
 
 import { Clock, CheckCircle2 } from "lucide-react";
 import RecentActivityCardSkeleton from "./skeletonLoader/RecentActivityCardSkeleton";
+import { useEffect } from "react";
 
 interface Activity {
   type: string;
   title: string;
   description: string;
-  time: Date;
+  time: string;
 }
 
 interface RecentActivityCardProps {
@@ -21,8 +22,51 @@ const RecentActivityCard = ({
 }: RecentActivityCardProps) => {
   if (isLoading) return <RecentActivityCardSkeleton />;
 
-  const date = Date.now()
+  function formatTime(date: string) {
+    const dateNow = Date.now();
+    const previousDate = new Date(date).getTime();
 
+    const result = dateNow - previousDate;
+
+    const second = Math.floor(result / 1000);
+    const minute = Math.floor(second / 60);
+    const hour = Math.floor(minute / 60);
+    const day = Math.floor(hour / 24);
+    const week = Math.floor(day / 7);
+    const month = Math.floor(week / 4);
+
+    if (second < 60) {
+      return "Just now";
+    }
+
+    if (minute < 60) {
+      return `${minute} minutes ago`;
+    }
+
+    if (hour < 24) {
+      return `${hour} hours ago`;
+    }
+
+    if (day === 1) {
+      return `${day} day ago`;
+    }
+
+    if (day < 7 && day > 1) {
+      return `${day} days ago`;
+    }
+
+    if (week === 1) {
+      return `${week} week ago`;
+    }
+
+    if (week < 4 && week > 1) {
+      return `${week} weeks ago`;
+    }
+
+    if (week >= 4) {
+      return `${month} ${month === 1 ? "month" : "months"} ago`;
+    }
+  }
 
   return (
     <div className="w-full rounded-2xl bg-white dark:bg-slate-900 p-6 md:p-8 shadow-sm border border-slate-200 dark:border-slate-800 mt-8 transition-colors">
@@ -57,12 +101,7 @@ const RecentActivityCard = ({
             </div>
 
             <span className="text-xs font-medium text-slate-400 dark:text-slate-400 whitespace-nowrap self-start sm:self-center bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-full">
-              {new Date(activity.time).toLocaleString("en-IN", {
-                month: "short",
-                day: "numeric",
-                hour: "numeric",
-                minute: "2-digit",
-              })}
+              {formatTime(activity.time)}
             </span>
           </div>
         ))}
