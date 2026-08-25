@@ -51,7 +51,7 @@ const Navbar = () => {
             href="/"
             className="text-2xl font-poppins font-bold tracking-tight text-slate-900 dark:text-white"
           >
-            CareerPilot
+            CareerCoach
           </Link>
         </div>
 

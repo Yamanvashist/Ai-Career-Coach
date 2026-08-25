@@ -13,7 +13,7 @@ const Dashboard = () => {
   const { data: userData, isLoading: userLoading } = useCurrentUser();
   const { data: dashboardData, isLoading: dashboardLoading } = useDashboard();
 
-  const { user } = userData || {};
+  const { name } = userData ?? {};
 
   const {
     overallScore = 0,
@@ -30,7 +30,7 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen overflow-hidden bg-slate-50 dark:bg-slate-950 p-4 md:p-8 space-y-8 font-sans text-slate-900 dark:text-slate-100 transition-colors duration-200">
-      <DashboardHeader userName={user?.name} isLoading={userLoading} />
+      <DashboardHeader userName={name} isLoading={userLoading} />
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 items-start">
         <CareerReadinessCard
