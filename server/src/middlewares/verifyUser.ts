@@ -12,7 +12,11 @@ export const verifyUser = (req: Request, res: Response, next: NextFunction) => {
     }
 
     req.user = verifyToken(token);
-    next();
+
+    setTimeout(()=>{
+       next();
+    },5000)
+   
   } catch {
     return res.status(401).json({
       message: "Invalid or expired token",
