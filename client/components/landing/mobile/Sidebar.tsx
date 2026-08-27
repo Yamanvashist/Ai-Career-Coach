@@ -25,7 +25,6 @@ const Sidebar = () => {
 
   return (
     <>
-      {/* Backdrop */}
       <div
         onClick={close}
         className={`fixed inset-0 z-40 bg-black/60 backdrop-blur-sm transition-opacity duration-300 ${
@@ -35,7 +34,7 @@ const Sidebar = () => {
         }`}
       />
 
-      {/* Sidebar Drawer */}
+      {/* Sidebar */}
       <aside
         className={`fixed top-0 left-0 z-50 flex h-screen w-72 flex-col border-r border-slate-200 bg-white text-slate-900 transition-all duration-300 ease-in-out dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100 shadow-2xl ${
           isOpen ? "translate-x-0" : "-translate-x-full"
@@ -77,16 +76,15 @@ const Sidebar = () => {
           ))}
         </nav>
 
-        {/* Dynamic Auth Section */}
         <div className="border-t border-slate-100 p-4 dark:border-slate-800 space-y-3">
           {isLoading ? (
             <div className="h-10 w-full animate-pulse rounded-lg bg-slate-200 dark:bg-slate-800" />
           ) : user ? (
             <>
               <div className="flex items-center gap-3 px-2 py-1">
-                <div className="h-10 w-10 shrink-0 rounded-full bg-blue-600 text-white font-semibold flex items-center justify-center">
+                <Link href="/dashboard" className="h-10 w-10 shrink-0 rounded-full bg-blue-600 text-white font-semibold flex items-center justify-center">
                   {user?.name?.charAt(0).toUpperCase() || "U"}
-                </div>
+                </Link>
                 <div className="flex flex-col truncate">
                   <span className="text-sm font-semibold truncate text-gray-900 dark:text-gray-100">
                     {user.name}

@@ -87,9 +87,9 @@ const Navbar = () => {
             </div>
           ) : user ? (
             <div className="hidden md:flex items-center gap-4">
-              <button className="h-10 w-10 rounded-full bg-blue-600 text-white font-semibold flex items-center justify-center">
+              <Link href="/dashboard" className="h-10 w-10 rounded-full bg-blue-600 text-white font-semibold flex items-center justify-center">
                 {user?.name?.charAt(0).toUpperCase() || "U"}
-              </button>
+              </Link>
 
               <div className="flex flex-col">
                 <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">
