@@ -7,14 +7,10 @@ export const updatePassword = async ({
   password: string;
   newPassword: string;
 }) => {
-  try {
-    const { data } = await api.patch("/user/password", {
-      password,
-      newPassword,
-    });
+  const { data } = await api.patch("/user/password", {
+    password,
+    newPassword,
+  });
 
-    return data;
-  } catch (error) {
-    throw error
-  }
+  return data;
 };

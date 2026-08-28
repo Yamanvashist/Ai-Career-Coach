@@ -67,10 +67,10 @@ export const startInterview = async (req: Request, res: Response) => {
       select: { credits: true },
     });
 
-    if (!user || user.credits <= 0) {
+    if (!user || user.credits < 5) {
       return res.status(403).json({
         success: false,
-        message: "No credits remaining",
+        message: "Not Enought credits",
       });
     }
 

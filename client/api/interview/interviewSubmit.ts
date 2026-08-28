@@ -14,16 +14,11 @@ const interviewSubmit = async ({
   interviewId,
   answers,
 }: InterviewSubmitProps) => {
-  try {
-    const { data } = await api.post(`/interview/${interviewId}/submit`, {
-      answers,
-    });
+  const { data } = await api.post(`/interview/${interviewId}/submit`, {
+    answers,
+  });
 
-    return data;
-  } catch (error) {
-    console.error("Error submitting interview:", error);
-    throw error;
-  }
+  return data;
 };
 
 export default interviewSubmit;

@@ -8,22 +8,13 @@ interface User {
 }
 
 export const signUp = async (userData: User) => {
-  try {
-    const { data } = await api.post("/user/sign-up", userData);
-
-    return data.user;
-  } catch (error) {
-    throw error;
-  }
+  const { data } = await api.post("/user/sign-up", userData);
+  return data.user;
 };
 
 export const signIn = async (userData: User) => {
-  try {
-    const { data } = await api.post("/user/sign-in", userData);
-    return data.user;
-  } catch (error) {
-    throw error;
-  }
+  const { data } = await api.post("/user/sign-in", userData);
+  return data.user;
 };
 
 export const checkAuth = async () => {
@@ -43,48 +34,28 @@ export const checkAuth = async () => {
 };
 
 export const logOut = async () => {
-  try {
-    await api.post("/user/sign-out", undefined);
-  } catch (error) {
-    {
-      throw error;
-    }
-  }
+  await api.post("/user/sign-out");
 };
 
 export const accountDelete = async () => {
-  try {
-    const { data } = await api.delete("/user/delete");
-    return data;
-  } catch (error) {
-    {
-      throw error;
-    }
-  }
+  const { data } = await api.delete("/user/delete");
+  return data;
 };
 
 export const forgotPassword = async (email: string) => {
-  try {
-    const { data } = await api.post("/user/forgotPassword", {
-      email,
-    });
+  const { data } = await api.post("/user/forgotPassword", {
+    email,
+  });
 
-    return data;
-  } catch (Err) {
-    console.log(Err);
-  }
+  return data;
 };
 
 export const resetPassword = async (token: string, password: string) => {
-  try {
-    const { data } = await api.post("/user/resetPassword", {
-      token,
-      password,
-    });
+  const { data } = await api.post("/user/resetPassword", {
+    token,
+    password,
+  });
 
-    return data;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
+  return data;
 };
+

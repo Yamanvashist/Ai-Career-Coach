@@ -42,7 +42,7 @@ export default function HeroScoreCard({
               strokeWidth="10"
               strokeDasharray={251.2}
               strokeDashoffset={strokeOffset}
-              strokeLinecap="round"
+              strokeLinecap="butt"
               fill="transparent"
             />
           </svg>

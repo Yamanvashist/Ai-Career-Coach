@@ -1,13 +1,8 @@
 import api from "../api";
 
 const getInterviewResult = async (interviewId: string) => {
-  try {
-    const { data } = await api.get(`/interview/${interviewId}/result`);
-    return data;
-  } catch (error) {
-    throw error;
-  }
+  const { data } = await api.get(`/interview/${interviewId}/result`);
+  return data;
 };
-
 
 export default getInterviewResult;

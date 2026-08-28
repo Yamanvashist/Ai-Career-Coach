@@ -8,6 +8,5 @@ interface VerifyPaymentPayload {
 
 export const verifyPayment = async (payload: VerifyPaymentPayload) => {
   const { data } = await api.post("/payment/verify", payload);
-
   return data;
 };

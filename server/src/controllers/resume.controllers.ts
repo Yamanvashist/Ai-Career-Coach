@@ -54,7 +54,7 @@ export const resumeAnalyze = async (req: Request, res: Response) => {
 
     if (!totalCredits)
       return res.status(404).json({ message: "User not found" });
-    if (totalCredits.credits < 1)
+    if (totalCredits.credits < 2)
       return res.status(402).json({ message: "Credits are insufficient" });
 
     await prisma.user.update({
