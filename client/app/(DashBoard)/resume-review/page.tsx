@@ -11,6 +11,7 @@ import HowItWorks from "@/components/resume/HowItWorks";
 import PDFPreview from "@/components/resume/PDFPreview";
 import ResumeAnalysis from "@/components/resume/ResumeAnalysis";
 import ResumeImprovements from "@/components/resume/ResumeImprovements";
+import axios from "axios";
 
 const ResumeReview = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -33,9 +34,12 @@ const ResumeReview = () => {
     try {
       const result = await mutationAnalyze.mutateAsync(formData);
       setAnalysis(result.resume);
-    } catch (err) {
-      console.log(err);
-      toast.error("Server error , Please try again later");
+    } catch (error) {
+      if (axios.isAxiosError(error)){
+        toast.error(error.response?.data?.message ?? "Failed to analyze resume")
+      }else {
+        toast.error("Server error please try again later")
+      }
     }
   };
 

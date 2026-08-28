@@ -5,11 +5,13 @@ import OverallScore from "@/components/codeAnalysis/OverallScore";
 import Details from "@/components/codeAnalysis/Details";
 import CodeEditor from "@/components/codeAnalysis/CodeEditor";
 import AnalysisResults from "@/components/codeAnalysis/AnalysisResults";
+import { toast } from "sonner";
 
 import { useAnalyzeCode } from "@/hooks/codeAnalysis/useAnalyzeCode";
 import { useState } from "react";
 
 import { CodeAnalysis } from "@/components/codeAnalysis/codeAnalysisInterface";
+import axios from "axios";
 
 const Analysis = () => {
   const [code, setCode] = useState("");
@@ -27,8 +29,12 @@ const Analysis = () => {
       });
       setAnalysis(analysis);
       setAnalysisDuration(Number((analysisDuration / 1000).toFixed(1)));
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      if (axios.isAxiosError(error)){
+        toast.error(error.response?.data?.message ?? "Failed to analyze the code")
+      } else {
+        toast.error("Server error please try again later")
+      }
     }
   };
 

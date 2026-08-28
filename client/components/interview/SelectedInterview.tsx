@@ -21,6 +21,7 @@ import { useRouter } from "next/navigation";
 
 import { useInterviewStart } from "@/hooks/interview/useInterviewStart";
 import { useState } from "react";
+import axios from "axios";
 
 const SelectedInterview = ({
   selectedInterview,
@@ -54,7 +55,13 @@ const SelectedInterview = ({
       router.push(`/interview/session/${interviewId}`);
       toast.success(message);
     } catch (error) {
-      toast.error("Failed to start interview");
+      if (axios.isAxiosError(error)) {
+        toast.error(
+          error.response?.data?.message ?? "Failed to start interview",
+        );
+      } else {
+        toast.error("Failed to start interview");
+      }
     }
   };
 

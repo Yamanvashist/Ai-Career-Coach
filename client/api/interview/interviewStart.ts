@@ -31,7 +31,7 @@ const interviewStart = async ({
     experience,
     inputMode,
   });
-
+  console.log(data)
   return data;
 };
 export default interviewStart;
