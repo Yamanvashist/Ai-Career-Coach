@@ -10,6 +10,8 @@ import {
   Tooltip,
 } from "recharts";
 
+import { TbChartBarOff } from "react-icons/tb";
+
 interface SkillPerformance {
   skill: string;
   score: number;
@@ -52,12 +54,20 @@ const BarChartUi = ({ data = [], isLoading = false }: ChartProps & { isLoading?:
   if (isLoading) return <BarChartSkeleton />;
 
   if (!data.length) {
-    return (
-      <div className="flex h-96 w-full items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-50 dark:border-slate-800 dark:bg-slate-950/50">
-        <p className="text-sm text-slate-500 dark:text-slate-400">No data yet, bro.</p>
+  return (
+    <div className="flex h-96 w-full flex-col items-center justify-center rounded-xl border border-dashed border-slate-200/80 bg-gradient-to-b from-slate-50/50 to-slate-100/50 p-6 text-center dark:border-slate-800 dark:from-slate-950/40 dark:to-slate-900/40">
+      <div className="mb-3.5 flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-50/80 text-indigo-500 shadow-sm ring-1 ring-indigo-500/15 backdrop-blur-sm dark:bg-indigo-950/40 dark:text-indigo-400 dark:ring-indigo-400/20">
+        <TbChartBarOff className="h-7 w-7" />
       </div>
-    );
-  }
+      <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-200">
+        No Data availaible 
+      </h3>
+      <p className="mt-1 max-w-60 text-xs text-slate-500 dark:text-slate-400">
+        upload your resume,code or give a mock interview to finally see your graph pop up here.
+      </p>
+    </div>
+  );
+}
 
   return (
     <div className="h-96 w-full rounded-xl bg-white p-4 shadow-sm dark:bg-slate-950">

@@ -1,6 +1,6 @@
 "use client";
 
-import { Clock, CheckCircle2 } from "lucide-react";
+import { Clock, CheckCircle2, ActivityIcon } from "lucide-react";
 import RecentActivityCardSkeleton from "./skeletonLoader/RecentActivityCardSkeleton";
 import { useEffect } from "react";
 
@@ -21,6 +21,45 @@ const RecentActivityCard = ({
   isLoading,
 }: RecentActivityCardProps) => {
   if (isLoading) return <RecentActivityCardSkeleton />;
+
+  if (!Activities.length) {
+    return (
+      <div className="w-full mt-8 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-colors dark:border-slate-800 dark:bg-slate-900">
+       
+        <div className="flex items-center gap-3 border-b border-slate-200 px-6 py-5 dark:border-slate-800 md:px-8">
+          
+          <div className="rounded-lg bg-slate-100 p-2 dark:bg-slate-800">
+            
+            <Clock className="h-5 w-5 text-slate-700 dark:text-slate-300" />{" "}
+          </div>
+          <h2 className="text-x l font-bold tracking-tight text-slate-900 dark:text-white">
+           
+            Recent Activity
+          </h2>
+        </div>
+        <div className="relative flex min-h-70 flex-col items-center justify-center overflow-hidden px-6 py-12">
+         
+         
+          <div className="absolute left-1/2 top-1/2 h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full bg-slate-200/50 blur-3xl dark:bg-slate-700/20" />{" "}
+        
+        
+          <div className="relative text-center">
+            <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100">
+             
+              Your activity feed is empty
+            </h3>
+            <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-slate-500 dark:text-slate-400">
+            
+              Complete an interview, analyze your resume, or run a code review
+              and your latest activity will appear here.
+            </p>
+          </div>
+       
+  
+        </div>
+      </div>
+    );
+  }
 
   function formatTime(date: string) {
     const dateNow = Date.now();

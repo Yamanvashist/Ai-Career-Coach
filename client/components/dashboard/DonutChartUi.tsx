@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { TbChartPieOff } from "react-icons/tb";
 import DonutChartSkeleton from "./skeletonLoader/DonutChartSkeleton";
 import {
   PieChart,
@@ -82,7 +83,6 @@ const CustomTooltip = ({
 };
 
 const DonutChartUi = ({ data = [], isLoading = false }: DonutChartProps) => {
-  const [activeIndex, setActiveIndex] = useState<number | undefined>(undefined);
 
   const total = useMemo(() => {
     return data.reduce((acc, curr) => acc + curr.count, 0);
@@ -90,16 +90,21 @@ const DonutChartUi = ({ data = [], isLoading = false }: DonutChartProps) => {
 
   if (isLoading) return <DonutChartSkeleton />;
 
-  if (!data.length) {
-    return (
-      <div className="flex h-96 w-full flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-slate-300 bg-slate-50/50 dark:border-slate-800 dark:bg-slate-950/20">
-        <div className="h-12 w-12 rounded-full border-4 border-slate-200 border-t-slate-400 dark:border-slate-800 dark:border-t-slate-600" />
-        <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
-          No data yet, bro.
-        </p>
+ if (!data.length) {
+  return (
+    <div className="flex h-96 w-full flex-col items-center justify-center rounded-2xl border border-dashed border-slate-200/80 bg-gradient-to-b from-slate-50/50 to-slate-100/50 p-6 text-center dark:border-slate-800 dark:from-slate-950/40 dark:to-slate-900/40">
+      <div className="mb-3.5 flex h-14 w-14 items-center justify-center rounded-2xl bg-purple-50/80 text-purple-500 shadow-sm ring-1 ring-purple-500/15 backdrop-blur-sm dark:bg-purple-950/40 dark:text-purple-400 dark:ring-purple-400/20">
+        <TbChartPieOff className="h-7 w-7" />
       </div>
-    );
-  }
+      <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-200">
+        Zero activity logged
+      </h3>
+      <p className="mt-1 max-w-60 text-xs text-slate-500 dark:text-slate-400">
+        Track some activity or tasks so this donut isn't just sitting here empty.
+      </p>
+    </div>
+  );
+}
 
   return (
     <div className="group h-96 w-full rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-900/5 transition-all hover:shadow-md dark:bg-slate-950 dark:ring-white/10">
@@ -147,8 +152,6 @@ const DonutChartUi = ({ data = [], isLoading = false }: DonutChartProps) => {
             animationDuration={1000}
             animationBegin={0}       
             activeShape={renderActiveShape}
-            onMouseEnter={(_, index) => setActiveIndex(index)}
-            onMouseLeave={() => setActiveIndex(undefined)}
           >
             {data.map((entry, index) => (
               <Cell

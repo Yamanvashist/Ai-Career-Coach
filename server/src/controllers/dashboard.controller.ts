@@ -96,57 +96,73 @@ export default async function getDashboardData(req: Request, res: Response) {
 
     // activity Data
 
-    const activityData = [
-      {
-        activity: "Resume",
-        count: resumes.length,
-      },
-      {
-        activity: "Interview",
-        count: interviewRecords.length,
-      },
-      {
-        activity: "Code Analysis",
-        count: codeAnalyses.length,
-      },
-    ];
+
+    const activityData =
+      resumes.length === 0 &&
+      interviewRecords.length === 0 &&
+      codeAnalyses.length === 0
+        ? []
+        : [
+            {
+              activity: "Resume",
+              count: resumes.length,
+            },
+            {
+              activity: "Interview",
+              count: interviewRecords.length,
+            },
+            {
+              activity: "Code Analysis",
+              count: codeAnalyses.length,
+            },
+          ];
 
     //skill performance
 
-    const skillPerformance = [
-      { skill: "Resume", score: resumeAvg },
-      { skill: "Interview", score: interviewAvg },
-      { skill: "Code Analysis", score: codeAnalysisAvg },
-    ];
+    const skillPerformance =
+      resumes.length === 0 &&
+      interviewRecords.length === 0 &&
+      codeAnalyses.length === 0
+        ? []
+        : [
+            { skill: "Resume", score: resumeAvg },
+            { skill: "Interview", score: interviewAvg },
+            { skill: "Code Analysis", score: codeAnalysisAvg },
+          ];
 
     //Recent activies
 
-    const recentActivities = [
-      ...resumes.map((resume) => ({
-        type: "RESUME",
-        title: "Uploaded a new resume",
-        description: resume.resumeName,
-        time: resume.createdAt,
-      })),
+    const recentActivities =
+      resumes.length === 0 &&
+      interviewRecords.length === 0 &&
+      codeAnalyses.length === 0
+        ? []
+        : [
+            ...resumes.map((resume) => ({
+              type: "RESUME",
+              title: "Uploaded a new resume",
+              description: resume.resumeName,
+              time: resume.createdAt,
+            })),
 
-      ...interviewRecords
-        .filter((interview) => interview.status === "COMPLETED")
-        .map((interview) => ({
-          type: "INTERVIEW",
-          title: "Completed a mock interview",
-          description: `${interview.category} · ${interview.difficulty.toLowerCase()} difficulty`,
-          time: interview.completedAt,
-        })),
+            ...interviewRecords
+              .filter((interview) => interview.status === "COMPLETED")
+              .map((interview) => ({
+                type: "INTERVIEW",
+                title: "Completed a mock interview",
+                description: `${interview.category} · ${interview.difficulty.toLowerCase()} difficulty`,
+                time: interview.completedAt,
+              })),
 
-      ...codeAnalyses.map((code) => ({
-        type: "CODE_ANALYSIS",
-        title: "Completed a code analysis",
-        description: `${code.language} · ${code.title ?? "Code analysis"}`,
-        time: code.createdAt,
-      })),
-    ]
-      .sort((a, b) => b.time.getTime() - a.time.getTime())
-      .slice(0, 5);
+            ...codeAnalyses.map((code) => ({
+              type: "CODE_ANALYSIS",
+              title: "Completed a code analysis",
+              description: `${code.language} · ${code.title ?? "Code analysis"}`,
+              time: code.createdAt,
+            })),
+          ]
+            .sort((a, b) => b.time.getTime() - a.time.getTime())
+            .slice(0, 5);
 
     return res.status(200).json({
       success: true,
