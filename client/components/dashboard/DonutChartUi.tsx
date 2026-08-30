@@ -92,7 +92,7 @@ const DonutChartUi = ({ data = [], isLoading = false }: DonutChartProps) => {
 
  if (!data.length) {
   return (
-    <div className="flex h-96 w-full flex-col items-center justify-center rounded-2xl border border-dashed border-slate-200/80 bg-gradient-to-b from-slate-50/50 to-slate-100/50 p-6 text-center dark:border-slate-800 dark:from-slate-950/40 dark:to-slate-900/40">
+    <div className="flex h-96 w-full flex-col items-center justify-center rounded-2xl border border-dashed border-slate-200/80 bg-linear-to-b from-slate-50/50 to-slate-100/50 p-6 text-center dark:border-slate-800 dark:from-slate-950/40 dark:to-slate-900/40">
       <div className="mb-3.5 flex h-14 w-14 items-center justify-center rounded-2xl bg-purple-50/80 text-purple-500 shadow-sm ring-1 ring-purple-500/15 backdrop-blur-sm dark:bg-purple-950/40 dark:text-purple-400 dark:ring-purple-400/20">
         <TbChartPieOff className="h-7 w-7" />
       </div>
