@@ -9,7 +9,6 @@ export const useSignUp = () => {
     mutationFn: signUp,
 
     onSuccess: (user) => {
-      console.log(user);
       window.location.href = "/dashboard";
     },
 
