@@ -1,9 +1,9 @@
-import {Router} from "express"
-import { analyzeCode } from "../controllers/codeAnalysis.controller.ts"
-import { verifyUser } from "../middlewares/verifyUser.ts"
+import { Router } from "express";
+import { analyzeCode } from "../controllers/codeAnalysis.controller";
+import { verifyUser } from "../middlewares/verifyUser";
 
-const codeRouter = Router()
+const codeRouter = Router();
 
-codeRouter.post("/",verifyUser,analyzeCode)
+codeRouter.post("/", verifyUser, analyzeCode);
 
-export default codeRouter
+export default codeRouter;

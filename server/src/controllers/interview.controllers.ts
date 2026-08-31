@@ -7,7 +7,7 @@ import {
   PromptProps,
   InterviewQuestion,
   SubmittedAnswer,
-} from "../../Interfaces/interviewInterface";
+} from "../Interfaces/interviewInterface";
 
 import InterviewPrompt from "../AiPrompt/InterviewPrompt";
 import { analyze } from "../lib/GenAi";

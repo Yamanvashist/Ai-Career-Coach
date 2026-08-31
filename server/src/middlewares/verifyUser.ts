@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { verifyToken } from "../services/generateToken";
+import { JwtPayload } from "../Interfaces/jwtPayload";
 
 export const verifyUser = (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -11,10 +12,9 @@ export const verifyUser = (req: Request, res: Response, next: NextFunction) => {
       });
     }
 
-    req.user = verifyToken(token);
+    const payload = verifyToken(token);
+    req.user = payload;
     next();
-
-   
   } catch {
     return res.status(401).json({
       message: "Invalid or expired token",

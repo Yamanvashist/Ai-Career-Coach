@@ -1,5 +1,10 @@
-declare namespace Express {
-  interface Request {
-    user?: import("../Interfaces/jwtPayload").JwtPayload;
+import "express";
+import { JwtPayload } from "../Interfaces/jwtPayload";
+
+declare global {
+  namespace Express {
+    interface Request {
+      user?: JwtPayload;
+    }
   }
 }

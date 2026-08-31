@@ -4,7 +4,7 @@ export enum Complexity {
     HIGH = "HIGH",
 }
 
-export interface CodeAnalysisResponse {
+export type CodeAnalysisResponse = {
     title: string;
     language: string;
     code: string;
@@ -29,7 +29,7 @@ export interface CodeAnalysisResponse {
     userId: string;
 }
 
-export interface userInput {
+export type userInput = {
     code : string;
     language : string;
 }

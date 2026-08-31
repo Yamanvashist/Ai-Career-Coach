@@ -2,10 +2,7 @@ import prisma from "../lib/prisma";
 import { Request, Response } from "express";
 import CodeAnalysisPrompt from "../AiPrompt/CodeAnalysisPrompt";
 import { analyze } from "../lib/GenAi";
-import {
-  CodeAnalysisResponse,
-  userInput,
-} from "../../Interfaces/codeInterface";
+import { CodeAnalysisResponse, userInput } from "../Interfaces/codeInterface";
 
 export const analyzeCode = async (req: Request, res: Response) => {
   try {
@@ -92,7 +89,7 @@ export const analyzeCode = async (req: Request, res: Response) => {
 
         optimizedCode: result.optimizedCode,
 
-        userId,
+        userId: userId!,
       },
     });
 
@@ -102,7 +99,6 @@ export const analyzeCode = async (req: Request, res: Response) => {
       analysisDuration,
     });
   } catch (err) {
-
     return res.status(500).json({
       message: "Server Error",
     });
