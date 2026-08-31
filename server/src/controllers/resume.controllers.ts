@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { parsePdf } from "../lib/pdfParse";
-import { buildResumePrompt } from "../AiPrompt/ResumePrompt";
-import { analyze } from "../lib/GenAi";
-import prisma from "../lib/prisma";
+import { parsePdf } from "../lib/pdfParse.js";
+import { buildResumePrompt } from "../AiPrompt/ResumePrompt.js";
+import { analyze } from "../lib/GenAi.js";
+import prisma from "../lib/prisma.js";
 
 export const resumeAnalyze = async (req: Request, res: Response) => {
   try {

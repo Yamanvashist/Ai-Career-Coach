@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { verifyUser } from "../middlewares/verifyUser";
+import { verifyUser } from "../middlewares/verifyUser.js";
 import {
   startInterview,
   getInterview,
   submitInterview,
   getInterviewResult,
-} from "../controllers/interview.controllers";
+} from "../controllers/interview.controllers.js";
 
 const interviewRouter = Router();
 

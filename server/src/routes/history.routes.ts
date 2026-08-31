@@ -1,6 +1,6 @@
 import { Router } from "express";
-import getHistory from "../controllers/history.controllers";
-import { verifyUser } from "../middlewares/verifyUser";
+import getHistory from "../controllers/history.controllers.js";
+import { verifyUser } from "../middlewares/verifyUser.js";
 
 const historyRouter = Router();
 

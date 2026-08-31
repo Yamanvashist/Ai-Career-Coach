@@ -1,18 +1,18 @@
-import prisma from "../lib/prisma";
+import prisma from "../lib/prisma.js";
 import { Request, Response } from "express";
 
-import validateField from "../utils/validation";
+import validateField from "../utils/validation.js";
 
 import {
   PromptProps,
   InterviewQuestion,
   SubmittedAnswer,
-} from "../Interfaces/interviewInterface";
+} from "../Interfaces/interviewInterface.js";
 
-import InterviewPrompt from "../AiPrompt/InterviewPrompt";
-import { analyze } from "../lib/GenAi";
+import InterviewPrompt from "../AiPrompt/InterviewPrompt.js";
+import { analyze } from "../lib/GenAi.js";
 
-import { InterviewEvaluationPrompt } from "../AiPrompt/InterviewEvaluationPrompt";
+import { InterviewEvaluationPrompt } from "../AiPrompt/InterviewEvaluationPrompt.js";
 
 export const startInterview = async (req: Request, res: Response) => {
   try {

@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import "dotenv/config";
-import { JwtPayload } from "../Interfaces/jwtPayload";
+import { JwtPayload } from "../Interfaces/jwtPayload.js";
 
 const generateToken = async (userId: string): Promise<string> => {
   const payload = { userId };

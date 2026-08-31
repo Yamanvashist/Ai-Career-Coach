@@ -1,4 +1,4 @@
-import { PromptProps } from "../Interfaces/interviewInterface";
+import { PromptProps } from "../Interfaces/interviewInterface.js";
 
 const InterviewPrompt = ({
     category,

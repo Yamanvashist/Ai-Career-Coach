@@ -1,5 +1,5 @@
 import express from "express";
-import { verifyUser } from "../middlewares/verifyUser";
+import { verifyUser } from "../middlewares/verifyUser.js";
 
 import {
   register,

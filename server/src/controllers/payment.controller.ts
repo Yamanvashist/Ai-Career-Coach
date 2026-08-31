@@ -1,7 +1,7 @@
-import razorpay from "../lib/razorpay";
+import razorpay from "../lib/razorpay.js";
 import { Request, Response } from "express";
 import * as crypto from "crypto";
-import prisma from "../lib/prisma";
+import prisma from "../lib/prisma.js";
 
 export async function createOrder(req: Request, res: Response) {
   try {

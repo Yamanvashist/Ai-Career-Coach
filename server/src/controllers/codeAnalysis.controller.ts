@@ -1,8 +1,8 @@
-import prisma from "../lib/prisma";
+import prisma from "../lib/prisma.js";
 import { Request, Response } from "express";
-import CodeAnalysisPrompt from "../AiPrompt/CodeAnalysisPrompt";
-import { analyze } from "../lib/GenAi";
-import { CodeAnalysisResponse, userInput } from "../Interfaces/codeInterface";
+import CodeAnalysisPrompt from "../AiPrompt/CodeAnalysisPrompt.js";
+import { analyze } from "../lib/GenAi.js";
+import { CodeAnalysisResponse, userInput } from "../Interfaces/codeInterface.js";
 
 export const analyzeCode = async (req: Request, res: Response) => {
   try {

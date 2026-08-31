@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { textToSpeech } from "../lib/elevenlabs";
+import { textToSpeech } from "../lib/elevenlabs.js";
 
 export const generateSpeech = async (req: Request, res: Response) => {
   try {

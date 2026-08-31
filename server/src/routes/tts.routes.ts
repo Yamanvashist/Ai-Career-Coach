@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { generateSpeech } from "../controllers/tts.controller";
+import { generateSpeech } from "../controllers/tts.controller.js";
 
 const ttsRouter = Router();
 

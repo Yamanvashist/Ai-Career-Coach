@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { analyzeCode } from "../controllers/codeAnalysis.controller";
-import { verifyUser } from "../middlewares/verifyUser";
+import { analyzeCode } from "../controllers/codeAnalysis.controller.js";
+import { verifyUser } from "../middlewares/verifyUser.js";
 
 const codeRouter = Router();
 

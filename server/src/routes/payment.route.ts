@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { verifyUser } from "../middlewares/verifyUser";
+import { verifyUser } from "../middlewares/verifyUser.js";
 import {
   createOrder,
   paymentHistory,
   verifyPayment,
-} from "../controllers/payment.controller";
+} from "../controllers/payment.controller.js";
 
 const paymentRouter = Router();
 
