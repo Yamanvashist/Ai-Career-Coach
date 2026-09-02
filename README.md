@@ -6,15 +6,15 @@ AI-powered career coaching platform that helps developers and job seekers improv
 
 ## Features
 
-* AI Resume Analysis
-* AI Code Analysis
-* Skill Gap Analysis
-* Personalized Career Roadmaps
-* Mock Interview Preparation
-* Career Progress Tracking
-* AI-powered Career Recommendations
-* Google Authentication
-* Razorpay Payments
+- AI Resume Analysis
+- AI Code Analysis
+- Skill Gap Analysis
+- Personalized Career Roadmaps
+- Mock Interview Preparation
+- Career Progress Tracking
+- AI-powered Career Recommendations
+- Google Authentication
+- Razorpay Payments
 
 ## Screenshots
 
