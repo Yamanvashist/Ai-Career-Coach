@@ -20,11 +20,11 @@ AI-powered career coaching platform that helps developers and job seekers improv
 
 ### Dashboard
 
-![Dashboard](
+![Dashboard](./client//public/readmeImages/dashboard.png)
 
 ### Resume Analysis
 
-![Resume Analysis](./client//public/readmeImages/dashboard.png)
+![Resume Analysis](./screenshots/resume-analysis.png)
 
 ### Code Analysis
 
