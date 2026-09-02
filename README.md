@@ -24,15 +24,15 @@ AI-powered career coaching platform that helps developers and job seekers improv
 
 ### Resume Analysis
 
-![Resume Analysis](./screenshots/resume-analysis.png)
+![Resume Analysis](./client//public/readmeImages/resume.png)
 
 ### Code Analysis
 
-![Code Analysis](./screenshots/code-analysis.png)
+![Code Analysis](./client//public/readmeImages/codeAnalysis.png)
 
 ### Interview Preparation
 
-![Interview Preparation](./screenshots/interview.png)
+![Interview Preparation](./client//public/readmeImages/interview.png)
 
 ## Tech Stack
 
