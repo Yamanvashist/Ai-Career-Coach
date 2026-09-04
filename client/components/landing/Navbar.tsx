@@ -22,7 +22,7 @@ const pages: NavPage[] = [
 ];
 
 const Navbar = () => {
-  const { open,toggle } = useSidebarStore();
+  const { open } = useSidebarStore();
   const { data: user, isLoading } = useCurrentUser();
   const mutatedLogOut = useLogout();
 
@@ -31,7 +31,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-50 h-20 border-b border-slate-200/80 bg-white/80 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/80 transition-colors">
+    <nav className="h-20 border-b border-slate-200/80 overflow-hidden bg-white/80 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/80 transition-colors">
       <div className="max-w-7xl mx-auto h-full px-4 flex items-center justify-between">
         <div className="flex items-center gap-2 cursor-pointer space-x-2">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600/10 ring-1 ring-blue-200 dark:ring-blue-900/60">
@@ -93,7 +93,7 @@ const Navbar = () => {
 
               <div className="flex flex-col">
                 <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">
-                  {user.name}
+                  {user.name || "Guest"}
                 </span>
 
                 <span className="text-xs text-gray-500 dark:text-gray-400">
