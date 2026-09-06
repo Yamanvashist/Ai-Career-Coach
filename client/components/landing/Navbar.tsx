@@ -2,11 +2,13 @@
 
 import React from "react";
 import Link from "next/link";
-import { Send, Menu, Bot } from "lucide-react";
+import { Menu, Bot } from "lucide-react";
 import { useCurrentUser } from "@/hooks/auth/useCurrentUser";
 import { useLogout } from "@/hooks/auth/useLogOut";
 import ThemeToggle from "../ThemeToggle";
 import { useSidebarStore } from "@/store/sidebarStore";
+import favicon from "../../app/favicon.ico"
+import Image from "next/image";
 
 interface NavPage {
   id: string;
@@ -35,7 +37,13 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto h-full px-4 flex items-center justify-between">
         <div className="flex items-center gap-2 cursor-pointer space-x-2">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600/10 ring-1 ring-blue-200 dark:ring-blue-900/60">
-            <Bot color="#2080fe" size={22} className="hidden md:block" />
+            <Image
+              src={favicon}
+              alt="Logo"
+              width={28}
+              height={28}
+              className="hidden md:block text-indigo-600 dark:text-indigo-400 "
+            />
 
             <button
               type="button"
@@ -55,7 +63,7 @@ const Navbar = () => {
           </Link>
         </div>
 
-        <ul className="hidden md:flex mr-16 items-center gap-2">
+        <ul className="hidden lg:flex mr-16 items-center gap-2">
           {pages.map((page) => (
             <li key={page.id} className="shrink-0">
               <Link

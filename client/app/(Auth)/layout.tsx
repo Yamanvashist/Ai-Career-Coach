@@ -1,6 +1,8 @@
 import Link from "next/link";
-import { Send } from "lucide-react";
+import { Bot } from "lucide-react";
 import { ArrowLeft } from "lucide-react";
+import favicon from "../favicon.ico";
+import Image from "next/image";
 
 export default function AuthLayout({
   children,
@@ -11,8 +13,16 @@ export default function AuthLayout({
     <main className="min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200">
       <header className="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 transition-colors">
         <div className="max-w-7xl mx-auto h-16 px-6 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <Send size={28} className="text-indigo-600 dark:text-indigo-400" />
+          <Link href="/" className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600/10 ring-1 ring-blue-200 dark:ring-blue-900/60">
+              <Image
+                src={favicon}
+                alt="Logo"
+                width={28}
+                height={28}
+                className="text-indigo-600 dark:text-indigo-400 "
+              />
+            </div>
 
             <span className="text-xl font-bold text-slate-900 dark:text-white">
               CareerPilot
