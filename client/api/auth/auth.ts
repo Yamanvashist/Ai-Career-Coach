@@ -7,6 +7,20 @@ interface User {
   password: string;
 }
 
+export interface GoogleLoginPayload {
+  credential: string;
+}
+
+export interface GoogleLoginResponse {
+  message: string;
+  user: {
+    id: string;
+    email: string;
+    name: string;
+    avatar?: string;
+  };
+}
+
 export const signUp = async (userData: User) => {
   const { data } = await api.post("/user/sign-up", userData);
   return data.user;
@@ -71,6 +85,18 @@ export const updatePassword = async ({
     password,
     newPassword,
   });
+
+  return data;
+};
+
+
+export const googleLogin = async (
+  payload: GoogleLoginPayload,
+): Promise<GoogleLoginResponse> => {
+  const { data } = await api.post<GoogleLoginResponse>(
+    "/user/google",
+    payload,
+  );
 
   return data;
 };
